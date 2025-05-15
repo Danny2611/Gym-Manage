@@ -1,0 +1,393 @@
+import React, { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { IoMdMail } from "react-icons/io";
+import { FaFacebookF, FaTwitter, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
+import classNames from "classnames";
+import { useScrollPosition } from "../../../hooks/useScrollPosition";
+import Button from "../../common/Button";
+import RoleBasedDropdown from "~/components/dashboard/header/RoleBasedDropdown";
+import { useAuth } from "../../../contexts/AuthContext";
+
+interface NavItem {
+  name: string;
+  path: string;
+  children?: NavItem[];
+}
+
+const navItems: NavItem[] = [
+  { name: "Home", path: "/" },
+  {
+    name: "About",
+    path: "/about-us",
+    // children: [
+    //   { name: "About Us", path: "/about-us" },
+    //   { name: "Our Story", path: "/about/story" },
+    //   { name: "Testimonials", path: "/about/testimonials" },
+    // ],
+  },
+  {
+    name: "Services",
+    path: "/services",
+    children: [
+      { name: "Personal Training", path: "/services/personal-training" },
+      { name: "Group Classes", path: "/services/group-classes" },
+      { name: "Nutrition Plans", path: "/services/nutrition-plans" },
+    ],
+  },
+  { name: "Schedule", path: "/schedule" },
+  { name: "Blog", path: "/blog" },
+  { name: "Contact", path: "/contact" },
+];
+
+const Header: React.FC = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const scrollPosition = useScrollPosition();
+  const { isAuthenticated, user } = useAuth();
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const toggleDropdown = (name: string) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
+
+  return (
+    <header
+      className={classNames(
+        "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
+        {
+          "bg-white shadow-md dark:bg-gray-900 dark:shadow-gray-800": scrollPosition > 50 || mobileMenuOpen,
+          "bg-gradient-to-b from-black/70 to-transparent": scrollPosition <= 50 && !mobileMenuOpen, // Changed from transparent to gradient
+        },
+      )}
+    >
+      {/* Top Bar - Only show on desktop */}
+      <div className="hidden md:block">
+        <div className="bg-[#111] dark:bg-gray-950 py-5 text-white">
+          <div className="container mx-auto flex items-center justify-between px-4">
+            {/* Logo/Slogan */}
+            <div className="hidden md:flex items-center">
+              <span className="text-blue-600">⚡</span>
+              <span className="ml-2 text-sm font-medium">Eat, Sleep, Gym & Repeat</span>
+            </div>
+            
+            {/* Center Contact */}
+            <div className="hidden md:flex items-center space-x-6 mx-auto">
+              <div className="flex items-center text-sm">
+                <BsFillTelephoneFill className="mr-2 text-gray-400" />
+                <span>Message Us: + (02) 125 789 020</span>
+              </div>
+              <div className="flex items-center text-sm">
+                <FaMapMarkerAlt className="mr-2 text-gray-400" />
+                <span>3592 Oakwood Avenue, New York</span>
+              </div>
+            </div>
+            
+            {/* Right Navigation */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link to="/shop" className="text-sm hover:text-blue-600 transition-colors">
+                Shop
+              </Link>
+              <Link to="/membership" className="text-sm hover:text-blue-600 transition-colors">
+                Join Membership
+              </Link>
+              <Link to="/theme" className="text-sm hover:text-blue-600 transition-colors">
+                Get Theme →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
+      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+        {/* Logo */}
+        {!mobileMenuOpen && (
+          <Link to="/" className="z-10">
+            <img
+              src="/images/logo-main.png"
+              alt="FittLife"
+              className="h-12 md:h-16"
+              style={{
+                filter:
+                  scrollPosition <= 50 && !mobileMenuOpen
+                    ? "brightness(0) invert(1)"
+                    : "none",
+              }}
+            />
+          </Link>
+        )}
+        
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center lg:flex">
+          <ul className="flex space-x-8">
+            {navItems.map((item) => (
+              <li key={item.name} className="group relative">
+                {item.children ? (
+                  <>
+                    <button
+                      className={classNames(
+                        "flex items-center text-lg font-semibold transition-colors",
+                        {
+                          "text-white hover:text-blue-400": scrollPosition <= 50 && !mobileMenuOpen,
+                          "text-[#0D2E4B] hover:text-blue-600 dark:text-white dark:hover:text-blue-400":
+                            scrollPosition > 50 || mobileMenuOpen,
+                        },
+                      )}
+                      onClick={() => {}}
+                    >
+                      {item.name}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="ml-1 h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <div className="invisible absolute left-0 mt-2 w-48 rounded-md bg-white dark:bg-gray-800 opacity-0 shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-300 group-hover:visible group-hover:opacity-100">
+                      <div className="py-1">
+                        {item.children.map((child) => (
+                          <NavLink
+                            key={child.name}
+                            to={child.path}
+                            className={({ isActive }) =>
+                              classNames(
+                                "block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-300",
+                                { "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300": isActive },
+                              )
+                            }
+                          >
+                            {child.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      classNames("text-lg font-semibold relative transition-colors", {
+                        "text-white hover:text-blue-400": 
+                          scrollPosition <= 50 && !mobileMenuOpen && !isActive,
+                        "text-blue-400 after:absolute after:bottom-[-8px] after:left-0 after:h-1 after:w-full after:bg-blue-600": 
+                          scrollPosition <= 50 && !mobileMenuOpen && isActive,
+                        "text-[#0D2E4B] hover:text-blue-600 dark:text-white dark:hover:text-blue-400":
+                          scrollPosition > 50 || mobileMenuOpen || (isActive && scrollPosition > 50),
+                        "text-blue-600 dark:text-blue-400 after:absolute after:bottom-[-8px] after:left-0 after:h-1 after:w-full after:bg-blue-600": 
+                          (isActive && scrollPosition > 50) || (isActive && mobileMenuOpen),
+                      })
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
+                )}
+              </li>
+            ))}
+          </ul>
+          {isAuthenticated ? (
+            <div className="ml-16">
+              <RoleBasedDropdown/>
+            </div>
+          ) : (
+            <Button
+              as={Link}
+              to="/login"
+              variant="primary"
+              size="medium"
+              className="ml-16 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+            >
+              Đăng nhập
+            </Button>
+          )}
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <div className="flex items-center space-x-4 lg:hidden">
+          <button
+            onClick={toggleMobileMenu}
+            className="z-10"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileMenuOpen ? (
+              <HiOutlineX className="h-6 w-6 text-[#0D2E4B] dark:text-white" />
+            ) : (
+              <HiOutlineMenu
+                className={classNames("h-6 w-6", {
+                  "text-white": scrollPosition <= 50,
+                  "text-[#0D2E4B] dark:text-white": scrollPosition > 50,
+                })}
+              />
+            )}
+          </button>
+
+          {/* Login button for mobile */}
+          {isAuthenticated ? (
+            <div className="ml-4">
+              <RoleBasedDropdown />
+            </div>
+          ) : (
+            <Button
+              as={Link}
+              to="/login"
+              variant="primary"
+              size="small"
+              className="ml-4 px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white"
+            >
+              Đăng nhập
+            </Button>
+          )}
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={classNames(
+            "fixed inset-0 flex flex-col bg-white dark:bg-gray-900 transition-all duration-300 lg:hidden",
+            {
+              "visible opacity-100": mobileMenuOpen,
+              "invisible opacity-0": !mobileMenuOpen,
+            },
+          )}
+        >
+          <div className="flex flex-1 flex-col items-center justify-center overflow-auto py-10">
+            <ul className="w-full max-w-sm space-y-6 px-4">
+              {navItems.map((item) => (
+                <li key={item.name} className="w-full">
+                  {item.children ? (
+                    <div>
+                      <button
+                        className="flex w-full items-center justify-between text-left text-xl font-semibold text-[#0D2E4B] dark:text-white"
+                        onClick={() => toggleDropdown(item.name)}
+                      >
+                        {item.name}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={classNames(
+                            "h-4 w-4 transition-transform",
+                            {
+                              "rotate-180": activeDropdown === item.name,
+                            },
+                          )}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        className={classNames(
+                          "ml-4 mt-2 space-y-2 overflow-hidden transition-all duration-300",
+                          {
+                            "max-h-0 opacity-0": activeDropdown !== item.name,
+                            "max-h-96 opacity-100":
+                              activeDropdown === item.name,
+                          },
+                        )}
+                      >
+                        {item.children.map((child) => (
+                          <NavLink
+                            key={child.name}
+                            to={child.path}
+                            className={({ isActive }) =>
+                              classNames("block py-2 text-lg font-medium", {
+                                "text-blue-600 dark:text-blue-400": isActive,
+                                "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400": !isActive,
+                              })
+                            }
+                            onClick={toggleMobileMenu}
+                          >
+                            {child.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <NavLink
+                      to={item.path}
+                      className={({ isActive }) =>
+                        classNames("block text-xl font-semibold", {
+                          "text-blue-600 dark:text-blue-400": isActive,
+                          "text-[#0D2E4B] dark:text-white hover:text-blue-600 dark:hover:text-blue-400": !isActive,
+                        })
+                      }
+                      onClick={toggleMobileMenu}
+                    >
+                      {item.name}
+                    </NavLink>
+                  )}
+                </li>
+              ))}
+              
+              <li className="mt-8 flex justify-center space-x-6">
+                <a
+                  href="https://facebook.com"
+                  className="text-xl text-[#0D2E4B] dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                  aria-label="Facebook"
+                >
+                  <FaFacebookF />
+                </a>
+                <a
+                  href="https://twitter.com"
+                  className="text-xl text-[#0D2E4B] dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                  aria-label="Twitter"
+                >
+                  <FaTwitter />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  className="text-xl text-[#0D2E4B] dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram />
+                </a>
+              </li>
+              
+              {/* Mobile Contact Information */}
+              <li className="mt-8 text-center">
+                <div className="flex items-center justify-center text-sm mb-2">
+                  <BsFillTelephoneFill className="mr-2 text-blue-600 dark:text-blue-400" />
+                  <span className="text-[#0D2E4B] dark:text-white">+ (02) 125 789 020</span>
+                </div>
+                <div className="flex items-center justify-center text-sm">
+                  <FaMapMarkerAlt className="mr-2 text-blue-600 dark:text-blue-400" />
+                  <span className="text-[#0D2E4B] dark:text-white">3592 Oakwood Avenue, New York</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

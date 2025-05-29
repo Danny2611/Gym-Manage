@@ -17,16 +17,24 @@ import RescheduleAppointmentPage from "~/pages/user/appointments/RescheduleAppoi
 import TransactionHistory from "~/pages/user/transactions/TransactionHistory";
 import CreateWorkoutPage from "~/pages/user/workoutSchedule/CreateWorkoutPage";
 import ProgressPage from "~/pages/user/progress/ProgressPage";
-import ProgressPage1 from "~/pages/user/progress/ProgressPage copy";
+
+
+
 
 const userRoutes = {
-  path: "user", // Lưu ý: Ở đây không cần dấu "/" vì đã nested
-  element: <RoleBasedRoute allowedRoles={["member"]} />,
+  path: "user",
+  element: <RoleBasedRoute allowedRoles={["67c024616b4448e1eab6a85f"]} />,
   children: [
     {
       element: <DashboardLayout />,
       children: [
         { path: "dashboard", element: <Dashboard /> },
+         // Settings routes
+        { path: "settings", children: [
+          // { path: "notifications", element:  },
+          
+        ]},
+
         { path: "profile", element: <Profile /> },
         { path: "change-password", element: <ChangePassword /> },
         { path: "packages", element: <PackagesPage /> },
@@ -56,9 +64,10 @@ const userRoutes = {
         { path: "workout", element: <CreateWorkoutPage /> },
         //transactions
         { path: "transactions", element: <TransactionHistory /> },
-
         { path: "progress", element: <ProgressPage /> },
-        { path: "progress1", element: <ProgressPage1 /> },
+       
+
+
       ],
     },
   ],

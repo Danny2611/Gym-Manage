@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BlogPost, BlogCategory } from "../../../types/blog";
+import { BlogPost, BlogCategory } from "~/types/blog";
 import { formatDate } from "~/utils/formatters";
 
 interface BlogSidebarProps {
@@ -16,8 +16,6 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({
 }) => {
   return (
     <div className="space-y-8">
-   
-
       {/* Categories */}
       <div className="rounded-lg bg-white p-6 shadow-md">
         <h3 className="mb-4 text-xl font-bold">Categories</h3>
@@ -46,8 +44,10 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({
             <li key={post._id} className="flex space-x-3">
               <div className="h-16 w-16 flex-shrink-0">
                 <img
-                  src={`http://localhost:5000/public/${post.coverImage}` || "/images/blog/default.jpg"}
-
+                  src={
+                    `http://localhost:5000/public/${post.coverImage}` ||
+                    "/images/blog/default.jpg"
+                  }
                   alt={post.title}
                   className="h-full w-full rounded object-cover"
                 />
@@ -59,7 +59,9 @@ const BlogSidebar: React.FC<BlogSidebarProps> = ({
                 >
                   {post.title}
                 </Link>
-                <p className="text-sm text-gray-500">{ formatDate(post.publishDate)}</p>
+                <p className="text-sm text-gray-500">
+                  {formatDate(post.publishDate)}
+                </p>
               </div>
             </li>
           ))}

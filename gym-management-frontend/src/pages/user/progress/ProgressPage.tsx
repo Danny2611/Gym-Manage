@@ -234,7 +234,7 @@ const ProgressPage: React.FC = () => {
     { name: "T5", sessions: 0, duration: 0, target: 0 },
     { name: "T6", sessions: 0, duration: 0, target: 0 },
     { name: "T7", sessions: 0, duration: 0, target: 0 },
-    { name: "CN", sessions: 0, duration: 0, target: 0},
+    { name: "CN", sessions: 0, duration: 0, target: 0 },
   ]);
   const [monthComparisonData, setMonthComparisonData] =
     useState<MonthComparison>({

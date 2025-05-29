@@ -400,8 +400,9 @@ export default {
   getMemberWorkoutSchedules,
   getWorkoutScheduleById,
   updateWorkoutScheduleStatus,
-
   getWeeklyWorkoutStats,
   getMonthComparisonStats,
-  getUpcomingWorkouts
+  getUpcomingWorkouts,
+  getLast7DaysWorkouts
+  
 };

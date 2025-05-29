@@ -132,5 +132,6 @@ export const getRecentSuccessfulTransactions = async (req: AuthRequest, res: Res
 export default {
   getAllMemberTransactions,
   getTransactionById,
-  getRecentSuccessfulTransactions
+  getRecentSuccessfulTransactions,
+  
 };

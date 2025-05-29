@@ -18,8 +18,6 @@ const whitelist = [
 // Cấu hình CORS
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    // Kiểm tra xem origin có trong whitelist không
-    // null origin cho phép các request không có origin (như mobile apps hoặc curl requests)
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -27,19 +25,20 @@ const corsOptions: CorsOptions = {
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'ngrok-skip-browser-warning'], // ✅ THÊM Ở ĐÂY
   exposedHeaders: ['Content-Length', 'X-Rate-Limit'],
-  credentials: true, // Cho phép cookies
+  credentials: true,
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  maxAge: 86400, // Thời gian cache preflight requests (24 giờ)
+  maxAge: 86400,
 };
+
 
 // Cấu hình CORS đơn giản cho môi trường phát triển
 const developmentCorsOptions: CorsOptions = {
   origin: '*', // Cho phép tất cả origin trong môi trường phát triển
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'ngrok-skip-browser-warning'],
   credentials: true,
 };
 

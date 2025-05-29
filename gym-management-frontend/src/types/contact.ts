@@ -1,4 +1,3 @@
-
 // src/types/contact.ts
 export interface ContactInfo {
   address: string;

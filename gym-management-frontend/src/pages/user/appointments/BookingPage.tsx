@@ -46,7 +46,7 @@ const BookingPage: React.FC = () => {
     success: boolean;
     message: string;
   } | null>(null);
-  
+
   // State for tooltip
   const [showTooltip, setShowTooltip] = useState<string | null>(null);
 
@@ -200,7 +200,7 @@ const BookingPage: React.FC = () => {
         if (trainerId) {
           const trainerResponse =
             await trainerService.getTrainerById(trainerId);
-          console.log('trainerResponse', trainerResponse)
+          console.log("trainerResponse", trainerResponse);
           if (trainerResponse.success && trainerResponse.data) {
             setTrainer(trainerResponse.data);
 
@@ -527,32 +527,35 @@ const BookingPage: React.FC = () => {
               {selectedDate ? (
                 selectedDate.timeSlots.length > 0 ? (
                   <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5">
-                   {selectedDate.timeSlots.map((slot, index) => (
+                    {selectedDate.timeSlots.map((slot, index) => (
                       <div
                         key={index}
-                        onClick={() => slot.available && setSelectedTimeSlot(slot)}
-                        onMouseEnter={() => !slot.available && handleShowTooltip(`slot-${index}`)}
+                        onClick={() =>
+                          slot.available && setSelectedTimeSlot(slot)
+                        }
+                        onMouseEnter={() =>
+                          !slot.available && handleShowTooltip(`slot-${index}`)
+                        }
                         onMouseLeave={handleHideTooltip}
                         className={`relative flex cursor-pointer items-center justify-center rounded-lg border px-3 py-3 text-center ${
                           !slot.available
                             ? "cursor-not-allowed border-gray-200 bg-red-50 text-red-700 opacity-70 dark:border-red-900 dark:bg-red-900/20 dark:text-red-400"
-                            : selectedTimeSlot?.formattedTime === slot.formattedTime
+                            : selectedTimeSlot?.formattedTime ===
+                                slot.formattedTime
                               ? "border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-900/30 dark:text-blue-300"
                               : "border-gray-200 bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                         }`}
                       >
                         <Clock className="mr-2 h-4 w-4" />
                         {slot.formattedTime}
-                        
+
                         {/* Tooltip for unavailable slots */}
                         {showTooltip === `slot-${index}` && (
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-52 rounded bg-[#d10000] p-2 text-xs font-semibold text-white shadow-2xl z-50 border border-[#7a0000] opacity-100">
-                            <span className="mr-1">⚠️</span> Giờ này đã có người đặt. Vui lòng chọn giờ khác
+                          <div className="absolute bottom-full left-1/2 z-50 mb-2 w-52 -translate-x-1/2 transform rounded border border-[#7a0000] bg-[#d10000] p-2 text-xs font-semibold text-white opacity-100 shadow-2xl">
+                            <span className="mr-1">⚠️</span> Giờ này đã có người
+                            đặt. Vui lòng chọn giờ khác
                           </div>
                         )}
-
-
-
                       </div>
                     ))}
                   </div>

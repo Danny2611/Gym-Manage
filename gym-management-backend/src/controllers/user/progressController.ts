@@ -342,5 +342,8 @@ export default {
   getBodyStatsProgressByMonth,
   getFitnessRadarData,
   calculateBodyMetricsChange,
-  getFormattedMonthlyBodyMetrics
+  getFormattedMonthlyBodyMetrics,
+
+
+
 };

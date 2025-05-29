@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../../components/layout/Layout";
-import BlogHeader from "../../../components/sections/blog/BlogHeader";
-import BlogSidebar from "../../../components/sections/blog/BlogSidebar";
-import BlogPagination from "../../../components/sections/blog/BlogPagination";
-import { BlogPost, BlogCategory } from "../../../types/blog";
-import HomeSlider from "../../../components/sections/home/HomeSlider";
-import BlogFeaturedSection from "../../../components/sections/blog/BlogFeaturedSection";
-import { blogService } from "../../../services/blogService";
-import { categoryService } from "../../../services/categoryService";
-import { Pagination } from "swiper/modules";
+import { Helmet } from 'react-helmet-async';
+import Layout from "~/components/layout/Layout";
+import BlogHeader from "~/components/sections/blog/BlogHeader";
+import BlogSidebar from "~/components/sections/blog/BlogSidebar";
+
+import { BlogPost, BlogCategory } from "~/types/blog";
+import HomeSlider from "~/components/sections/home/HomeSlider";
+import BlogFeaturedSection from "~/components/sections/blog/BlogFeaturedSection";
+import { blogService } from "~/services/blogService";
+import { categoryService } from "~/services/categoryService";
+
 import { PaginationControls } from "~/components/common/PaginationControls";
 
 // Keep mock tags as requested
@@ -33,7 +34,7 @@ const Blog: React.FC = () => {
   const [tags, setTags] = useState<string[]>(MOCK_TAGS);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const pageSize = 10; // Number of posts per page
 
   useEffect(() => {
@@ -43,27 +44,29 @@ const Blog: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       // Fetch posts with pagination
-      const postsResponse = await blogService.getAllPosts(currentPage, pageSize);
+      const postsResponse = await blogService.getAllPosts(
+        currentPage,
+        pageSize,
+      );
       if (!postsResponse.success) {
         throw new Error(postsResponse.message || "Failed to fetch blog posts");
       }
-      
-      if (postsResponse.data) {
-      setPosts(postsResponse.data.posts);
-      setTotalPages(postsResponse.data.totalPages);
-      setTotalPosts(postsResponse.data.total);
-    }
 
-      
+      if (postsResponse.data) {
+        setPosts(postsResponse.data.posts);
+        setTotalPages(postsResponse.data.totalPages);
+        setTotalPosts(postsResponse.data.total);
+      }
+
       // Fetch categories
       const categoriesResponse = await categoryService.getAllCategories();
       if (categoriesResponse.success && categoriesResponse.data) {
         setCategories(categoriesResponse.data);
       }
-      
+
       // Fetch recent posts for sidebar
       const recentPostsResponse = await blogService.getLatestPosts(5);
       if (recentPostsResponse.success && recentPostsResponse.data) {
@@ -84,6 +87,9 @@ const Blog: React.FC = () => {
 
   return (
     <Layout>
+       <Helmet>
+        <title>Tin Tức</title>
+      </Helmet>
       <HomeSlider />
       <BlogHeader title="Blog của chúng tôi " />
       <BlogFeaturedSection />
@@ -93,44 +99,56 @@ const Blog: React.FC = () => {
           {/* Main content */}
           <div className="lg:w-2/3">
             {loading ? (
-              <div className="flex justify-center items-center h-64">
+              <div className="flex h-64 items-center justify-center">
                 <div className="text-xl font-semibold">Loading posts...</div>
               </div>
             ) : error ? (
-              <div className="bg-red-100 p-4 rounded-lg text-red-700">
+              <div className="rounded-lg bg-red-100 p-4 text-red-700">
                 <h3 className="font-bold">Error</h3>
                 <p>{error}</p>
               </div>
             ) : posts.length === 0 ? (
-              <div className="bg-gray-100 p-8 rounded-lg text-center">
-                <h3 className="font-bold text-xl mb-2">No Posts Found</h3>
+              <div className="rounded-lg bg-gray-100 p-8 text-center">
+                <h3 className="mb-2 text-xl font-bold">No Posts Found</h3>
                 <p>There are currently no blog posts available.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {posts.map((post) => (
-                  <div key={post._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img 
-                       src={`http://localhost:5000/public/${post.coverImage}` || "/images/blog/default.jpg"} 
-                      alt={post.title} 
-                      className="w-full h-48 object-cover"
+                  <div
+                    key={post._id}
+                    className="overflow-hidden rounded-lg bg-white shadow-md"
+                  >
+                    <img
+                      src={
+                        `http://localhost:5000/public/${post.coverImage}` ||
+                        "/images/blog/default.jpg"
+                      }
+                      alt={post.title}
+                      className="h-48 w-full object-cover"
                     />
                     <div className="p-6">
-                      <span className="inline-block px-3 py-1 text-xs font-semibold text-primary-600 bg-primary-100 rounded-full mb-2">
+                      <span className="text-primary-600 bg-primary-100 mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold">
                         {post.category.name}
                       </span>
-                      <h3 className="text-xl font-bold mb-2">
-                        <a href={`/blog/${post.slug}`} className="hover:text-primary-600 transition">
+                      <h3 className="mb-2 text-xl font-bold">
+                        <a
+                          href={`/blog/${post.slug}`}
+                          className="hover:text-primary-600 transition"
+                        >
                           {post.title}
                         </a>
                       </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-                      <div className="flex justify-between items-center">
+                      <p className="mb-4 line-clamp-2 text-gray-600">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-500">
-                          {new Date(post.publishDate).toLocaleDateString()} • {post.readTime} min read
+                          {new Date(post.publishDate).toLocaleDateString()} •{" "}
+                          {post.readTime} min read
                         </span>
-                        <a 
-                          href={`/blog/${post.slug}`} 
+                        <a
+                          href={`/blog/${post.slug}`}
                           className="text-primary-600 font-medium hover:underline"
                         >
                           Read More →
@@ -141,7 +159,7 @@ const Blog: React.FC = () => {
                 ))}
               </div>
             )}
-            
+
             {!loading && !error && totalPages > 1 && (
               <PaginationControls
                 currentPage={currentPage}

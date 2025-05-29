@@ -24,18 +24,36 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ allowedRoles }) => {
   }
 
   // Use roleName for role checking instead of role ID
-  const userRole = user?.roleName?.toLowerCase();
+  const userRole = user?.role?.toLowerCase();
 
+  const allowed = allowedRoles
+    .map((r) => r.toLowerCase())
+    .includes(userRole as string);
   // Check if userRole is defined before using includes
-  if (
-    user &&
-    userRole &&
-    !allowedRoles.map((role) => role.toLowerCase()).includes(userRole)
-  ) {
-    // Redirect based on role
-    const redirectPath =
-      userRole === "admin" ? "/admin/dashboard" : "/user/dashboard";
-    return <Navigate to={redirectPath} replace />;
+  if (!allowed) {
+    // ❌ Block access completely
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-red-600">
+            403 - Forbidden
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Bạn không có quyền truy cập trang này.
+          </p>
+          <a
+            href={
+              userRole === "67c024616b4448e1eab6a861"
+                ? "/admin/members"
+                : "/user/dashboard"
+            }
+            className="mt-4 inline-block text-blue-600 underline"
+          >
+            Quay về trang chính
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return <Outlet />;

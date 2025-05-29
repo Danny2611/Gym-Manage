@@ -98,13 +98,17 @@ export const AuthProvider: React.FC<{
 
       // Update to match backend response structure
       const { accessToken, refreshToken } = response.data.data.tokens;
+
       const userData = response.data.data.user;
-      
+      setUser(userData);
+
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       setToken(accessToken);
-      setUser(userData);
+
       setIsAuthenticated(true);
+      console.log("isAuthenticated", isAuthenticated);
+   
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);

@@ -14,7 +14,6 @@ import { appointmentService } from "~/services/appointmentService";
 import { formatTime } from "~/utils/formatters";
 import WeeklyWorkoutChart from "~/components/user/progresses/WeeklyWorkoutChart";
 
-
 // Interface for combined upcoming schedule items
 interface ScheduleItem {
   date: Date;
@@ -22,7 +21,7 @@ interface ScheduleItem {
   timeEnd?: Date;
   location?: string;
   status: string;
-  type: 'workout' | 'appointment';
+  type: "workout" | "appointment";
   name?: string;
 }
 
@@ -88,15 +87,15 @@ const Dashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   // State for membership modal
   const [selectedMembership, setSelectedMembership] =
     useState<MembershipWithRemainingData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  
+
   // State for combined upcoming schedule
   const [upcomingSchedule, setUpcomingSchedule] = useState<ScheduleItem[]>([]);
-  
+
   // State for weekly workout data
   const [weeklyWorkoutData, setWeeklyWorkoutData] = useState<WeeklyWorkout[]>([
     { name: "T2", sessions: 0, duration: 0, target: 0 },
@@ -202,18 +201,24 @@ const Dashboard: React.FC = () => {
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
-    
+
     if (date.toDateString() === today.toDateString()) {
       return "Hôm nay";
     } else if (date.toDateString() === tomorrow.toDateString()) {
       return "Ngày mai";
     } else {
-      return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      return date.toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
     }
   };
 
   // Get badge type based on status
-  const getStatusBadgeType = (status: string): "success" | "warning" | "error" | "info" => {
+  const getStatusBadgeType = (
+    status: string,
+  ): "success" | "warning" | "error" | "info" => {
     switch (status.toLowerCase()) {
       case "confirmed":
       case "đã xác nhận":
@@ -250,12 +255,15 @@ const Dashboard: React.FC = () => {
 
     try {
       // Fetch membership details
-      const membershipResponse = await membershipService.getInforMembershipDetails();
-     
+      const membershipResponse =
+        await membershipService.getInforMembershipDetails();
+
       if (membershipResponse.success && membershipResponse.data) {
         setMembershipDetails(membershipResponse.data);
       } else {
-        setError(membershipResponse.message || "Không thể tải thông tin hội viên");
+        setError(
+          membershipResponse.message || "Không thể tải thông tin hội viên",
+        );
       }
 
       // Fetch weekly workout data
@@ -266,41 +274,46 @@ const Dashboard: React.FC = () => {
 
       // Fetch upcoming workouts and appointments
       const upcomingWorkoutsData = await workoutService.getUpcomingWorkouts();
-      const upcomingAppointmentData = await appointmentService.getUpcomingAppointment();
-      
+      const upcomingAppointmentData =
+        await appointmentService.getUpcomingAppointment();
+
       // Process and combine workout and appointment data
       let combinedSchedule: ScheduleItem[] = [];
-      
+
       // Process workouts data
       if (upcomingWorkoutsData.success && upcomingWorkoutsData.data) {
-        const workouts = upcomingWorkoutsData.data.map(workout => ({
+        const workouts = upcomingWorkoutsData.data.map((workout) => ({
           ...workout,
-          type: 'workout' as const,
-          name: 'Cá nhân'
+          type: "workout" as const,
+          name: "Cá nhân",
         }));
         combinedSchedule = [...combinedSchedule, ...workouts];
       }
-      
+
       // Process appointments data
       if (upcomingAppointmentData.success && upcomingAppointmentData.data) {
-        const appointments = upcomingAppointmentData.data.map(appointment => ({
-          ...appointment,
-          type: 'appointment' as const,
-          name: 'Tập với PT'
-        }));
+        const appointments = upcomingAppointmentData.data.map(
+          (appointment) => ({
+            ...appointment,
+            type: "appointment" as const,
+            name: "Tập với PT",
+          }),
+        );
         combinedSchedule = [...combinedSchedule, ...appointments];
       }
-      
+
       // Sort by date and time
       combinedSchedule.sort((a, b) => {
-        const dateCompare = new Date(a.date).getTime() - new Date(b.date).getTime();
+        const dateCompare =
+          new Date(a.date).getTime() - new Date(b.date).getTime();
         if (dateCompare !== 0) return dateCompare;
-        return new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime();
+        return (
+          new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime()
+        );
       });
-      
+
       // Set combined schedule data
       setUpcomingSchedule(combinedSchedule);
-      
     } catch (err) {
       setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       console.error("Error fetching data:", err);
@@ -315,7 +328,7 @@ const Dashboard: React.FC = () => {
 
   // Navigate to full schedule
   const goToFullSchedule = () => {
-    navigate('/user/my-schedule');
+    navigate("/user/my-schedule");
   };
 
   return (
@@ -356,7 +369,9 @@ const Dashboard: React.FC = () => {
                 </div>
                 <Badge
                   type={getPackageBadgeType(membershipDetails.package_category)}
-                  text={capitalizeFirstLetter(membershipDetails.package_category)}
+                  text={capitalizeFirstLetter(
+                    membershipDetails.package_category,
+                  )}
                 />
               </div>
               <div className="mt-2 space-y-3 rounded-lg bg-gray-50 p-4 dark:bg-gray-800/50">
@@ -407,7 +422,9 @@ const Dashboard: React.FC = () => {
 
                 <button
                   className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
-                  onClick={() => handleViewDetails(membershipDetails.membership_id)}
+                  onClick={() =>
+                    handleViewDetails(membershipDetails.membership_id)
+                  }
                 >
                   Xem chi tiết
                 </button>
@@ -448,8 +465,11 @@ const Dashboard: React.FC = () => {
                           />
                         </div>
                         <span className="text-sm text-gray-500 dark:text-gray-400">
-                          {formatDate(new Date(item.date))} | {formatTime(new Date(item.timeStart))}
-                          {item.timeEnd ? ` - ${formatTime(new Date(item.timeEnd))}` : ''}
+                          {formatDate(new Date(item.date))} |{" "}
+                          {formatTime(new Date(item.timeStart))}
+                          {item.timeEnd
+                            ? ` - ${formatTime(new Date(item.timeEnd))}`
+                            : ""}
                         </span>
                         {item.location && (
                           <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -478,13 +498,11 @@ const Dashboard: React.FC = () => {
         </ComponentCard>
 
         {/* Buổi tập trong tuần - Kết hợp từ ProgressPage */}
-        <WeeklyWorkoutChart 
-          weeklyWorkoutData={weeklyWorkoutData} 
-          className="lg:col-span-3" 
+        <WeeklyWorkoutChart
+          weeklyWorkoutData={weeklyWorkoutData}
+          className="lg:col-span-3"
         />
       </div>
-
-      
 
       {/* Modal xem chi tiết */}
       {selectedMembership && (

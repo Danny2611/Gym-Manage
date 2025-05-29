@@ -5,12 +5,14 @@ interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  className?:string;
 }
 
 export const PaginationControls: React.FC<PaginationControlsProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  className
 }) => {
   const getPageNumbers = () => {
     const pages: (number | "...")[] = [];

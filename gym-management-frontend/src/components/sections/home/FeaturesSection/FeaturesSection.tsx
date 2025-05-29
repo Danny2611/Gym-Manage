@@ -6,7 +6,7 @@ import {
   MdSportsMartialArts,
   MdFoodBank,
 } from "react-icons/md";
-import SectionTitle from "../../../common/SectionTitle";
+import SectionTitle from "~/components/common/SectionTitle";
 
 interface FeatureProps {
   icon: React.ReactNode;
@@ -53,7 +53,6 @@ const features: FeatureProps[] = [
   },
 ];
 
-
 const FeaturesSection: React.FC = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -85,7 +84,6 @@ const FeaturesSection: React.FC = () => {
           description="Khám phá các dịch vụ thể hình toàn diện giúp bạn đạt được mục tiêu sức khỏe và thể chất một cách hiệu quả."
           centered
         />
-
 
         <motion.div
           variants={containerVariants}

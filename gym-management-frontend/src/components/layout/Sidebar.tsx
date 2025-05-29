@@ -86,7 +86,7 @@ const othersItems: NavItem[] = [
   {
     icon: <FiBell className="h-5 w-5" />,
     name: "Thông báo",
-    path: "/notifications",
+    path: "/user/settings/notifications",
   },
   {
     icon: <FiInfo className="h-5 w-5" />,

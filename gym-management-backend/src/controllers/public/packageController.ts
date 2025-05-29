@@ -65,3 +65,7 @@ export const getPackages = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+export  default{
+   getPackages,
+  getPackageById
+}

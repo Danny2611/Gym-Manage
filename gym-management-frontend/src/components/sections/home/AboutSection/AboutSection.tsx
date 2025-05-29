@@ -2,17 +2,17 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { BsCheckCircleFill } from "react-icons/bs";
-import Button from "../../../common/Button";
+import Button from "~/components/common/Button";
 
 const AboutSection: React.FC = () => {
   const features = [
-  "Trang thiết bị hiện đại và đa dạng",
-  "Huấn luyện viên cá nhân chuyên nghiệp",
-  "Chương trình tập luyện cá nhân hóa",
-  "Tư vấn và theo dõi dinh dưỡng chuyên sâu",
-  "Không gian rộng rãi, sạch sẽ, thoải mái",
-  "Cộng đồng luyện tập năng động và tích cực",
-];
+    "Trang thiết bị hiện đại và đa dạng",
+    "Huấn luyện viên cá nhân chuyên nghiệp",
+    "Chương trình tập luyện cá nhân hóa",
+    "Tư vấn và theo dõi dinh dưỡng chuyên sâu",
+    "Không gian rộng rãi, sạch sẽ, thoải mái",
+    "Cộng đồng luyện tập năng động và tích cực",
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -54,7 +54,6 @@ const AboutSection: React.FC = () => {
                 <div className="text-sm">YEARS OF EXPERIENCE</div>
               </div>
             </motion.div>
-          
           </div>
 
           {/* Content side */}
@@ -72,10 +71,16 @@ const AboutSection: React.FC = () => {
                 Chúng Tôi Ở Đây Để Giúp Bạn Đạt Thể Hình Lý Tưởng
               </h2>
               <p className="mb-6 text-gray-600">
-                FittLife là trung tâm thể hình hàng đầu, cam kết đồng hành cùng bạn trong hành trình nâng cao sức khỏe và vóc dáng. Với cơ sở vật chất hiện đại, đội ngũ huấn luyện viên chuyên nghiệp và phương pháp tiếp cận cá nhân hóa, chúng tôi mang đến môi trường luyện tập lý tưởng.
+                FittLife là trung tâm thể hình hàng đầu, cam kết đồng hành cùng
+                bạn trong hành trình nâng cao sức khỏe và vóc dáng. Với cơ sở
+                vật chất hiện đại, đội ngũ huấn luyện viên chuyên nghiệp và
+                phương pháp tiếp cận cá nhân hóa, chúng tôi mang đến môi trường
+                luyện tập lý tưởng.
               </p>
               <p className="mb-8 text-gray-600">
-                Dù mục tiêu của bạn là tăng cơ, giảm cân, cải thiện sức bền hay đơn giản là duy trì lối sống lành mạnh, đội ngũ của chúng tôi sẽ luôn hỗ trợ bạn một cách tận tâm và hiệu quả.
+                Dù mục tiêu của bạn là tăng cơ, giảm cân, cải thiện sức bền hay
+                đơn giản là duy trì lối sống lành mạnh, đội ngũ của chúng tôi sẽ
+                luôn hỗ trợ bạn một cách tận tâm và hiệu quả.
               </p>
 
               <motion.ul
@@ -97,10 +102,9 @@ const AboutSection: React.FC = () => {
                 ))}
               </motion.ul>
 
-             <Link to="/about">
-              <Button size="large">Tìm Hiểu Thêm Về Chúng Tôi</Button>
-            </Link>
-
+              <Link to="/about">
+                <Button size="large">Tìm Hiểu Thêm Về Chúng Tôi</Button>
+              </Link>
             </motion.div>
           </div>
         </div>

@@ -8,11 +8,13 @@ export const blogService = {
    */
   getAllPosts: async (
     page: number = 1,
-    pageSize: number = 10
-  ): Promise<ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>> => {
+    pageSize: number = 10,
+  ): Promise<
+    ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>
+  > => {
     try {
       const response = await apiClient.get(`/api/public/blogs`, {
-        params: { page, pageSize }
+        params: { page, pageSize },
       });
       return response.data;
     } catch (error) {
@@ -30,12 +32,17 @@ export const blogService = {
   getPostsByCategory: async (
     slug: string,
     page: number = 1,
-    pageSize: number = 10
-  ): Promise<ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>> => {
+    pageSize: number = 10,
+  ): Promise<
+    ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>
+  > => {
     try {
-      const response = await apiClient.get(`/api/public/blog/category/${slug}`, {
-        params: { page, pageSize }
-      });
+      const response = await apiClient.get(
+        `/api/public/blog/category/${slug}`,
+        {
+          params: { page, pageSize },
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -52,11 +59,13 @@ export const blogService = {
   getPostsByTag: async (
     tag: string,
     page: number = 1,
-    pageSize: number = 10
-  ): Promise<ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>> => {
+    pageSize: number = 10,
+  ): Promise<
+    ApiResponse<{ posts: BlogPost[]; total: number; totalPages: number }>
+  > => {
     try {
       const response = await apiClient.get(`/api/public/blog/tag/${tag}`, {
-        params: { page, pageSize }
+        params: { page, pageSize },
       });
       return response.data;
     } catch (error) {
@@ -87,10 +96,12 @@ export const blogService = {
   /**
    * Lấy n bài viết mới nhất (ví dụ: hiển thị trên trang chủ)
    */
-  getLatestPosts: async (limit: number = 5): Promise<ApiResponse<BlogPost[]>> => {
+  getLatestPosts: async (
+    limit: number = 5,
+  ): Promise<ApiResponse<BlogPost[]>> => {
     try {
       const response = await apiClient.get(`/api/public/blog/latest`, {
-        params: { limit }
+        params: { limit },
       });
       return response.data;
     } catch (error) {
@@ -102,10 +113,12 @@ export const blogService = {
     }
   },
 
-    getFeaturedPosts: async (limit: number = 5): Promise<ApiResponse<BlogPost[]>> => {
+  getFeaturedPosts: async (
+    limit: number = 5,
+  ): Promise<ApiResponse<BlogPost[]>> => {
     try {
       const response = await apiClient.get(`/api/public/blog/featured`, {
-        params: { limit }
+        params: { limit },
       });
       return response.data;
     } catch (error) {

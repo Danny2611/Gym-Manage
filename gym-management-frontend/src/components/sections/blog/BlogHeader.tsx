@@ -13,7 +13,7 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({
   alignment,
 }) => {
   return (
-    <div className="bg-gray-100 py-16 mt-36">
+    <div className="mt-36 bg-gray-100 py-16">
       <div className="container mx-auto px-4">
         <SectionTitle
           title={title}

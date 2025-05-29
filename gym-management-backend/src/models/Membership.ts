@@ -20,7 +20,7 @@ export interface IMembership extends Document {
   updated_at: Date;
 }
 
-// ✅ Interface để hỗ trợ lấy training_sessions
+
 interface IPackage extends Document {
   training_sessions: number;
 }

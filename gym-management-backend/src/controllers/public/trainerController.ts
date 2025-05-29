@@ -5,7 +5,7 @@ import Trainer from '~/models/Trainer';
 // Lấy danh sách huấn luyện viên
 export const getTrainers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const trainers = await Trainer.find();
+    const trainers = await Trainer.find( {status: 'active'});
 
     if (!trainers || trainers.length === 0) {
       res.status(404).json({ success: false, message: 'Không có huấn luyện viên nào' });
@@ -36,3 +36,8 @@ export const getTrainerById = async (req: Request, res: Response): Promise<void>
     res.status(500).json({ success: false, message: 'Lỗi server', errors: [error] });
   }
 };
+
+export default{
+  getTrainers, 
+  getTrainerById
+}

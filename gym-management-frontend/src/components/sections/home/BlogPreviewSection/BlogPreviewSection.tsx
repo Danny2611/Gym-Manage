@@ -7,10 +7,9 @@ import {
   FiUser,
   FiMessageSquare,
 } from "react-icons/fi";
-import SectionTitle from "../../../common/SectionTitle";
+import SectionTitle from "~/components/common/SectionTitle";
 import { blogService } from "~/services/blogService";
 import { BlogPost } from "~/types/blog";
-
 
 const BlogPreviewSection: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -20,7 +19,7 @@ const BlogPreviewSection: React.FC = () => {
     const fetchLatestPosts = async () => {
       setLoading(true);
       const response = await blogService.getLatestPosts(3);
-      
+
       if (response.success && response.data) {
         setPosts(response.data);
       }
@@ -40,7 +39,9 @@ const BlogPreviewSection: React.FC = () => {
         />
 
         {loading ? (
-          <p className="text-center mt-10 text-gray-500">Đang tải bài viết...</p>
+          <p className="mt-10 text-center text-gray-500">
+            Đang tải bài viết...
+          </p>
         ) : (
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
@@ -51,8 +52,11 @@ const BlogPreviewSection: React.FC = () => {
               >
                 <Link to={`/blog/${post.slug}`}>
                   <img
-                    src={`http://localhost:5000/public/${post.coverImage}` || "/images/blog/default.jpg"}
-                   //   src={`http://localhost:5000/${user.avatar}`}
+                    src={
+                      `http://localhost:5000/public/${post.coverImage}` ||
+                      "/images/blog/default.jpg"
+                    }
+                    //   src={`http://localhost:5000/${user.avatar}`}
                     alt={post.title}
                     className="h-60 w-full object-cover"
                   />
@@ -65,7 +69,6 @@ const BlogPreviewSection: React.FC = () => {
                     <FiUser className="mr-2" />
                     {post.author?.name || "Ẩn danh"}
                     <span className="mx-2">|</span>
-                    
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-[#0D2E4B]">
                     <Link

@@ -60,3 +60,40 @@ export interface MembershipDetailsResponse {
   sessions_remaining: number;
   total_sessions: number;
 }
+
+export interface MembershipQueryOptions {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: "active" | "expired" | "pending" | "paused";
+
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+export interface MembershipResponse {
+  _id: string;
+  member: {
+    _id: string;
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  package: {
+    _id: string;
+    name: string;
+    price: number;
+    duration: number;
+    training_sessions: number;
+  };
+  payment_id: string;
+  start_date: Date | null;
+  end_date: Date | null;
+  auto_renew: boolean;
+  status: "active" | "expired" | "pending" | "paused";
+  available_sessions: number;
+  used_sessions: number;
+  last_sessions_reset?: Date;
+  created_at: Date;
+  updated_at: Date;
+}

@@ -5,49 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft, CreditCard, Info, AlertCircle, Tag } from "lucide-react";
 import { packageService, PackageWithDetails } from "~/services/packageService";
 import { paymentService } from "~/services/paymentService";
-import { memberService } from "~/services/memberService";
-
-// Interface for package information that matches your other components
-interface Package {
-  _id?: string; // thường sẽ có khi lấy từ DB
-  name: string;
-  max_members?: number;
-  price: number;
-  duration: number;
-  description?: string;
-  benefits: string[];
-  status: "active" | "inactive";
-  category?: "basic" | "premium" | "fitness" | "pslatinum" | "vip";
-  created_at: string; // ISO date string khi truyền từ backend
-  deleted_at?: string;
-  updated_at: string;
-  popular?: boolean;
-  training_sessions: number;
-  session_duration: number;
-  details?: {
-    _id: string;
-    package_id: string;
-    schedule: string[];
-    training_areas: string[];
-    additional_services: string[];
-    status: "active" | "inactive";
-  };
-  // Thêm thông tin về khuyến mãi
-  promotion?: {
-    name: string;
-    description?: string;
-    discount: number;
-    start_date: string;
-    end_date: string;
-    discountedPrice: number;
-  };
-}
 
 const PackageRegistrationPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>(); // Lấy ID từ URL params
 
-  const [packageInfo, setPackageInfo] = useState<PackageWithDetails | null>(null);
+  const [packageInfo, setPackageInfo] = useState<PackageWithDetails | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -161,7 +126,8 @@ const PackageRegistrationPage: React.FC = () => {
   }
 
   // Lấy giá cuối cùng (giá đã khuyến mãi hoặc giá gốc)
-  const finalPrice = packageInfo.promotion?.discountedPrice || packageInfo.price;
+  const finalPrice =
+    packageInfo.promotion?.discountedPrice || packageInfo.price;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -213,9 +179,9 @@ const PackageRegistrationPage: React.FC = () => {
                     )}
                     <p className="mt-1 text-sm text-green-700 dark:text-green-300">
                       Giảm {packageInfo.promotion.discount}% - Thời hạn:{" "}
-                      {new Date(packageInfo.promotion.end_date).toLocaleDateString(
-                        "vi-VN"
-                      )}
+                      {new Date(
+                        packageInfo.promotion.end_date,
+                      ).toLocaleDateString("vi-VN")}
                     </p>
                   </div>
                 </div>
@@ -248,7 +214,7 @@ const PackageRegistrationPage: React.FC = () => {
                 <div>
                   {packageInfo.promotion ? (
                     <div className="flex items-center">
-                      <span className="mr-2 line-through text-gray-500 dark:text-gray-400">
+                      <span className="mr-2 text-gray-500 line-through dark:text-gray-400">
                         {formatCurrency(packageInfo.price)}
                       </span>
                       <span className="font-medium text-green-600 dark:text-green-400">
@@ -353,7 +319,10 @@ const PackageRegistrationPage: React.FC = () => {
                     Giảm giá:
                   </span>
                   <span className="font-medium text-green-600 dark:text-green-400">
-                    -{formatCurrency(packageInfo.price - packageInfo.promotion.discountedPrice)}
+                    -
+                    {formatCurrency(
+                      packageInfo.price - packageInfo.promotion.discountedPrice,
+                    )}
                   </span>
                 </div>
               )}

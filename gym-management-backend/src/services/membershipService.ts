@@ -4,15 +4,9 @@ import Member from '../models/Member';
 import cron from 'node-cron';
 import { MembershipDetailsResponse } from '~/types/membership';
 
-/**
- * Interface for the membership details response
- */
+//user
 
-/**
- * Lấy thông tin chi tiết của hội viên và gói tập có giá cao nhất
- * @param memberId ID của hội viên
- * @returns Thông tin chi tiết hội viên và gói tập
- */
+//Lấy thông tin chi tiết của hội viên và gói tập có giá cao nhất
 const getMembershipDetails = async (
    memberId: string,
 ): Promise<MembershipDetailsResponse> => {
@@ -123,10 +117,7 @@ const getMembershipDetails = async (
   }
 };
 
-/**
- * Tự động cập nhật các gói membership hết hạn
- * @returns Promise<void>
- */
+//Tự động cập nhật các gói membership hết hạn
 export async function updateExpiredMemberships(): Promise<void> {
   try {
     const today = new Date();
@@ -151,10 +142,7 @@ export async function updateExpiredMemberships(): Promise<void> {
   }
 }
 
-/**
- * Reset các membership hết hạn về trạng thái null
- * @returns Promise<void>
- */
+//Reset các membership hết hạn về trạng thái null
 export async function resetExpiredMemberships(): Promise<void> {
   try {
     const today = new Date();
@@ -183,9 +171,8 @@ export async function resetExpiredMemberships(): Promise<void> {
   }
 }
 
-/**
- * Khởi tạo các công việc được lập lịch cho membership
- */
+
+//Khởi tạo các công việc được lập lịch cho membership
 export function initScheduledMembershipJobs(): void {
   // Chạy hàng ngày lúc 00:10
   cron.schedule('10 0 * * *', async () => {
@@ -195,6 +182,8 @@ export function initScheduledMembershipJobs(): void {
     // await resetExpiredMemberships();
   });
 }
+//=========================================================
+//admin
 
 
 

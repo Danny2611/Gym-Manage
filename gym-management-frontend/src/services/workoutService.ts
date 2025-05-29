@@ -216,7 +216,9 @@ export const workoutService = {
     }
   },
 
-  getUpcomingWorkouts: async (): Promise<ApiResponse<WorkoutScheduleNextWeek[]>> => {
+  getUpcomingWorkouts: async (): Promise<
+    ApiResponse<WorkoutScheduleNextWeek[]>
+  > => {
     try {
       const response = await apiClient.get("/api/user/workout/next-week");
       return response.data;

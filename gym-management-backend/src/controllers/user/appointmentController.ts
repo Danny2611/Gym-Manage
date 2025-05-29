@@ -519,5 +519,6 @@ export default {
   completeAppointment,
   checkTrainerAvailability,
   rescheduleAppointment,
-  getUpcomingAppointments
+  getUpcomingAppointments,
+  getMemberSchedule
 };

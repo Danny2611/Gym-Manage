@@ -16,7 +16,7 @@ interface Package {
   description?: string;
   benefits: string[];
   status: "active" | "inactive";
-  category?: "basic" | "premium" | "fitness" | "pslatinum" | "vip";
+  category?: "basic" | "premium" | "fitness" | "platinum" | "vip";
   created_at: string; // ISO date string khi truyền từ backend
   deleted_at?: string;
   updated_at: string;

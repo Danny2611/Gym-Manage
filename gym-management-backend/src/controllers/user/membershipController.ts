@@ -325,6 +325,13 @@ export const getInforMembershipDetails = asyncHandler(async (req: AuthRequest, r
 });
 
 export default {
-  getInforMembershipDetails
+  getInforMembershipDetails,
+  getMemberships, 
+  getMembershipById, 
+  pauseMembership, 
+  resumeMembership, 
+  getMembershipsActive, 
+  getMemberTrainingLocations,
+  
 };
 

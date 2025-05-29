@@ -3,7 +3,7 @@ import SectionTitle from "../../common/SectionTitle";
 
 const MissionValuesSection: React.FC = () => {
   return (
-    <section className="bg-gray-50 dark:bg-gray-800 py-16">
+    <section className="bg-gray-50 py-16 dark:bg-gray-800">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="order-2 md:order-1">
@@ -13,23 +13,33 @@ const MissionValuesSection: React.FC = () => {
               alignment="left"
             />
             <p className="mb-6 text-gray-600 dark:text-gray-300">
-              Sứ mệnh của FittLife là trao quyền cho mọi người thông qua thể dục và dinh dưỡng. 
-              Chúng tôi tin rằng mỗi người đều xứng đáng có một cuộc sống khỏe mạnh, tràn đầy năng lượng và 
-              chúng tôi cam kết cung cấp hướng dẫn, hỗ trợ và nguồn lực cần thiết để đạt được điều đó.
+              Sứ mệnh của FittLife là trao quyền cho mọi người thông qua thể dục
+              và dinh dưỡng. Chúng tôi tin rằng mỗi người đều xứng đáng có một
+              cuộc sống khỏe mạnh, tràn đầy năng lượng và chúng tôi cam kết cung
+              cấp hướng dẫn, hỗ trợ và nguồn lực cần thiết để đạt được điều đó.
             </p>
             <p className="mb-6 text-gray-600 dark:text-gray-300">
-              Các giá trị cốt lõi của chúng tôi bao gồm sự hòa nhập, cộng đồng, chuyên môn và sự xuất sắc liên tục. 
-              Chúng tôi tạo ra không gian nơi mọi người, bất kể trình độ thể lực hiện tại, đều được chào đón và hỗ trợ 
-              trong hành trình sức khỏe độc đáo của họ.
+              Các giá trị cốt lõi của chúng tôi bao gồm sự hòa nhập, cộng đồng,
+              chuyên môn và sự xuất sắc liên tục. Chúng tôi tạo ra không gian
+              nơi mọi người, bất kể trình độ thể lực hiện tại, đều được chào đón
+              và hỗ trợ trong hành trình sức khỏe độc đáo của họ.
             </p>
             <div className="mt-8 grid grid-cols-2 gap-6">
               <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-700">
-                <h4 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">Sức khỏe toàn diện</h4>
-                <p className="text-gray-500 dark:text-gray-400">Chúng tôi chú trọng đến cả thể chất và tinh thần của bạn</p>
+                <h4 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">
+                  Sức khỏe toàn diện
+                </h4>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Chúng tôi chú trọng đến cả thể chất và tinh thần của bạn
+                </p>
               </div>
               <div className="rounded-lg bg-white p-6 shadow-md dark:bg-gray-700">
-                <h4 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">Sự tiến bộ bền vững</h4>
-                <p className="text-gray-500 dark:text-gray-400">Kết quả lâu dài hơn là giải pháp tạm thời</p>
+                <h4 className="mb-2 text-lg font-bold text-gray-800 dark:text-white">
+                  Sự tiến bộ bền vững
+                </h4>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Kết quả lâu dài hơn là giải pháp tạm thời
+                </p>
               </div>
             </div>
           </div>

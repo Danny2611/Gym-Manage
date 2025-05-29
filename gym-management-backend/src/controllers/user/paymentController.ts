@@ -495,3 +495,10 @@ export const getPaymentById = asyncHandler(async (req: AuthRequest, res: Respons
 });
 
 
+export default {
+  createMoMoPayment, 
+  momoIpnCallback, 
+  momoRedirectCallback, 
+  getPaymentById, 
+  getPaymentStatus 
+}

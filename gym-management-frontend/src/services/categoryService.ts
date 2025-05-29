@@ -16,19 +16,20 @@ export const categoryService = {
       };
     }
   },
-   getCategoryBySlug: async (
-      slug: string,
-      
-    ): Promise<ApiResponse<BlogCategory>> => {
-      try {
-        const response = await apiClient.get(`/api/public/blog-categories/${slug}`);
-        return response.data;
-      } catch (error) {
-        return {
-          success: false,
-          message: "Không thể lấy category",
-          errors: [error],
-        };
-      }
-    },
+  getCategoryBySlug: async (
+    slug: string,
+  ): Promise<ApiResponse<BlogCategory>> => {
+    try {
+      const response = await apiClient.get(
+        `/api/public/blog-categories/${slug}`,
+      );
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message: "Không thể lấy category",
+        errors: [error],
+      };
+    }
+  },
 };

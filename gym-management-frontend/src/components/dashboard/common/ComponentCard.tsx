@@ -1,8 +1,11 @@
+import React from "react";
+
 interface ComponentCardProps {
   title?: string;
   children: React.ReactNode;
   className?: string; // Additional custom classes for styling
   desc?: string; // Description text
+  icon?: React.ReactNode; // ✅ Thêm prop icon
 }
 
 const ComponentCard: React.FC<ComponentCardProps> = ({
@@ -10,6 +13,7 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
   children,
   className = "",
   desc = "",
+  icon, // ✅ Nhận prop icon
 }) => {
   return (
     <div
@@ -17,9 +21,12 @@ const ComponentCard: React.FC<ComponentCardProps> = ({
     >
       {/* Card Header */}
       <div className="px-6 py-5">
-        <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-          {title}
-        </h3>
+        <div className="flex items-center gap-2">
+          {icon && <span className="text-blue-500">{icon}</span>}
+          <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
+            {title}
+          </h3>
+        </div>
         {desc && (
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             {desc}

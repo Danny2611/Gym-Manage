@@ -10,7 +10,7 @@ import {
 import {
   membershipService,
   MembershipWithRemainingData,
-} from "../../../services/membershipService";
+} from "~/services/membershipService";
 import { memberService } from "~/services/memberService";
 import { paymentService } from "~/services/paymentService";
 import { formatDate } from "~/utils/formatters";

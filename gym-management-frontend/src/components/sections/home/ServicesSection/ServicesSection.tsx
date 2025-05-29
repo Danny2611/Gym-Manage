@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
-import SectionTitle from "../../../common/SectionTitle";
+import SectionTitle from "~/components/common/SectionTitle";
 
 interface ServiceProps {
   id: string;
@@ -104,12 +104,6 @@ const ServicesSection: React.FC = () => {
                   {service.title}
                 </h3>
                 <p className="mb-4 text-gray-600">{service.description}</p>
-                <Link
-                  to={service.link}
-                  className="inline-flex items-center font-medium text-[#0CC6F0] transition-colors hover:text-[#0D2E4B]"
-                >
-                  Tìm hiểu thêm <FiArrowRight className="ml-2" />
-                </Link>
               </div>
             </motion.div>
           ))}

@@ -239,16 +239,18 @@ export const appointmentService = {
     }
   },
 
-  getUpcomingAppointment: async (): Promise<ApiResponse<UpcomingAppointment[]>> => {
-      try {
-        const response = await apiClient.get("/api/user/appointments/next-week");
-        return response.data;
-      } catch (error) {
-        return {
-          success: false,
-          message: "Không thể lấy lịch tập tuần sau",
-          errors: [error],
-        };
-      }
-    },
+  getUpcomingAppointment: async (): Promise<
+    ApiResponse<UpcomingAppointment[]>
+  > => {
+    try {
+      const response = await apiClient.get("/api/user/appointments/next-week");
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message: "Không thể lấy lịch tập tuần sau",
+        errors: [error],
+      };
+    }
+  },
 };

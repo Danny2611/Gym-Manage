@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Link } from "react-router";
-import { useSidebar } from "../../contexts/SidebarContext";
-import { ThemeToggleButton } from "../../components/dashboard/common/ThemeToggleButton";
-import NotificationDropdown from "../../components/dashboard/header/NotificationDropdown";
-import UserDropdown from "../../components/dashboard/header/UserDropdown";
+import { useSidebar } from "~/contexts/SidebarContext";
+import { ThemeToggleButton } from "~/components/dashboard/common/ThemeToggleButton";
+import NotificationDropdown from "~/components/dashboard/header/NotificationDropdown";
+import UserDropdown from "~/components/dashboard/header/UserDropdown";
 
 const DashboardHeader: React.FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);

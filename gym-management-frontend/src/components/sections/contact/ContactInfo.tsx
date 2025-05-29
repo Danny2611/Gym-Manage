@@ -35,7 +35,7 @@ const ContactInfo: React.FC = () => {
           <ContactInfoItem
             icon={<FaMapMarkerAlt />}
             title="Our Location"
-            text="123 Fitness Street, Gym City, GC 12345"
+            text="123 Linh Xuân, thành phố Thủ Đức, Hồ Chí Minh."
           />
           <ContactInfoItem
             icon={<FaPhone />}
@@ -62,8 +62,12 @@ const ContactInfo: React.FC = () => {
             title="Working Hours"
             text={
               <>
-                <p className="text-gray-600">Mon-Fri: 6:00 AM - 10:00 PM</p>
-                <p className="text-gray-600">Sat-Sun: 8:00 AM - 8:00 PM</p>
+                <p className="text-gray-600">
+                  Thứ 2- Thứ 6: 6:00 AM - 10:00 PM
+                </p>
+                <p className="text-gray-600">
+                  Thứ 7- Chủ nhật: 8:00 AM - 8:00 PM
+                </p>
               </>
             }
           />

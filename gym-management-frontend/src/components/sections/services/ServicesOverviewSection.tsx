@@ -1,95 +1,126 @@
 import React from "react";
-import SectionTitle from "../../common/SectionTitle";
-import ServiceCard from "../../common/ServiceCard";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import SectionTitle from "~/components/common/SectionTitle";
+import ServiceCard from "~/components/common/ServiceCard";
 
-interface Service {
-  id: string;
-  title: string;
-  shortDescription: string;
-  image: string;
-  icon: string;
-}
+const services = [
+  {
+    id: "pt-uu-tien",
+    image: "/images/services/personal-training.jpg",
+    title: "Huấn luyện viên cá nhân",
+    description:
+      "Được hỗ trợ 1-1 cùng HLV chuyên nghiệp, xây dựng lộ trình tập luyện phù hợp với mục tiêu cá nhân của bạn.",
+    link: "/services/pt-uu-tien",
+  },
+  {
+    id: "lop-nhom",
+    image: "/images/services/group-fitness.JPG",
+    title: "Lớp nhóm năng động",
+    description:
+      "Tham gia các lớp cardio, HIIT hoặc yoga cùng huấn luyện viên trong môi trường vui vẻ và đầy năng lượng.",
+    link: "/services/lop-nhom",
+  },
+  {
+    id: "dinh-duong",
+    image: "/images/services/nutrition-coaching.JPG",
+    title: "Tư vấn dinh dưỡng",
+    description:
+      "Tối ưu hiệu quả tập luyện với thực đơn dinh dưỡng cá nhân hóa phù hợp với thể trạng và mục tiêu.",
+    link: "/services/dinh-duong",
+  },
+  {
+    id: "khu-vuc-vip",
+    image: "/images/services/strength-training.JPG",
+    title: "Khu vực tập luyện cao cấp",
+    description:
+      "Tận hưởng không gian VIP, đầy đủ thiết bị hiện đại, spa, phòng hồi phục và nhiều tiện ích đặc quyền.",
+    link: "/services/khu-vuc-vip",
+  },
+  {
+    id: "yoga-thu-gian",
+    image: "/images/services/yoga-relaxation.JPG",
+    title: "Yoga và thư giãn",
+    description:
+      "Cân bằng cơ thể và tinh thần với các lớp yoga, thiền, và kéo giãn giúp giảm stress và cải thiện giấc ngủ.",
+    link: "/services/yoga-thu-gian",
+  },
+  {
+    id: "phuc-hoi-chuc-nang",
+    image: "/images/services/rehab-training.JPG",
+    title: "Phục hồi chức năng",
+    description:
+      "Chương trình phục hồi dành cho người bị chấn thương, đau lưng, đau khớp hoặc cần cải thiện vận động.",
+    link: "/services/phuc-hoi-chuc-nang",
+  },
 
-const ServicesOverviewSection: React.FC = () => {
-  const services: Service[] = [
-    {
-      id: "personal-training",
-      title: "Personal Training",
-      shortDescription:
-        "One-on-one coaching tailored to your specific goals, fitness level, and schedule.",
-      image: "/images/services/personal-training.jpg",
-      icon: "user",
+  {
+    id: "danh-gia-co-the",
+    image: "/images/services/body-assessment.JPG",
+    title: "Đánh giá cơ thể toàn diện",
+    description:
+      "Phân tích chỉ số cơ thể, mỡ, cơ và trao đổi chất để lập kế hoạch tập luyện hiệu quả và khoa học.",
+    link: "/services/danh-gia-co-the",
+  },
+  {
+    id: "spa-cao-cap",
+    image: "/images/services/premium-spa.JPG",
+    title: "Dịch vụ spa cao cấp",
+    description:
+      "Thư giãn sau buổi tập với các liệu trình massage, xông hơi, chăm sóc da chuyên sâu trong không gian sang trọng.",
+    link: "/services/spa-cao-cap",
+  },
+];
+
+const ServicesSection: React.FC = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
     },
-    {
-      id: "group-fitness",
-      title: "Group Fitness Classes",
-      shortDescription:
-        "Energetic and motivating classes led by expert instructors in a supportive group setting.",
-      image: "/images/services/group-fitness.jpg",
-      icon: "users",
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
     },
-    {
-      id: "strength-training",
-      title: "Strength Training",
-      shortDescription:
-        "Build muscle, increase strength, and improve your overall physical performance.",
-      image: "/images/services/strength-training.jpg",
-      icon: "dumbbell",
-    },
-    {
-      id: "cardio-training",
-      title: "Cardio Training",
-      shortDescription:
-        "Improve your heart health, burn calories, and boost your endurance with our cardio programs.",
-      image: "/images/services/cardio-training.jpg",
-      icon: "heartbeat",
-    },
-    {
-      id: "nutrition-coaching",
-      title: "Nutrition Coaching",
-      shortDescription:
-        "Expert dietary guidance to complement your fitness routine and maximize your results.",
-      image: "/images/services/nutrition-coaching.jpg",
-      icon: "apple-alt",
-    },
-    {
-      id: "yoga-pilates",
-      title: "Yoga & Pilates",
-      shortDescription:
-        "Enhance flexibility, build core strength, and find balance with our mindful movement classes.",
-      image: "/images/services/yoga-pilates.jpg",
-      icon: "peace",
-    },
-  ];
+  };
 
   return (
-    <section className="bg-white py-16">
+    <section className="bg-gray-50 py-20 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
-          subtitle="OUR SERVICES"
-          title="Comprehensive Fitness Solutions"
-          description="We offer a wide range of services designed to help you achieve your health and fitness goals. Our expert trainers and state-of-the-art facilities provide everything you need for a complete wellness journey."
+          title="Dịch Vụ Nổi Bật"
+          subtitle="NHỮNG GÌ CHÚNG TÔI CUNG CẤP"
+          description="Khám phá các dịch vụ thể hình toàn diện giúp bạn đạt được mục tiêu sức khỏe và phong cách sống lý tưởng."
+          centered
         />
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+        >
           {services.map((service) => (
-            <motion.div key={service.id} whileHover={{ y: -10 }}>
-              <Link to={`/services/${service.id}`}>
-                <ServiceCard
-                  title={service.title}
-                  description={service.shortDescription}
-                  iconBackgroundColor={service.image}
-                  icon={service.icon}
-                />
-              </Link>
-            </motion.div>
+            <ServiceCard
+              key={service.id}
+              {...service}
+              variants={itemVariants}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
-export default ServicesOverviewSection;
+export default ServicesSection;

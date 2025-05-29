@@ -27,4 +27,3 @@ export interface BlogPost {
   tags?: string[];
   featured?: boolean;
 }
-

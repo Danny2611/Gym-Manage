@@ -28,5 +28,10 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
+
+    allowedHosts: [
+      "2085-42-116-235-154.ngrok-free.app",
+      // Nếu bạn muốn cho phép mọi host, có thể thêm 'all' hoặc 'localhost'
+    ],
   },
 });

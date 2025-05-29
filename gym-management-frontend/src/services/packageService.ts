@@ -24,7 +24,7 @@ interface PackageDetail {
 }
 
 export interface PackageWithDetails extends Package {
-  promotion?:PromotionResponse 
+  promotion?: PromotionResponse;
   details?: PackageDetail;
 }
 

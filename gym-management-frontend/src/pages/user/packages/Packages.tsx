@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import { Package } from "~/types/package";
 import { promotionService } from "~/services/promotionService";
 import { PromotionResponse } from "~/types/promotion";
-import { formatDate } from "~/utils/formatters";
-import { blogService } from "~/services/blogService";
 
 interface FilterButtonProps {
   children: React.ReactNode;
@@ -130,15 +128,14 @@ const PackagesPage = () => {
         const response = await packageService.getAllPackages({
           status: "active",
         });
+    
 
-        const responsePromotion = await promotionService.getAllActivePromotions();
-        if (responsePromotion.success && responsePromotion.data){
+      
+        const responsePromotion =
+          await promotionService.getAllActivePromotions();
+        if (responsePromotion.success && responsePromotion.data) {
           setPromotions(responsePromotion.data);
         }
-
-          const responseBlog = await blogService.getAllPosts();
-
-        console.log("responsePromotion from API:", responseBlog);
 
         // Kiểm tra cấu trúc response thực tế
         if (response) {
@@ -210,45 +207,54 @@ const PackagesPage = () => {
       </header>
 
       {/* Banner giới thiệu */}
-      { promotions.length > 0 && (
-           <div className="mb-8 overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 to-indigo-700">
-
-                                                
-        <div className="flex flex-col items-start justify-between p-8 md:flex-row md:items-center">
-          <div className="mb-6 md:mb-0 md:mr-8">
-            <h2 className="mb-2 text-2xl font-bold text-white">
-              {promotions.length > 0 ? promotions[0].name : "Đăng ký ngay hôm nay!"}
-            </h2>
-            <p className="mb-4 text-blue-100">
-              {promotions.length > 0 
-                ? `${promotions[0].description || `Nhận ưu đãi giảm ${promotions[0].discount}% cho các gói tập`}.`
-                
-                : "Liên hệ với chúng tôi để được tư vấn gói tập phù hợp với nhu cầu của bạn"
-              }
-            </p>
-            <button
-              onClick={() => navigate(`/user/packages-register/${promotions[0].applicable_packages[0]._id}`)}
-              className="rounded-full bg-white px-6 py-2 font-medium text-blue-700 shadow-md transition-all hover:shadow-lg"
-            >
-              {promotions.length > 0 ? "Đăng ký ngay" : "Xem tất cả gói tập"}
-            </button>
-          </div>
-          {promotions.length > 0 && (
-            <div className="rounded-lg bg-blue-800 bg-opacity-40 p-4 text-white">
-              <p className="mb-2 font-medium">Thời hạn áp dụng:</p>
-              <div className="text-2xl font-bold tracking-wider">
-                Chỉ còn {Math.max(0, Math.ceil((new Date(promotions[0].end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))} ngày
-              </div>
-              <p className="mt-2 text-sm text-blue-200">
-                Giảm {promotions[0].discount}% cho các gói được chọn
-
+      {promotions.length > 0 && (
+        <div className="mb-8 overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 to-indigo-700">
+          <div className="flex flex-col items-start justify-between p-8 md:flex-row md:items-center">
+            <div className="mb-6 md:mb-0 md:mr-8">
+              <h2 className="mb-2 text-2xl font-bold text-white">
+                {promotions.length > 0
+                  ? promotions[0].name
+                  : "Đăng ký ngay hôm nay!"}
+              </h2>
+              <p className="mb-4 text-blue-100">
+                {promotions.length > 0
+                  ? `${promotions[0].description || `Nhận ưu đãi giảm ${promotions[0].discount}% cho các gói tập`}.`
+                  : "Liên hệ với chúng tôi để được tư vấn gói tập phù hợp với nhu cầu của bạn"}
               </p>
+              <button
+                onClick={() =>
+                  navigate(
+                    `/user/packages-register/${promotions[0].applicable_packages[0]._id}`,
+                  )
+                }
+                className="rounded-full bg-white px-6 py-2 font-medium text-blue-700 shadow-md transition-all hover:shadow-lg"
+              >
+                {promotions.length > 0 ? "Đăng ký ngay" : "Xem tất cả gói tập"}
+              </button>
             </div>
-          )}
+            {promotions.length > 0 && (
+              <div className="rounded-lg bg-blue-800 bg-opacity-40 p-4 text-white">
+                <p className="mb-2 font-medium">Thời hạn áp dụng:</p>
+                <div className="text-2xl font-bold tracking-wider">
+                  Chỉ còn{" "}
+                  {Math.max(
+                    0,
+                    Math.ceil(
+                      (new Date(promotions[0].end_date).getTime() -
+                        Date.now()) /
+                        (1000 * 60 * 60 * 24),
+                    ),
+                  )}{" "}
+                  ngày
+                </div>
+                <p className="mt-2 text-sm text-blue-200">
+                  Giảm {promotions[0].discount}% cho các gói được chọn
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
       )}
-     
 
       {/* Bộ lọc */}
       <div className="mb-8 flex flex-wrap gap-2">

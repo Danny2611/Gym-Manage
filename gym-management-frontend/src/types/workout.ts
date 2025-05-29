@@ -163,10 +163,10 @@ export interface RecentWorkoutLog {
   duration: number;
   status: "upcoming" | "completed" | "missed";
 }
-export interface WorkoutScheduleNextWeek{
+export interface WorkoutScheduleNextWeek {
   date: Date;
-  timeStart:Date ;
+  timeStart: Date;
   timeEnd?: Date;
   location: string;
   status: string;
-} 
+}

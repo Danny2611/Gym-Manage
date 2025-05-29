@@ -66,18 +66,20 @@ export const transactionService = {
     }
   },
 
-  getRecentSuccessfulTransactions: async (): Promise<ApiResponse<RecentTransactionDTO[]>> => {
-      try {
-        const response = await apiClient.get("/api/user/transaction/success");
-        return response.data;
-      } catch (error) {
-        return {
-          success: false,
-          message: "Không thể lấy lịch tập tuần sau",
-          errors: [error],
-        };
-      }
-    },
+  getRecentSuccessfulTransactions: async (): Promise<
+    ApiResponse<RecentTransactionDTO[]>
+  > => {
+    try {
+      const response = await apiClient.get("/api/user/transaction/success");
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message: "Không thể lấy lịch tập tuần sau",
+        errors: [error],
+      };
+    }
+  },
 
   /**
    * Lấy chi tiết của một giao dịch cụ thể

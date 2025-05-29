@@ -2,6 +2,7 @@ import React from "react";
 import SectionTitle from "../../common/SectionTitle";
 import { Disclosure, Transition } from "@headlessui/react";
 import Button from "../../common/Button";
+
 interface FAQ {
   question: string;
   answer: string;
@@ -10,44 +11,44 @@ interface FAQ {
 const FAQSection: React.FC = () => {
   const faqs: FAQ[] = [
     {
-      question: "What are your gym hours?",
+      question: "Giờ mở cửa phòng gym như thế nào?",
       answer:
-        "Our gym is open Monday through Friday from 5:00 AM to 11:00 PM, and on weekends from 7:00 AM to 9:00 PM. Holiday hours may vary and will be posted in advance.",
+        "Chúng tôi mở cửa từ Thứ Hai đến Thứ Sáu, 5:00 sáng đến 11:00 tối. Cuối tuần mở từ 7:00 sáng đến 9:00 tối. Giờ hoạt động vào các dịp lễ sẽ được thông báo trước.",
     },
     {
-      question: "Do I need to bring my own equipment?",
+      question: "Tôi có cần mang theo thiết bị tập luyện không?",
       answer:
-        "No, our facility is fully equipped with all the necessary fitness equipment. We provide towels, but we recommend bringing your own water bottle, though we do have water fountains available.",
+        "Không, phòng tập đã trang bị đầy đủ thiết bị cần thiết. Chúng tôi cung cấp khăn tập, tuy nhiên bạn nên mang theo chai nước cá nhân. Chúng tôi có máy lọc nước tại chỗ.",
     },
     {
-      question: "Is there a fee to cancel my membership?",
+      question: "Hủy hội viên có mất phí không?",
       answer:
-        "For monthly memberships, we require a 30-day notice for cancellation with no additional fee. Annual memberships may have an early termination fee if canceled before the contract period ends. Please refer to your membership agreement for specific terms.",
+        "Với hội viên theo tháng, cần thông báo trước 30 ngày và không mất thêm phí. Với hội viên năm, có thể bị tính phí nếu hủy sớm trước thời hạn hợp đồng. Vui lòng xem điều khoản hợp đồng để biết chi tiết.",
     },
     {
-      question: "Do you offer childcare services?",
+      question: "Phòng gym có dịch vụ giữ trẻ không?",
       answer:
-        "Yes, we offer childcare services for members at select times during the week. There is a small additional fee for this service, and reservations are recommended during peak hours.",
+        "Có, chúng tôi cung cấp dịch vụ giữ trẻ vào một số khung giờ nhất định trong tuần. Có thu phí nhỏ và nên đặt trước vào giờ cao điểm.",
     },
     {
-      question: "Can I freeze my membership temporarily?",
+      question: "Tôi có thể tạm ngưng hội viên không?",
       answer:
-        "Yes, members can freeze their membership for a minimum of 1 month and a maximum of 3 months per year. A small monthly holding fee applies during the freeze period. Please contact our membership services for assistance.",
+        "Có thể. Hội viên được phép tạm ngưng từ 1 đến 3 tháng mỗi năm, có áp dụng phí duy trì nhỏ hàng tháng. Liên hệ bộ phận hỗ trợ để biết thêm chi tiết.",
     },
     {
-      question: "How do I sign up for group fitness classes?",
+      question: "Đăng ký lớp học nhóm như thế nào?",
       answer:
-        "You can sign up for classes through our website, mobile app, or at the front desk. We recommend booking in advance as popular classes fill up quickly. Premium members enjoy priority booking privileges.",
+        "Bạn có thể đăng ký qua website, ứng dụng di động hoặc tại quầy lễ tân. Chúng tôi khuyến khích đặt chỗ sớm vì các lớp phổ biến thường hết chỗ nhanh. Hội viên cao cấp có quyền đặt chỗ ưu tiên.",
     },
   ];
 
   return (
-    <section className="bg-white py-16">
+    <section className="bg-gray-50 py-16 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
-          subtitle="FAQ"
-          title="Frequently Asked Questions"
-          description="Find answers to the most common questions about our services, membership options, and policies."
+          subtitle="CÂU HỎI THƯỜNG GẶP"
+          title="Giải đáp thắc mắc của bạn"
+          description="Những câu hỏi phổ biến liên quan đến dịch vụ, gói tập và chính sách của chúng tôi."
         />
 
         <div className="mx-auto mt-12 max-w-3xl">
@@ -55,10 +56,12 @@ const FAQSection: React.FC = () => {
             <Disclosure key={index} as="div" className="mt-4">
               {({ open }) => (
                 <>
-                  <Disclosure.Button className="focus-visible:ring-primary-500 flex w-full justify-between rounded-lg bg-gray-50 px-6 py-4 text-left text-lg font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
+                  <Disclosure.Button className="focus-visible:ring-primary-500 flex w-full justify-between rounded-lg bg-white px-6 py-4 text-left text-lg font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
                     <span>{faq.question}</span>
                     <span
-                      className={`${open ? "rotate-180 transform" : ""} transition-transform duration-200`}
+                      className={`${
+                        open ? "rotate-180 transform" : ""
+                      } transition-transform duration-200`}
                     >
                       <i className="fas fa-chevron-down"></i>
                     </span>
@@ -72,7 +75,7 @@ const FAQSection: React.FC = () => {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                   >
-                    <Disclosure.Panel className="rounded-b-lg border border-gray-100 bg-white px-6 py-4 text-gray-600">
+                    <Disclosure.Panel className="rounded-b-lg border border-gray-100 bg-white px-6 py-4 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
                       {faq.answer}
                     </Disclosure.Panel>
                   </Transition>
@@ -83,11 +86,11 @@ const FAQSection: React.FC = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="mb-4 text-gray-600">
-            Can't find the answer you're looking for?
+          <p className="mb-4 text-gray-600 dark:text-gray-300">
+            Không tìm thấy câu trả lời bạn cần?
           </p>
           <Button variant="primary" size="large">
-            Contact Us
+            Liên hệ với chúng tôi
           </Button>
         </div>
       </div>

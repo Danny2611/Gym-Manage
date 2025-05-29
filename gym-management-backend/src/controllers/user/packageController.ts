@@ -95,3 +95,7 @@ export const registerPackage = asyncHandler(async (req: AuthRequest, res: Respon
     });
   }
 });
+
+export default {
+  registerPackage
+}

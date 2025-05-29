@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:5000", // Or your actual API URL
+  baseURL: "http://localhost:5000", // ✅ Dùng ngrok URL thay cho localhost
   headers: {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true", // ✅ Thêm header này để bỏ qua cảnh báo
   },
 });
 

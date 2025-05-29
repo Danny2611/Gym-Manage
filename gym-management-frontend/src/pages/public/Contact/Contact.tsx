@@ -1,12 +1,13 @@
 import React from "react";
-import Layout from "../../../components/layout/Layout";
-import ContactHeader from "../../../components/sections/contact/ContactHeader";
-import ContactInfo from "../../../components/sections/contact/ContactInfo";
-import ContactFormSection from "../../../components/sections/contact/ContactFormSection";
-import ContactFAQs from "../../../components/sections/contact/ContactFAQs";
-import CTABanner from "../../../components/sections/contact/CTABanner";
-import { FAQ } from "../../../types/contact";
-import HomeSlider from "../../../components/sections/home/HomeSlider";
+import { Helmet } from 'react-helmet-async';
+import Layout from "~/components/layout/Layout";
+// import ContactHeader from "/components/sections/contact/ContactHeader";
+import ContactInfo from "~/components/sections/contact/ContactInfo";
+import ContactFormSection from "~/components/sections/contact/ContactFormSection";
+import ContactFAQs from "~/components/sections/contact/ContactFAQs";
+import CTABanner from "~/components/sections/contact/CTABanner";
+import { FAQ } from "~/types/contact";
+import HomeSlider from "~/components/sections/home/HomeSlider";
 
 // Mock data for FAQs
 const MOCK_FAQS: FAQ[] = [
@@ -45,6 +46,9 @@ const MOCK_FAQS: FAQ[] = [
 const Contact: React.FC = () => {
   return (
     <Layout>
+       <Helmet>
+        <title>Liên Hệ</title>
+      </Helmet>
       <HomeSlider />
       <ContactInfo />
       <ContactFormSection

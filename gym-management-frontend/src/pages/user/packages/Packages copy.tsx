@@ -129,11 +129,12 @@ const PackagesPage = () => {
           status: "active",
         });
 
-        const responsePromotion = await promotionService.getAllActivePromotions();
-        if (responsePromotion.success && responsePromotion.data){
+        const responsePromotion =
+          await promotionService.getAllActivePromotions();
+        if (responsePromotion.success && responsePromotion.data) {
           setPromotions(responsePromotion.data);
         }
-        
+
         // console.log("responsePromotion from API:", responsePromotion);
 
         // Kiểm tra cấu trúc response thực tế

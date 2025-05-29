@@ -118,8 +118,9 @@ import {errorHandler} from './middlewares/errorHandler';
 // routes
 import authRoutes from './routes/api/authRoutes';
 import userRoutes from "./routes/api/userRoutes";
+import adminRoutes from '~/routes/api/adminRoutes';
 import publicRoutes from "./routes/api/publicRoutes";
-
+import pwaRoutes from "~/routes/pwa/pwaRoutes";
 
 
 dotenv.config(); // Load biến môi trường từ file .env
@@ -149,5 +150,7 @@ app.listen(PORT, () => {
 app.use('/public', express.static('public'));
 app.use('/api/auth', authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/public", publicRoutes);
+app.use("/api/pwa", pwaRoutes);
 export default app;

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { FaQuoteLeft } from "react-icons/fa";
-import SectionTitle from "../../../common/SectionTitle";
+import SectionTitle from "~/components/common/SectionTitle";
 import { motion } from "framer-motion";
 
 // Import Swiper styles
@@ -114,40 +114,40 @@ const TestimonialsSection: React.FC = () => {
             className="testimonials-swiper py-10"
           >
             {testimonials.map((testimonial) => (
-              
               <SwiperSlide key={testimonial.id}>
                 <motion.div
-              key={testimonial.id}
-              className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105"
-              whileHover={{ scale: 1.05 }} >
-                <div className="flex h-full flex-col rounded-lg bg-white p-8 text-gray-800 shadow-lg">
-                  <div className="mb-6 flex items-center">
-                    
-                    <div className="mr-4 h-16 w-16 overflow-hidden rounded-full">
-                      <img
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-bold text-[#0D2E4B]">{testimonial.name}</h4>
-                      <p className="text-gray-600">{testimonial.role}</p>
-                      <div className="mt-1 flex">
-                        {renderStars(testimonial.rating)}
+                  key={testimonial.id}
+                  className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="flex h-full flex-col rounded-lg bg-white p-8 text-gray-800 shadow-lg">
+                    <div className="mb-6 flex items-center">
+                      <div className="mr-4 h-16 w-16 overflow-hidden rounded-full">
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-[#0D2E4B]">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-gray-600">{testimonial.role}</p>
+                        <div className="mt-1 flex">
+                          {renderStars(testimonial.rating)}
+                        </div>
                       </div>
                     </div>
+                    <div className="relative flex-grow">
+                      <FaQuoteLeft className="absolute left-0 top-0 text-4xl text-[#0CC6F0] opacity-20" />
+                      <p className="relative z-10 pl-6 pt-4 text-gray-600">
+                        {testimonial.quote}
+                      </p>
+                    </div>
                   </div>
-                  <div className="relative flex-grow">
-                    <FaQuoteLeft className="absolute left-0 top-0 text-4xl text-[#0CC6F0] opacity-20" />
-                    <p className="relative z-10 pl-6 pt-4 text-gray-600">
-                      {testimonial.quote}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
               </SwiperSlide>
-             
             ))}
           </Swiper>
 

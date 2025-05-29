@@ -22,7 +22,9 @@ export interface ITrainer extends Document {
   experience?: number;
   phone?: string;
   email: string;
+   status: 'active' | 'inactive';
   schedule?: ISchedule[]; // Thêm lịch làm việc
+   deleted_at?: Date;
   created_at: Date;
   updated_at: Date;
 }
@@ -49,7 +51,9 @@ const trainerSchema: Schema = new Schema({
   experience: Number,
   phone: String,
   email: { type: String, required: true, unique: true },
+   status: { type: String, enum: ['active', 'inactive'], default: 'active' },
   schedule: [scheduleSchema], 
+   deleted_at: Date,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

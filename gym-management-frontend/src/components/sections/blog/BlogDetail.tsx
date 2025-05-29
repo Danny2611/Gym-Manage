@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BlogPost } from "../../../types/blog";
-import { formatDate } from "../../../utils/formatters";
+import { BlogPost } from "~/types/blog";
+import { formatDate } from "~/utils/formatters";
 import Avatar from "~/components/ui/avatar/Avatar";
 
 interface BlogDetailProps {
@@ -36,8 +36,10 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, relatedPosts = [] }) => {
         {/* Featured Image */}
         <div className="mb-10">
           <img
-            
-            src={`http://localhost:5000/public/${post.coverImage}` || "/images/blog/default.jpg"}
+            src={
+              `http://localhost:5000/public/${post.coverImage}` ||
+              "/images/blog/default.jpg"
+            }
             alt={post.title}
             className="h-auto w-full rounded-lg shadow-lg"
           />
@@ -75,7 +77,7 @@ const BlogDetail: React.FC<BlogDetailProps> = ({ post, relatedPosts = [] }) => {
               className="h-16 w-16 rounded-full"
             /> */}
             <Avatar
-             src={`http://localhost:5000/public/${post.author.avatar}`}
+              src={`http://localhost:5000/public/${post.author.avatar}`}
               size="large"
               alt={post.author.name}
               className="h-16 w-16 rounded-full"

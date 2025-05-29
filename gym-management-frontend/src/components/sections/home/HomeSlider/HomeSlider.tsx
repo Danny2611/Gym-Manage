@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 // Import Swiper styles
 import "swiper/swiper-bundle.css"; // Import tất cả các style cần thiết
 
-import Button from "../../../common/Button";
+import Button from "~/components/common/Button";
 
 interface SlideProps {
   id: number;

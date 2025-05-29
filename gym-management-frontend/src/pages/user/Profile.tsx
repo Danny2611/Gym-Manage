@@ -20,14 +20,9 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Button } from "~/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import { Calendar } from "~/components/ui/calendar";
-import { CalendarIcon, Edit, Save, X } from "lucide-react";
-import { format } from "date-fns";
+
+import {  Edit, Save, X } from "lucide-react";
+
 import { cn } from "~/lib/utils";
 import { toast } from "~/hooks/use-toast";
 import { memberService } from "~/services/memberService";
@@ -109,6 +104,7 @@ export default function ProfilePage() {
     try {
       setIsLoading(true);
       const response = await memberService.getCurrentProfile();
+      console.log("data of user: ", response);
       if (response.success && response.data) {
         const profileData = {
           avatar: response.data.avatar || "",

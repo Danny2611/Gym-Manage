@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useOffline } from '~/hooks/useOffline';
+import { OfflineManager } from '~/utils/offlineUtils';
+import OfflineIndicator from '~/components/OfflineIndicator';
+
 import ComponentCard from "~/components/dashboard/common/ComponentCard";
 import Avatar from "~/components/dashboard/ui/avatar/Avatar";
 import MembershipDetailsModal from "~/components/user/memberships/MembershipDetailsModal";
@@ -8,7 +12,6 @@ import WeeklyWorkoutChart from "~/components/user/progresses/WeeklyWorkoutChart"
 import Spinner from "./Spinner";
 
 import { membershipService } from "~/services/membershipService";
-import { MembershipWithRemainingData } from "~/services/membershipService";
 import { transactionService } from "~/services/transactionService";
 import { appointmentService } from "~/services/appointmentService";
 import { promotionService } from "~/services/promotionService";
@@ -18,7 +21,7 @@ import { paymentService } from "~/services/paymentService";
 import { toast } from "sonner";
 import { formatTime } from "~/utils/formatters";
 
-import { MembershipDetailsResponse } from "~/types/membership";
+import { MembershipDetailsResponse, MembershipWithRemainingData } from "~/types/membership";
 import { RecentTransactionDTO } from "~/types/transaction";
 import { PromotionResponse } from "~/types/promotion";
 
@@ -90,6 +93,9 @@ const capitalizeFirstLetter = (string: string): string => {
 };
 
 const Dashboard: React.FC = () => {
+   const { isOnline, isOffline } = useOffline();
+  const offlineManager = OfflineManager.getInstance();
+  
   const [membershipDetails, setMembershipDetails] =
     useState<MembershipDetailsResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -267,12 +273,19 @@ const Dashboard: React.FC = () => {
     setError(null);
 
     try {
+        // Nếu offline, load từ cache trước
+      if (isOffline) {
+        await loadOfflineData();
+        setIsLoading(false);
+        return;
+      }
       // Fetch membership details
       const membershipResponse =
         await membershipService.getInforMembershipDetails();
 
       if (membershipResponse.success && membershipResponse.data) {
         setMembershipDetails(membershipResponse.data);
+          await offlineManager.cacheData('membership_details', membershipResponse.data);
       } else {
         setError(
           membershipResponse.message || "Không thể tải thông tin hội viên",
@@ -283,6 +296,7 @@ const Dashboard: React.FC = () => {
       const weeklyStatsResponse = await workoutService.getWeeklyWorkoutStats();
       if (weeklyStatsResponse.success && weeklyStatsResponse.data) {
         setWeeklyWorkoutData(weeklyStatsResponse.data);
+        await offlineManager.cacheData('weekly_workout', weeklyStatsResponse.data);
       }
 
       // Fetch upcoming workouts and appointments
@@ -340,10 +354,33 @@ const Dashboard: React.FC = () => {
         setPromotions(responsePromotion.data);
       }
     } catch (err) {
+      if (isOnline) {
+        console.error("Online fetch failed, trying offline data:", err);
+        await loadOfflineData();
+      }
       setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       console.error("Error fetching data:", err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+   const loadOfflineData = async () => {
+    try {
+      const cachedMembership = offlineManager.getCachedData('membership_details');
+      if (cachedMembership) {
+        setMembershipDetails(cachedMembership);
+      }
+
+      const cachedWeeklyWorkout = offlineManager.getCachedData('weekly_workout');
+      if (cachedWeeklyWorkout) {
+        setWeeklyWorkoutData(cachedWeeklyWorkout);
+      }
+
+      // ... load other cached data ...
+
+    } catch (error) {
+      console.error('Failed to load offline data:', error);
     }
   };
 
@@ -357,7 +394,9 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <OfflineIndicator />
+      <div className="container mx-auto px-4 py-8">
       <h1 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
         Dashboard Hội Viên
       </h1>
@@ -861,6 +900,8 @@ const Dashboard: React.FC = () => {
         />
       )}
     </div>
+    </>
+    
   );
 };
 

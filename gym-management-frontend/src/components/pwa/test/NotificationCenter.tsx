@@ -17,7 +17,7 @@
 // export const NotificationCenter: React.FC<NotificationCenterProps> = ({ className }) => {
 //   const [isOpen, setIsOpen] = useState(false);
 //   const [activeTab, setActiveTab] = useState<'notifications' | 'settings'>('notifications');
-  
+
 //   const {
 //     notifications,
 //     unreadCount,
@@ -78,7 +78,7 @@
 //         >
 //           <Bell className="h-4 w-4" />
 //           {unreadCount > 0 && (
-//             <Badge 
+//             <Badge
 //               className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center p-0 min-w-0"
 //             >
 //               {unreadCount > 99 ? '99+' : unreadCount}
@@ -108,7 +108,7 @@
 //                 </p>
 //               </div>
 //             </div>
-            
+
 //             <div className="flex items-center space-x-2">
 //               <Button
 //                 onClick={handleRefresh}
@@ -119,7 +119,7 @@
 //               >
 //                 <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
 //               </Button>
-              
+
 //               <Button
 //                 onClick={() => setIsOpen(false)}
 //                 variant="ghost"
@@ -152,7 +152,7 @@
 //                       {notifications.length} thông báo
 //                       {unreadCount > 0 && ` (${unreadCount} chưa đọc)`}
 //                     </p>
-                    
+
 //                     {unreadCount > 0 && (
 //                       <Button
 //                         onClick={handleMarkAllAsRead}

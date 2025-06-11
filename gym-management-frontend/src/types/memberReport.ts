@@ -1,4 +1,3 @@
-
 //types/memberReport
 export interface ReportDateRange {
   startDate?: Date;
@@ -6,8 +5,8 @@ export interface ReportDateRange {
 }
 
 export interface MemberStatsOptions extends ReportDateRange {
-  groupBy?: 'day' | 'week' | 'month' | 'year';
-  status?: 'active' | 'inactive' | 'pending' | 'banned';
+  groupBy?: "day" | "week" | "month" | "year";
+  status?: "active" | "inactive" | "pending" | "banned";
   includeRetention?: boolean;
   includeChurn?: boolean;
   cohortAnalysis?: boolean;

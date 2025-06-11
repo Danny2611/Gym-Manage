@@ -1,12 +1,9 @@
 // src/services/membershipService.ts
 import { apiClient } from "./api";
 import { calculateMembershipRemaining } from "../utils/membershipUtils"; // Import hàm tính ngày đã tạo ở trên
-import { Membership, MembershipDetailsResponse } from "~/types/membership";
+import { Membership, MembershipDetailsResponse, MembershipWithRemainingData } from "~/types/membership";
 
-export interface MembershipWithRemainingData extends Membership {
-  remaining_days: number;
-  remaining_percent: number;
-}
+
 
 interface ApiResponse<T> {
   success: boolean;
@@ -183,7 +180,7 @@ export const membershipService = {
     } catch (error) {
       return {
         success: false,
-        message: "Không thể lấy thống kê tập luyện tuần",
+        message: "Không thể lấy thông tin chi tiết gói tập",
         errors: [error],
       };
     }

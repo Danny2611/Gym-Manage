@@ -2,7 +2,6 @@
 
 import DashboardLayoutAdmin from "~/components/layout/DashboardLayoutAdmin";
 
-
 import RoleBasedRoute from "./roleBasedRoute";
 import MemberManagement from "~/pages/admin/Members/MemberList";
 import MembershipList from "~/pages/admin/Members/MembershipList";
@@ -33,7 +32,7 @@ const adminRoutes = {
 
         { path: "reports/dashboard", element: <Dashboard /> },
         { path: "reports/members", element: <MembershipReport /> },
-         { path: "reports/revenues", element: <RevenueReport /> },
+        { path: "reports/revenues", element: <RevenueReport /> },
       ],
     },
   ],

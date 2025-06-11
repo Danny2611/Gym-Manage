@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Schedule } from "~/types/schedule";
+
 import {
   ClockIcon,
   MapPinIcon,
@@ -8,7 +8,7 @@ import {
   ActivityIcon,
   ClipboardIcon,
   InfoIcon,
-  XCircleIcon,
+
 } from "lucide-react";
 import Button from "~/components/common/Button";
 import Avatar from "~/components/ui/avatar/Avatar";
@@ -27,7 +27,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({
   schedule,
   onMarkCompleted,
   onReschedule,
-  onViewDetails,
+
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const navigate = useNavigate();

@@ -128,9 +128,7 @@ const PackagesPage = () => {
         const response = await packageService.getAllPackages({
           status: "active",
         });
-    
 
-      
         const responsePromotion =
           await promotionService.getAllActivePromotions();
         if (responsePromotion.success && responsePromotion.data) {

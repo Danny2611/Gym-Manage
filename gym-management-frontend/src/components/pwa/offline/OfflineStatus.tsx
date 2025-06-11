@@ -1,19 +1,18 @@
 // # Hiển thị trạng thái offline/online
 // src/components/pwa/OfflineStatus.tsx
-import React, { useState, useEffect } from 'react';
-import { WifiOff, Wifi, AlertCircle, CheckCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '../../ui/alert';
-import { Button } from '../../ui/button';
-
+import React, { useState, useEffect } from "react";
+import { WifiOff, Wifi, CheckCircle } from "lucide-react";
+import { Alert, AlertDescription } from "../../ui/alert";
+import { Button } from "../../ui/button";
 
 interface OfflineStatusProps {
   className?: string;
   showDetails?: boolean;
 }
 
-export const OfflineStatus: React.FC<OfflineStatusProps> = ({ 
-  className = '',
-  showDetails = true 
+export const OfflineStatus: React.FC<OfflineStatusProps> = ({
+  className = "",
+  showDetails = true,
 }) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [wasOffline, setWasOffline] = useState(false);
@@ -35,12 +34,12 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({
       setShowReconnected(false);
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, [wasOffline]);
 
@@ -51,7 +50,7 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({
   // Hiển thị thông báo kết nối lại
   if (showReconnected) {
     return (
-      <Alert className={`bg-green-50 border-green-200 ${className}`}>
+      <Alert className={`border-green-200 bg-green-50 ${className}`}>
         <CheckCircle className="h-4 w-4 text-green-600" />
         <AlertDescription className="text-green-800">
           <div className="flex items-center justify-between">
@@ -77,21 +76,21 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({
 
   // Hiển thị thông báo offline
   return (
-    <Alert className={`bg-orange-50 border-orange-200 ${className}`}>
+    <Alert className={`border-orange-200 bg-orange-50 ${className}`}>
       <WifiOff className="h-4 w-4 text-orange-600" />
       <AlertDescription className="text-orange-800">
         <div className="flex items-center justify-between">
           <div>
             <div className="font-medium">Không có kết nối internet</div>
             {showDetails && (
-              <div className="text-sm mt-1">
+              <div className="mt-1 text-sm">
                 Bạn đang ở chế độ offline. Một số tính năng có thể bị hạn chế.
               </div>
             )}
           </div>
-          <div className="flex items-center space-x-2 ml-4">
+          <div className="ml-4 flex items-center space-x-2">
             <div className="flex items-center space-x-1 text-sm">
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+              <div className="h-2 w-2 animate-pulse rounded-full bg-orange-500"></div>
               <span>Offline</span>
             </div>
             <Button
@@ -110,19 +109,21 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({
 };
 
 // Component đơn giản chỉ hiển thị trạng thái
-export const OfflineIndicator: React.FC<{ className?: string }> = ({ className = '' }) => {
+export const OfflineIndicator: React.FC<{ className?: string }> = ({
+  className = "",
+}) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
@@ -133,8 +134,10 @@ export const OfflineIndicator: React.FC<{ className?: string }> = ({ className =
       ) : (
         <WifiOff className="h-4 w-4 text-red-500" />
       )}
-      <span className={`text-sm ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
-        {isOnline ? 'Online' : 'Offline'}
+      <span
+        className={`text-sm ${isOnline ? "text-green-600" : "text-red-600"}`}
+      >
+        {isOnline ? "Online" : "Offline"}
       </span>
     </div>
   );

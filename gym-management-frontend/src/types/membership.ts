@@ -47,7 +47,10 @@ export interface Membership {
   created_at: Date;
   updated_at: Date;
 }
-
+export interface MembershipWithRemainingData extends Membership {
+  remaining_days: number;
+  remaining_percent: number;
+}
 export interface MembershipDetailsResponse {
   membership_id: string;
   member_name: string;

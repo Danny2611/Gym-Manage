@@ -36,7 +36,6 @@
 
 // export default Routes;
 
-
 // Routes.tsx
 import { useRoutes } from "react-router-dom";
 import Layout from "../components/layout/Layout";

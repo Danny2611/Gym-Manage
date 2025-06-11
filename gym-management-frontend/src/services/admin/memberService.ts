@@ -9,7 +9,6 @@ import {
 import { apiClient } from "../api";
 import { ApiResponse } from "~/types/ApiResponse";
 
-
 // Define pagination structure specifically for members that matches the backend response
 interface PaginatedMemberData {
   members: MemberResponse[];

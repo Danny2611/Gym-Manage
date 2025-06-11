@@ -2,13 +2,12 @@
 import { apiClient } from "../api";
 import { ApiResponse } from "~/types/ApiResponse";
 import {
-    CreatePromotionData,
+  CreatePromotionData,
   PromotionEffectiveness,
   PromotionQueryOptions,
   PromotionResponse,
   PromotionStat,
   UpdatePromotionData,
-  
 } from "~/types/promotion";
 
 export const promotionService = {
@@ -16,15 +15,17 @@ export const promotionService = {
    * Lấy danh sách chương trình khuyến mãi (có phân trang, lọc, sắp xếp)
    */
   getAllPromotions: async (
-    params: PromotionQueryOptions = {}
-  ): Promise<ApiResponse<{
-    promotions: PromotionResponse[];
-    totalPromotions: number;
-    totalPages: number;
-    currentPage: number;
-  }>> => {
+    params: PromotionQueryOptions = {},
+  ): Promise<
+    ApiResponse<{
+      promotions: PromotionResponse[];
+      totalPromotions: number;
+      totalPages: number;
+      currentPage: number;
+    }>
+  > => {
     try {
-      const response = await apiClient.get('/api/admin/promotions', { params });
+      const response = await apiClient.get("/api/admin/promotions", { params });
       return response.data;
     } catch (error) {
       return {
@@ -38,7 +39,9 @@ export const promotionService = {
   /**
    * Lấy thông tin chi tiết một chương trình khuyến mãi theo ID
    */
-  getPromotionById: async (id: string): Promise<ApiResponse<PromotionResponse>> => {
+  getPromotionById: async (
+    id: string,
+  ): Promise<ApiResponse<PromotionResponse>> => {
     try {
       const response = await apiClient.get(`/api/admin/promotions/${id}`);
       return response.data;
@@ -55,10 +58,10 @@ export const promotionService = {
    * Tạo mới một chương trình khuyến mãi
    */
   createPromotion: async (
-    data: CreatePromotionData
+    data: CreatePromotionData,
   ): Promise<ApiResponse<PromotionResponse>> => {
     try {
-      const response = await apiClient.post('/api/admin/promotions', data);
+      const response = await apiClient.post("/api/admin/promotions", data);
       return response.data;
     } catch (error) {
       return {
@@ -74,7 +77,7 @@ export const promotionService = {
    */
   updatePromotion: async (
     id: string,
-    data: Partial<UpdatePromotionData>
+    data: Partial<UpdatePromotionData>,
   ): Promise<ApiResponse<PromotionResponse>> => {
     try {
       const response = await apiClient.put(`/api/admin/promotions/${id}`, data);
@@ -107,9 +110,13 @@ export const promotionService = {
   /**
    * Lấy hiệu quả của một chương trình khuyến mãi
    */
-  getPromotionEffectiveness: async (id: string): Promise<ApiResponse<PromotionEffectiveness>> => {
+  getPromotionEffectiveness: async (
+    id: string,
+  ): Promise<ApiResponse<PromotionEffectiveness>> => {
     try {
-      const response = await apiClient.get(`/api/admin/promotions/${id}/effectiveness`);
+      const response = await apiClient.get(
+        `/api/admin/promotions/${id}/effectiveness`,
+      );
       return response.data;
     } catch (error) {
       return {
@@ -123,9 +130,13 @@ export const promotionService = {
   /**
    * Lấy danh sách khuyến mãi đang hoạt động theo gói
    */
-  getActivePromotionsForPackage: async (packageId: string): Promise<ApiResponse<PromotionResponse[]>> => {
+  getActivePromotionsForPackage: async (
+    packageId: string,
+  ): Promise<ApiResponse<PromotionResponse[]>> => {
     try {
-      const response = await apiClient.get(`/api/admin/promotions/package/${packageId}`);
+      const response = await apiClient.get(
+        `/api/admin/promotions/package/${packageId}`,
+      );
       return response.data;
     } catch (error) {
       return {
@@ -141,7 +152,7 @@ export const promotionService = {
    */
   getPromotionStats: async (): Promise<ApiResponse<PromotionStat>> => {
     try {
-      const response = await apiClient.get('/api/admin/promotions/stats');
+      const response = await apiClient.get("/api/admin/promotions/stats");
       return response.data;
     } catch (error) {
       return {
@@ -157,7 +168,9 @@ export const promotionService = {
    */
   updatePromotionStatuses: async (): Promise<ApiResponse<null>> => {
     try {
-      const response = await apiClient.patch('/api/admin/promotions/update-statuses');
+      const response = await apiClient.patch(
+        "/api/admin/promotions/update-statuses",
+      );
       return response.data;
     } catch (error) {
       return {

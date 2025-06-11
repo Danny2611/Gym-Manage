@@ -8,11 +8,11 @@ dotenv.config();
 
 // Danh sách origin được phép truy cập
 const whitelist = [
-  process.env.FRONTEND_URL || 'http://localhost:5173', // URL của ứng dụng frontend
+  process.env.FRONTEND_URL || 'http://localhost:3000', // URL của ứng dụng frontend
   'https://momo.vn',  // Thêm domain của MoMo
   'https://payment.momo.vn',  // Thêm nếu cần thiết
-  'https://test-payment.momo.vn' // Nếu dùng môi trường test của MoMo
-  
+  'https://test-payment.momo.vn', // Nếu dùng môi trường test của MoMo
+  process.env.FRONTEND_URL_PROD ||'http://localhost:4173'
 ];
 
 // Cấu hình CORS

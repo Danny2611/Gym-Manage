@@ -22,7 +22,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmVariant = "primary",
   onConfirm,
   onCancel,
-  icon = "alert"
+  icon = "alert",
 }) => {
   if (!isOpen) return null;
 
@@ -31,16 +31,17 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     primary: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
     danger: "bg-red-600 hover:bg-red-700 focus:ring-red-500",
     warning: "bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500",
-    success: "bg-green-600 hover:bg-green-700 focus:ring-green-500"
+    success: "bg-green-600 hover:bg-green-700 focus:ring-green-500",
   };
 
   // Icon components
   const IconComponent = () => {
     if (icon === "none") return null;
-    
+
     const iconClasses = "h-6 w-6";
-    const wrapperClasses = "mx-auto flex h-12 w-12 items-center justify-center rounded-full";
-    
+    const wrapperClasses =
+      "mx-auto flex h-12 w-12 items-center justify-center rounded-full";
+
     if (icon === "info") {
       return (
         <div className={`${wrapperClasses} bg-blue-100 dark:bg-blue-900/30`}>
@@ -48,10 +49,12 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         </div>
       );
     }
-    
+
     return (
       <div className={`${wrapperClasses} bg-red-100 dark:bg-red-900/30`}>
-        <AlertTriangle className={`${iconClasses} text-red-600 dark:text-red-400`} />
+        <AlertTriangle
+          className={`${iconClasses} text-red-600 dark:text-red-400`}
+        />
       </div>
     );
   };
@@ -80,7 +83,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           <h3 className="mt-4 text-center text-lg font-medium leading-6 text-gray-900 dark:text-white">
             {title}
           </h3>
-          
+
           <div className="mt-3">
             <p className="text-center text-sm text-gray-500 dark:text-gray-400">
               {message}

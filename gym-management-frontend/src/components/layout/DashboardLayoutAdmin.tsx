@@ -2,7 +2,7 @@ import { SidebarProvider, useSidebar } from "../../contexts/SidebarContext";
 import { Outlet } from "react-router";
 import DashboardHeader from "./DashboardHeader";
 import Backdrop from "./Backdrop";
-import Sidebar from "./Sidebar";
+
 import AdminSidebar from "./AdminSidebar";
 
 const LayoutContent: React.FC = () => {

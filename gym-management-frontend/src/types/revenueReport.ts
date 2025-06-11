@@ -5,14 +5,14 @@ export interface ReportDateRange {
 }
 
 export interface RevenueReportOptions extends ReportDateRange {
-  groupBy?: 'day' | 'week' | 'month' | 'year';
+  groupBy?: "day" | "week" | "month" | "year";
   packageId?: string;
-  category?: 'basic' | 'fitness' | 'premium' | 'platinum' | 'vip';
+  category?: "basic" | "fitness" | "premium" | "platinum" | "vip";
 }
 
 export interface MemberStatsOptions extends ReportDateRange {
-  groupBy?: 'day' | 'week' | 'month' | 'year';
-  status?: 'active' | 'inactive' | 'pending' | 'banned';
+  groupBy?: "day" | "week" | "month" | "year";
+  status?: "active" | "inactive" | "pending" | "banned";
 }
 
 export interface RevenueByPackageResponse {

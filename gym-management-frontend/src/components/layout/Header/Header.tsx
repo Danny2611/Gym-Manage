@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { IoMdMail } from "react-icons/io";
+
 import {
   FaFacebookF,
   FaTwitter,
@@ -50,7 +50,8 @@ const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const scrollPosition = useScrollPosition();
-  const { isAuthenticated, user } = useAuth();
+  //  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);

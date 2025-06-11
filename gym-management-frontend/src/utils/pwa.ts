@@ -1,14 +1,18 @@
 //utils/pwa
-import { DeviceInfo, pushNotificationService, PushSubscriptionData } from "~/services/pwa/pushNotificationService";
+import {
+  DeviceInfo,
+  pushNotificationService,
+  PushSubscriptionData,
+} from "~/services/pwa/pushNotificationService";
 
 /**
  * Kiểm tra browser có hỗ trợ push notifications không
  */
 export const isPushNotificationSupported = (): boolean => {
   return (
-    'serviceWorker' in navigator &&
-    'PushManager' in window &&
-    'Notification' in window
+    "serviceWorker" in navigator &&
+    "PushManager" in window &&
+    "Notification" in window
   );
 };
 
@@ -22,14 +26,15 @@ export const getNotificationPermission = (): NotificationPermission => {
 /**
  * Yêu cầu quyền notification
  */
-export const requestNotificationPermission = async (): Promise<NotificationPermission> => {
-  if (!isPushNotificationSupported()) {
-    throw new Error('Push notifications are not supported');
-  }
+export const requestNotificationPermission =
+  async (): Promise<NotificationPermission> => {
+    if (!isPushNotificationSupported()) {
+      throw new Error("Push notifications are not supported");
+    }
 
-  const permission = await Notification.requestPermission();
-  return permission;
-};
+    const permission = await Notification.requestPermission();
+    return permission;
+  };
 
 /**
  * Đăng ký service worker và push subscription
@@ -44,21 +49,21 @@ export const registerPushNotification = async (): Promise<{
     if (!isPushNotificationSupported()) {
       return {
         success: false,
-        error: 'Push notifications are not supported'
+        error: "Push notifications are not supported",
       };
     }
 
     // Yêu cầu quyền
     const permission = await requestNotificationPermission();
-    if (permission !== 'granted') {
+    if (permission !== "granted") {
       return {
         success: false,
-        error: 'Notification permission not granted'
+        error: "Notification permission not granted",
       };
     }
 
     // Đăng ký service worker
-    const registration = await navigator.serviceWorker.register('/sw.js');
+    const registration = await navigator.serviceWorker.register("/sw.js");
     await navigator.serviceWorker.ready;
 
     // Lấy VAPID public key
@@ -66,48 +71,50 @@ export const registerPushNotification = async (): Promise<{
     if (!vapidResponse.success) {
       return {
         success: false,
-        error: 'Failed to get VAPID public key'
+        error: "Failed to get VAPID public key",
       };
     }
 
     // Tạo push subscription
     const pushSubscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: vapidResponse.publicKey
+      applicationServerKey: vapidResponse.publicKey,
     });
 
     const subscriptionData: PushSubscriptionData = {
       endpoint: pushSubscription.endpoint,
       keys: {
-        p256dh: arrayBufferToBase64(pushSubscription.getKey('p256dh')!),
-        auth: arrayBufferToBase64(pushSubscription.getKey('auth')!)
-      }
+        p256dh: arrayBufferToBase64(pushSubscription.getKey("p256dh")!),
+        auth: arrayBufferToBase64(pushSubscription.getKey("auth")!),
+      },
     };
 
     // Gửi subscription lên server
     const deviceInfo: DeviceInfo = {
       userAgent: navigator.userAgent,
-      platform: navigator.platform
+      platform: navigator.platform,
     };
 
-    const subscribeResponse = await pushNotificationService.subscribe(subscriptionData, deviceInfo);
-    
+    const subscribeResponse = await pushNotificationService.subscribe(
+      subscriptionData,
+      deviceInfo,
+    );
+
     if (subscribeResponse.success) {
       return {
         success: true,
-        subscription: subscriptionData
+        subscription: subscriptionData,
       };
     } else {
       return {
         success: false,
-        error: subscribeResponse.message
+        error: subscribeResponse.message,
       };
     }
-
   } catch (error: any) {
     return {
       success: false,
-      error: error.message || 'Failed to register push notification'
+      error: error.message || "Failed to register push notification",
     };
   }
 };
@@ -129,7 +136,7 @@ export const unregisterPushNotification = async (): Promise<{
     if (subscription) {
       // Hủy subscription trên server
       await pushNotificationService.unsubscribe(subscription.endpoint);
-      
+
       // Hủy subscription trên browser
       await subscription.unsubscribe();
     }
@@ -138,12 +145,10 @@ export const unregisterPushNotification = async (): Promise<{
   } catch (error: any) {
     return {
       success: false,
-      error: error.message || 'Failed to unregister push notification'
+      error: error.message || "Failed to unregister push notification",
     };
   }
 };
-
-
 
 // utils/pwa.ts
 export const getSubscriptionStatus = async (): Promise<{
@@ -158,16 +163,14 @@ export const getSubscriptionStatus = async (): Promise<{
       subscription: subscription || undefined,
     };
   } catch (error) {
-    console.error('Error checking subscription status:', error);
+    console.error("Error checking subscription status:", error);
     return { isSubscribed: false };
   }
 };
 
 export const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
 
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
@@ -180,7 +183,7 @@ export const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
 
 export const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
   const bytes = new Uint8Array(buffer);
-  let binary = '';
+  let binary = "";
   for (let i = 0; i < bytes.byteLength; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
@@ -188,25 +191,31 @@ export const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
 };
 
 export const isStandalonePWA = (): boolean => {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-         (window.navigator as any).standalone ||
-         document.referrer.includes('android-app://');
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as any).standalone ||
+    document.referrer.includes("android-app://")
+  );
 };
 
 export const isPWAInstalled = (): boolean => {
-  return isStandalonePWA() || localStorage.getItem('pwa-installed') === 'true';
+  return isStandalonePWA() || localStorage.getItem("pwa-installed") === "true";
 };
 
-export const detectDeviceType = (): 'mobile' | 'tablet' | 'desktop' => {
+export const detectDeviceType = (): "mobile" | "tablet" | "desktop" => {
   const userAgent = navigator.userAgent;
-  
+
   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(userAgent)) {
-    return 'tablet';
+    return "tablet";
   }
-  
-  if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(userAgent)) {
-    return 'mobile';
+
+  if (
+    /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+      userAgent,
+    )
+  ) {
+    return "mobile";
   }
-  
-  return 'desktop';
+
+  return "desktop";
 };

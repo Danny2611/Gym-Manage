@@ -8,9 +8,9 @@
 //   showLabel?: boolean;
 // }
 
-// export const NotificationButton: React.FC<NotificationButtonProps> = ({ 
-//   className = '', 
-//   showLabel = false 
+// export const NotificationButton: React.FC<NotificationButtonProps> = ({
+//   className = '',
+//   showLabel = false
 // }) => {
 //   const {
 //     isSupported,
@@ -65,7 +65,7 @@
 //       ) : (
 //         <BellOff className="w-5 h-5" />
 //       )}
-      
+
 //       {showLabel && (
 //         <span className="text-sm font-medium">
 //           {isSubscribed ? 'Notifications On' : 'Enable Notifications'}

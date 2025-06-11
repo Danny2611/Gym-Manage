@@ -64,8 +64,6 @@ export interface UpcomingAppointment {
   status: string;
 }
 
-
-
 export interface AppointmentMember {
   _id: string;
   name: string;
@@ -76,7 +74,12 @@ export interface AppointmentTrainer {
   name: string;
 }
 
-export type AppointmentStatus = 'confirmed' | 'pending' | 'cancelled' | 'completed' | 'missed';
+export type AppointmentStatus =
+  | "confirmed"
+  | "pending"
+  | "cancelled"
+  | "completed"
+  | "missed";
 
 export interface Appointment {
   _id: string;
@@ -102,7 +105,7 @@ export interface AppointmentQueryParams {
   member_id?: string;
   trainer_id?: string;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface AppointmentStats {

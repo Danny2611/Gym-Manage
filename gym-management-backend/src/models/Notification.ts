@@ -5,7 +5,7 @@ export interface INotification extends Document {
   trainer_id: Types.ObjectId;
   title: string;
   message: string;
-  type: 'reminder' | 'promotion' | 'appointment'  | 'membership' | 'payment';
+  type: 'reminder' | 'promotion' | 'appointment'  | 'membership' | 'payment' | 'workout';
   status: 'sent' | 'pending' | 'failed' | 'read';
    priority: 'low' | 'medium' | 'high';
   scheduled_at?: Date;
@@ -22,7 +22,7 @@ const notificationSchema: Schema = new Schema({
   trainer_id: { type: Schema.Types.ObjectId, ref: 'Trainer' },
    title: { type: String, required: true },
   message: { type: String, required: true },
-  type: { type: String, enum: ['reminder', 'promotion', 'appointment',  'membership', 'payment', 'system'], required: true },
+  type: { type: String, enum: ['reminder', 'promotion', 'appointment',  'membership', 'payment', 'system', 'workout'], required: true },
   status: { 
     type: String, 
     enum: ['sent', 'pending', 'failed', 'read'],

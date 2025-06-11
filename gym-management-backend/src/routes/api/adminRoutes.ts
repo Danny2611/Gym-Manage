@@ -13,6 +13,8 @@ import paymentController from '~/controllers/admin/paymentController';
 import reportController from '~/controllers/admin/reportController';
 import memberReportController from '~/controllers/admin/reports/memberReportController';
 import revenueReportController from '~/controllers/admin/reports/revenueReportController';
+
+import notificationService from '~/services/pwa/NotificationService';
 const router = express.Router();
 
 // All these routes require authentication

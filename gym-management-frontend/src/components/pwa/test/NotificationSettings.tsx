@@ -74,13 +74,13 @@
 //             </p>
 //           </div>
 //         </div>
-        
+
 //         <div className="flex items-center space-x-2">
 //           <Badge color={isSubscribed ? 'success' : 'primary'}>
 //             {isSubscribed ? 'Đang bật' : 'Đang tắt'}
 //           </Badge>
 //           <Badge color={permission === 'granted' ? 'success' : 'warning'}>
-//             {permission === 'granted' ? 'Đã cấp quyền' : 
+//             {permission === 'granted' ? 'Đã cấp quyền' :
 //              permission === 'denied' ? 'Từ chối' : 'Chờ cấp quyền'}
 //           </Badge>
 //         </div>
@@ -105,8 +105,8 @@
 //           onClick={handleToggleSubscription}
 //           disabled={isLoading || permission === 'denied'}
 //           className={`flex items-center space-x-2 ${
-//             isSubscribed 
-//               ? 'bg-red-600 hover:bg-red-700' 
+//             isSubscribed
+//               ? 'bg-red-600 hover:bg-red-700'
 //               : 'bg-blue-600 hover:bg-blue-700'
 //           }`}
 //         >

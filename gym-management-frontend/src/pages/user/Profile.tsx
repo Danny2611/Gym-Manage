@@ -21,7 +21,7 @@ import {
 } from "~/components/ui/select";
 import { Button } from "~/components/ui/button";
 
-import {  Edit, Save, X } from "lucide-react";
+import { Edit, Save, X } from "lucide-react";
 
 import { cn } from "~/lib/utils";
 import { toast } from "~/hooks/use-toast";
@@ -104,7 +104,7 @@ export default function ProfilePage() {
     try {
       setIsLoading(true);
       const response = await memberService.getCurrentProfile();
-      console.log("data of user: ", response);
+      // console.log("data of user: ", response);
       if (response.success && response.data) {
         const profileData = {
           avatar: response.data.avatar || "",

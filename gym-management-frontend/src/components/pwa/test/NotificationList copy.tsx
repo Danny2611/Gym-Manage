@@ -96,7 +96,7 @@
 //     if (diffMins < 60) return `${diffMins} phút trước`;
 //     if (diffHours < 24) return `${diffHours} giờ trước`;
 //     if (diffDays < 7) return `${diffDays} ngày trước`;
-    
+
 //     return date.toLocaleDateString('vi-VN', {
 //       day: '2-digit',
 //       month: '2-digit',
@@ -130,7 +130,7 @@
 //               <span>Đánh dấu đã đọc ({selectedNotifications.length})</span>
 //             </Button>
 //           )}
-          
+
 //           {unreadCount > 0 && (
 //             <Button
 //               onClick={markAllAsRead}
@@ -195,13 +195,13 @@
 //                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
 //                         )}
 //                       </div>
-                      
+
 //                       <p className={`text-sm ${
 //                         !notification.read_at ? 'text-gray-800' : 'text-gray-600'
 //                       }`}>
 //                         {notification.message}
 //                       </p>
-                      
+
 //                       <p className="text-xs text-gray-500 mt-1">
 //                         {formatDate(notification.created_at)}
 //                       </p>

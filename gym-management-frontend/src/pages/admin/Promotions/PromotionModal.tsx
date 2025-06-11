@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { X, Calendar, Percent, Package, AlertCircle } from "lucide-react";
-import { PromotionResponse, CreatePromotionData, UpdatePromotionData } from "~/types/promotion";
+import {
+  PromotionResponse,
+  CreatePromotionData,
+  UpdatePromotionData,
+} from "~/types/promotion";
 
 interface PromotionModalProps {
   isOpen: boolean;
@@ -19,7 +23,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
   promotion,
   onClose,
   onSave,
-  availablePackages = []
+  availablePackages = [],
 }) => {
   // Form state
   const [formData, setFormData] = useState({
@@ -29,7 +33,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
     start_date: "",
     end_date: "",
     applicable_packages: [] as string[],
-    status: "active" as "active" | "inactive"
+    status: "active" as "active" | "inactive",
   });
 
   // Validation state
@@ -44,10 +48,14 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
           name: promotion.name,
           description: promotion.description || "",
           discount: promotion.discount,
-          start_date: new Date(promotion.start_date).toISOString().split('T')[0],
-          end_date: new Date(promotion.end_date).toISOString().split('T')[0],
-        applicable_packages: promotion.applicable_packages.map(pkg => pkg._id),
-          status: promotion.status
+          start_date: new Date(promotion.start_date)
+            .toISOString()
+            .split("T")[0],
+          end_date: new Date(promotion.end_date).toISOString().split("T")[0],
+          applicable_packages: promotion.applicable_packages.map(
+            (pkg) => pkg._id,
+          ),
+          status: promotion.status,
         });
       } else {
         // Reset form for create mode
@@ -58,7 +66,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
           start_date: "",
           end_date: "",
           applicable_packages: [],
-          status: "active"
+          status: "active",
         });
       }
       setErrors({});
@@ -67,34 +75,34 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
   // Handle input changes
   const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
 
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [field]: ""
+        [field]: "",
       }));
     }
   };
 
   // Handle package selection
   const handlePackageToggle = (packageId: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       applicable_packages: prev.applicable_packages.includes(packageId)
-        ? prev.applicable_packages.filter(id => id !== packageId)
-        : [...prev.applicable_packages, packageId]
+        ? prev.applicable_packages.filter((id) => id !== packageId)
+        : [...prev.applicable_packages, packageId],
     }));
 
     // Clear package selection error
     if (errors.applicable_packages) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        applicable_packages: ""
+        applicable_packages: "",
       }));
     }
   };
@@ -129,7 +137,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
     if (formData.start_date && formData.end_date) {
       const startDate = new Date(formData.start_date);
       const endDate = new Date(formData.end_date);
-      
+
       if (endDate <= startDate) {
         newErrors.end_date = "Ngày kết thúc phải sau ngày bắt đầu";
       }
@@ -138,9 +146,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
       if (mode === "create") {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         if (startDate < today) {
-          newErrors.start_date = "Ngày bắt đầu không được là ngày trong quá khứ";
+          newErrors.start_date =
+            "Ngày bắt đầu không được là ngày trong quá khứ";
         }
       }
     }
@@ -157,7 +166,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -167,7 +176,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
       const submissionData = {
         ...formData,
         start_date: new Date(formData.start_date),
-        end_date: new Date(formData.end_date)
+        end_date: new Date(formData.end_date),
       };
 
       await onSave(submissionData);
@@ -192,7 +201,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center px-4 py-6 sm:px-6 sm:py-8">
         {/* Backdrop */}
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
           onClick={handleClose}
         ></div>
@@ -202,12 +211,14 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
           {/* Modal Header */}
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              {mode === "create" ? "Tạo chương trình khuyến mãi mới" : "Chỉnh sửa chương trình khuyến mãi"}
+              {mode === "create"
+                ? "Tạo chương trình khuyến mãi mới"
+                : "Chỉnh sửa chương trình khuyến mãi"}
             </h3>
             <button
               onClick={handleClose}
               disabled={isSubmitting}
-              className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300 disabled:cursor-not-allowed"
+              className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 disabled:cursor-not-allowed dark:hover:bg-gray-700 dark:hover:text-gray-300"
             >
               <X className="h-5 w-5" />
             </button>
@@ -224,7 +235,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
                 {/* Name */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >
                     Tên chương trình <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -250,14 +264,19 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
                 {/* Description */}
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >
                     Mô tả
                   </label>
                   <textarea
                     id="description"
                     rows={3}
                     value={formData.description}
-                    onChange={(e) => handleInputChange("description", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("description", e.target.value)
+                    }
                     className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     placeholder="Nhập mô tả cho chương trình khuyến mãi"
                     disabled={isSubmitting}
@@ -266,8 +285,12 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
                 {/* Discount */}
                 <div>
-                  <label htmlFor="discount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Phần trăm giảm giá (%) <span className="text-red-500">*</span>
+                  <label
+                    htmlFor="discount"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  >
+                    Phần trăm giảm giá (%){" "}
+                    <span className="text-red-500">*</span>
                   </label>
                   <div className="relative mt-1">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -279,8 +302,13 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                       min="1"
                       max="100"
                       value={formData.discount}
-                      onChange={(e) => handleInputChange("discount", parseFloat(e.target.value) || 0)}
-                      className={`block w-full rounded-lg border pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
+                      onChange={(e) =>
+                        handleInputChange(
+                          "discount",
+                          parseFloat(e.target.value) || 0,
+                        )
+                      }
+                      className={`block w-full rounded-lg border py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
                         errors.discount
                           ? "border-red-300 focus:border-red-500 focus:ring-red-500"
                           : "border-gray-300 dark:border-gray-600"
@@ -307,7 +335,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {/* Start Date */}
                   <div>
-                    <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label
+                      htmlFor="start_date"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
                       Ngày bắt đầu <span className="text-red-500">*</span>
                     </label>
                     <div className="relative mt-1">
@@ -318,8 +349,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                         type="date"
                         id="start_date"
                         value={formData.start_date}
-                        onChange={(e) => handleInputChange("start_date", e.target.value)}
-                        className={`block w-full rounded-lg border pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
+                        onChange={(e) =>
+                          handleInputChange("start_date", e.target.value)
+                        }
+                        className={`block w-full rounded-lg border py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
                           errors.start_date
                             ? "border-red-300 focus:border-red-500 focus:ring-red-500"
                             : "border-gray-300 dark:border-gray-600"
@@ -337,7 +370,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
                   {/* End Date */}
                   <div>
-                    <label htmlFor="end_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label
+                      htmlFor="end_date"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
                       Ngày kết thúc <span className="text-red-500">*</span>
                     </label>
                     <div className="relative mt-1">
@@ -348,8 +384,10 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                         type="date"
                         id="end_date"
                         value={formData.end_date}
-                        onChange={(e) => handleInputChange("end_date", e.target.value)}
-                        className={`block w-full rounded-lg border pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
+                        onChange={(e) =>
+                          handleInputChange("end_date", e.target.value)
+                        }
+                        className={`block w-full rounded-lg border py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white ${
                           errors.end_date
                             ? "border-red-300 focus:border-red-500 focus:ring-red-500"
                             : "border-gray-300 dark:border-gray-600"
@@ -391,12 +429,14 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                       >
                         <input
                           type="checkbox"
-                          checked={formData.applicable_packages.includes(pkg._id)}
+                          checked={formData.applicable_packages.includes(
+                            pkg._id,
+                          )}
                           onChange={() => handlePackageToggle(pkg._id)}
                           className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
                           disabled={isSubmitting}
                         />
-                        <div className="flex-1 min-w-0">
+                        <div className="min-w-0 flex-1">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               <Package className="mr-2 h-4 w-4 text-gray-400" />
@@ -405,9 +445,9 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                               </span>
                             </div>
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                              {new Intl.NumberFormat('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND'
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
                               }).format(pkg.price)}
                             </span>
                           </div>
@@ -427,13 +467,21 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
 
               {/* Status */}
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Trạng thái
                 </label>
                 <select
                   id="status"
                   value={formData.status}
-                  onChange={(e) => handleInputChange("status", e.target.value as "active" | "inactive")}
+                  onChange={(e) =>
+                    handleInputChange(
+                      "status",
+                      e.target.value as "active" | "inactive",
+                    )
+                  }
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   disabled={isSubmitting}
                 >
@@ -449,7 +497,7 @@ const PromotionModal: React.FC<PromotionModalProps> = ({
                 type="button"
                 onClick={handleClose}
                 disabled={isSubmitting}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
               >
                 Hủy
               </button>

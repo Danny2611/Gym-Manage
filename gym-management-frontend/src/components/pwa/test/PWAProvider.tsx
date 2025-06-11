@@ -30,28 +30,28 @@
 // export const PWAProvider: React.FC<PWAProviderProps> = ({ children }) => {
 //   const pwa = usePWA();
 //   const pushNotifications = usePushNotifications();
-//   const initializationRef = useRef({ 
-//     push: false, 
+//   const initializationRef = useRef({
+//     push: false,
 //     autoSubscribe: false,
-//     mounted: false 
+//     mounted: false
 //   });
 
 //   // Chỉ khởi tạo Push Notification Service - KHÔNG đăng ký SW ở đây
 //   useEffect(() => {
 //     if (!initializationRef.current.mounted) {
 //       initializationRef.current.mounted = true;
-      
+
 //       const initializePushService = async () => {
 //         if (initializationRef.current.push) return;
-        
+
 //         try {
 //           initializationRef.current.push = true;
 //           console.log('PWA: Initializing push notification service...');
-          
+
 //           const success = await pushNotificationService.initialize();
 //           if (success) {
 //             console.log('PWA: Push notification service initialized successfully');
-            
+
 //             // Auto subscribe sau khi khởi tạo thành công
 //             setTimeout(() => {
 //               handleAutoSubscribe();
@@ -72,7 +72,7 @@
 //   // Auto subscribe với better logic
 //   const handleAutoSubscribe = useCallback(async () => {
 //     if (initializationRef.current.autoSubscribe) return;
-    
+
 //     try {
 
 //       // Kiểm tra permission
@@ -82,8 +82,6 @@
 //         return;
 //       }
 
-
-      
 //       // Kiểm tra subscription status
 //       const { isSubscribed } = await getSubscriptionStatus();
 //       if (isSubscribed) {
@@ -95,7 +93,7 @@
 //       if (permission === 'granted') {
 //         initializationRef.current.autoSubscribe = true;
 //         console.log('PWA: Attempting auto subscribe...');
-        
+
 //         const success = await pushNotificationService.subscribe();
 //         if (success) {
 //           console.log('PWA: Auto subscribed to push notifications successfully');
@@ -118,7 +116,7 @@
 //   return (
 //     <PWAContext.Provider value={contextValue}>
 //       {children}
-      
+
 //       {/* PWA Components */}
 //       <InstallPrompt />
 //       <OfflineStatus />

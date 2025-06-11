@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 import Layout from "~/components/layout/Layout";
 import BlogHeader from "~/components/sections/blog/BlogHeader";
 import BlogSidebar from "~/components/sections/blog/BlogSidebar";
@@ -87,7 +87,7 @@ const Blog: React.FC = () => {
 
   return (
     <Layout>
-       <Helmet>
+      <Helmet>
         <title>Tin Tức</title>
       </Helmet>
       <HomeSlider />

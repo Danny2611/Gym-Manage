@@ -1,7 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
 
 interface ServiceCardProps {
   id: string;
@@ -17,7 +15,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   image,
   title,
   description,
-  link,
+
   variants,
 }) => {
   return (

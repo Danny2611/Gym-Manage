@@ -1,6 +1,6 @@
-  //types/trainer.ts
-  
-  export interface IWorkingHours {
+//types/trainer.ts
+
+export interface IWorkingHours {
   start: string; // Định dạng "HH:MM"
   end: string; // Định dạng "HH:MM"
   available: boolean;
@@ -38,10 +38,10 @@ export interface TrainerQueryParams {
   limit?: number;
   search?: string;
   specialization?: string;
-  status?:string,
+  status?: string;
   experience?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface TrainerCreateUpdateData {
@@ -59,10 +59,10 @@ export interface TrainerStats {
   total: number;
   bySpecialization: Record<string, number>;
   experienceRanges: {
-    novice: number;      // 0-2 years
+    novice: number; // 0-2 years
     intermediate: number; // 3-5 years
-    experienced: number;  // 6-10 years
-    expert: number;       // 11+ years
+    experienced: number; // 6-10 years
+    expert: number; // 11+ years
   };
 }
 

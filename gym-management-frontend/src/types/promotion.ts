@@ -18,14 +18,13 @@ export interface PromotionResponse {
   updated_at: Date;
 }
 
-
 export interface PromotionQueryOptions {
   page?: number;
   limit?: number;
   search?: string;
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface CreatePromotionData {
@@ -34,7 +33,7 @@ export interface CreatePromotionData {
   discount: number;
   start_date: Date;
   end_date: Date;
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
   applicable_packages: string[];
 }
 
@@ -44,7 +43,7 @@ export interface UpdatePromotionData {
   discount?: number;
   start_date?: Date;
   end_date?: Date;
-  status?: 'active' | 'inactive';
+  status?: "active" | "inactive";
   applicable_packages?: string[];
 }
 
@@ -68,7 +67,7 @@ export interface PromotionEffectiveness {
 }
 export interface PromotionStat {
   total: number;
-   active: number;
+  active: number;
   inactive: number;
   expiredThisMonth: number;
   upcomingThisMonth: number;

@@ -2,14 +2,19 @@
 
 import { ApiResponse } from "~/types/ApiResponse";
 import { apiClient } from "../api";
-import { Appointment, AppointmentQueryParams, AppointmentStats, AppointmentStatus } from "~/types/appointment";
+import {
+  Appointment,
+  AppointmentQueryParams,
+  AppointmentStats,
+  AppointmentStatus,
+} from "~/types/appointment";
 
 export const appointmentService = {
   /**
    * Lấy danh sách tất cả lịch hẹn (có phân trang, lọc và sắp xếp)
    */
   getAllAppointments: async (
-    params: AppointmentQueryParams = {}
+    params: AppointmentQueryParams = {},
   ): Promise<
     ApiResponse<{
       appointments: Appointment[];
@@ -19,7 +24,9 @@ export const appointmentService = {
     }>
   > => {
     try {
-      const response = await apiClient.get('/api/admin/appointments', { params });
+      const response = await apiClient.get("/api/admin/appointments", {
+        params,
+      });
       return response.data;
     } catch (error) {
       return {
@@ -33,9 +40,13 @@ export const appointmentService = {
   /**
    * Lấy thông tin lịch hẹn theo ID
    */
-  getAppointmentById: async (appointmentId: string): Promise<ApiResponse<Appointment>> => {
+  getAppointmentById: async (
+    appointmentId: string,
+  ): Promise<ApiResponse<Appointment>> => {
     try {
-      const response = await apiClient.get(`/api/admin/appointments/${appointmentId}`);
+      const response = await apiClient.get(
+        `/api/admin/appointments/${appointmentId}`,
+      );
       return response.data;
     } catch (error) {
       return {
@@ -51,10 +62,13 @@ export const appointmentService = {
    */
   updateAppointmentStatus: async (
     appointmentId: string,
-    status: AppointmentStatus
+    status: AppointmentStatus,
   ): Promise<ApiResponse<Appointment>> => {
     try {
-      const response = await apiClient.patch(`/api/admin/appointments/${appointmentId}/status`, { status });
+      const response = await apiClient.patch(
+        `/api/admin/appointments/${appointmentId}/status`,
+        { status },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -70,7 +84,7 @@ export const appointmentService = {
    */
   getAppointmentStats: async (): Promise<ApiResponse<AppointmentStats>> => {
     try {
-      const response = await apiClient.get('/api/admin/appointments/stats');
+      const response = await apiClient.get("/api/admin/appointments/stats");
       return response.data;
     } catch (error) {
       return {

@@ -2,7 +2,7 @@ import React from "react";
 import OurStorySection from "~/components/sections/about/OurStorySection";
 import MissionValuesSection from "~/components/sections/about/MissionValuesSection";
 import TeamSection from "~/components/sections/about/TeamSection";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 import Slider, { SlideProps } from "~/components/common/Slider";
 const homeSlides: SlideProps[] = [
   {
@@ -19,7 +19,7 @@ const homeSlides: SlideProps[] = [
       },
       secondary: {
         text: "Xem video giới thiệu",
-        link: "/about/story",
+        link: "https://www.youtube.com/watch?v=KN3IemyqJJw",
       },
     },
   },
@@ -33,11 +33,11 @@ const homeSlides: SlideProps[] = [
     cta: {
       primary: {
         text: "Gặp gỡ huấn luyện viên",
-        link: "/about/team",
+        link: "/services/personal-training",
       },
       secondary: {
         text: "Đặt lịch tư vấn",
-        link: "/schedule",
+        link: "/contact",
       },
     },
   },
@@ -51,7 +51,7 @@ const homeSlides: SlideProps[] = [
     cta: {
       primary: {
         text: "Xem cơ sở vật chất",
-        link: "/about/facilities",
+        link: "/services",
       },
       secondary: {
         text: "Dùng thử miễn phí",
@@ -64,72 +64,72 @@ const homeSlides: SlideProps[] = [
 const AboutPage: React.FC = () => {
   return (
     <>
-     <Helmet>
+      <Helmet>
         <title>Về Chúng Tôi</title>
       </Helmet>
       <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Slider slides={homeSlides} />
+        <Slider slides={homeSlides} />
 
-      {/* Our Story Section - Zigzag Item 1 */}
-      <OurStorySection />
+        {/* Our Story Section - Zigzag Item 1 */}
+        <OurStorySection />
 
-      {/* Mission & Values Section - Zigzag Item 2 */}
-      <MissionValuesSection />
+        {/* Mission & Values Section - Zigzag Item 2 */}
+        <MissionValuesSection />
 
-      {/* Team Section - Zigzag Item 3 */}
-      <TeamSection />
+        {/* Team Section - Zigzag Item 3 */}
+        <TeamSection />
 
-      {/* CTA Section */}
-      <section className="bg-primary-600 py-16 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-            Sẵn sàng bắt đầu hành trình của bạn?
-          </h2>
-          <p className="text-primary-100 mx-auto mb-8 max-w-2xl text-lg">
-            Tham gia cùng FittLife ngay hôm nay và khám phá sức mạnh thực sự của
-            bạn với sự hỗ trợ từ đội ngũ chuyên gia hàng đầu của chúng tôi.
-          </p>
-          <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <button className="text-primary-600 rounded-lg bg-white px-8 py-3 font-semibold transition-all hover:bg-gray-100">
-              Tham quan phòng gym
-            </button>
-            <button className="hover:text-primary-600 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-all hover:bg-white">
-              Đăng ký tư vấn miễn phí
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-
-      <section className="bg-gray-50 py-16 dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-primary-600 mb-2 text-sm font-bold uppercase tracking-wider">
-              CÂU HỎI THƯỜNG GẶP
+        {/* CTA Section */}
+        <section className="bg-primary-600 py-16 text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+              Sẵn sàng bắt đầu hành trình của bạn?
             </h2>
-            <h3 className="mb-12 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
-              Mọi điều bạn cần biết về FittLife
-            </h3>
+            <p className="text-primary-100 mx-auto mb-8 max-w-2xl text-lg">
+              Tham gia cùng FittLife ngay hôm nay và khám phá sức mạnh thực sự
+              của bạn với sự hỗ trợ từ đội ngũ chuyên gia hàng đầu của chúng
+              tôi.
+            </p>
+            <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+              <button className="text-primary-600 rounded-lg bg-white px-8 py-3 font-semibold transition-all hover:bg-gray-100">
+                Tham quan phòng gym
+              </button>
+              <button className="hover:text-primary-600 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-all hover:bg-white">
+                Đăng ký tư vấn miễn phí
+              </button>
+            </div>
           </div>
+        </section>
 
-          <div className="mx-auto max-w-3xl divide-y divide-gray-200 dark:divide-gray-700">
-            {faqItems.map((item, index) => (
-              <div key={index} className="py-5">
-                <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                  {item.question}
-                </h4>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {item.answer}
-                </p>
-              </div>
-            ))}
+        {/* FAQ Section */}
+
+        <section className="bg-gray-50 py-16 dark:bg-gray-800">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-primary-600 mb-2 text-sm font-bold uppercase tracking-wider">
+                CÂU HỎI THƯỜNG GẶP
+              </h2>
+              <h3 className="mb-12 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
+                Mọi điều bạn cần biết về FittLife
+              </h3>
+            </div>
+
+            <div className="mx-auto max-w-3xl divide-y divide-gray-200 dark:divide-gray-700">
+              {faqItems.map((item, index) => (
+                <div key={index} className="py-5">
+                  <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                    {item.question}
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {item.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
     </>
-    
   );
 };
 

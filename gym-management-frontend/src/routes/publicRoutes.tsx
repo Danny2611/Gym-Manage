@@ -20,9 +20,9 @@ const publicRoutes = [
   { path: "about-us", element: <AboutPage /> },
   { path: "services", element: <Services /> },
   { path: "services/:id", element: <ServiceDetail /> },
- 
-  { path: "blog", element: <Blog/> },
-  { path: "blog/category/:slug", element: <CategoryBlog/> },
+
+  { path: "blog", element: <Blog /> },
+  { path: "blog/category/:slug", element: <CategoryBlog /> },
   { path: "blog/tag/:slug", element: <TagBlog /> },
   { path: "blog/:slug", element: <BlogDetail /> },
   { path: "contact", element: <Contact /> },

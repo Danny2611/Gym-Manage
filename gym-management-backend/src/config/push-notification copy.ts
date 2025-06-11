@@ -92,6 +92,18 @@ export const pushConfig: PushNotificationConfig = {
       icon: '/icons/workout-icon.png',
       badge: '/icons/badge-icon.png',
     },
+    payment_success: {
+      title: '✅ Thanh toán thành công',
+      body: 'Bạn đã thanh toán thành công {{amount}}đ cho {{packageName}}',
+      icon: '/icons/payment-icon.png',
+      badge: '/icons/badge-icon.png',
+    },
+     system: {
+      title: '🔔 Thông báo hệ thống',
+      body: '{{message}}',
+      icon: '/icons/system-icon.png',
+      badge: '/icons/badge-icon.png',
+    }
   },
 
   schedulingConfig: {

@@ -1,7 +1,6 @@
 //types/package.ts
 import { PackageDetail } from "./packageDetail";
 
-
 export type PackageStatus = "active" | "inactive";
 export type PackageCategory =
   | "basic"
@@ -26,17 +25,17 @@ export interface Package {
   popular?: boolean;
   training_sessions: number;
   session_duration: number;
-   packageDetail?: PackageDetail;
+  packageDetail?: PackageDetail;
 }
 
 export interface PackageQueryParams {
   page?: number;
   limit?: number;
   search?: string;
-  status?: 'active' | 'inactive';
-  category?: 'basic' | 'fitness' | 'premium' | 'platinum' | 'vip';
+  status?: "active" | "inactive";
+  category?: "basic" | "fitness" | "premium" | "platinum" | "vip";
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   popular?: boolean;
 }
 
@@ -56,8 +55,8 @@ export interface PackageCreateUpdateData {
   duration: number;
   description?: string;
   benefits: string[];
-  status?: 'active' | 'inactive';
-  category?: 'basic' | 'fitness' | 'premium' | 'platinum' | 'vip';
+  status?: "active" | "inactive";
+  category?: "basic" | "fitness" | "premium" | "platinum" | "vip";
   popular?: boolean;
   training_sessions?: number;
   session_duration?: number;
@@ -65,5 +64,5 @@ export interface PackageCreateUpdateData {
     schedule?: string[];
     training_areas?: string[];
     additional_services?: string[];
-  }
+  };
 }

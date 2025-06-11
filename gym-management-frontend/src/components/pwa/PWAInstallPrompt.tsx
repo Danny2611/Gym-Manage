@@ -1,24 +1,22 @@
 // src/components/pwa/PWAInstallPrompt.tsx
-import React from 'react';
-import { Download, X, Smartphone, Monitor } from 'lucide-react';
-import { usePWA } from '~/hooks/usePWA';
+import React from "react";
+import { Download, X, Smartphone, Monitor } from "lucide-react";
+import { usePWA } from "~/hooks/usePWA";
 
 interface PWAInstallPromptProps {
   className?: string;
 }
 
-export const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ className = '' }) => {
-  const {
-    showInstallPrompt,
-    isLoading,
-    promptInstall,
-    dismissInstallPrompt
-  } = usePWA();
+export const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({
+  className = "",
+}) => {
+  const { showInstallPrompt, isLoading, promptInstall, dismissInstallPrompt } =
+    usePWA();
 
   const handleInstall = async () => {
     const success = await promptInstall();
     if (success) {
-      console.log('PWA installed successfully');
+      console.log("PWA installed successfully");
     }
   };
 
@@ -27,48 +25,51 @@ export const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ className = 
   }
 
   return (
-    <div className={`fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-50 ${className}`}>
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-4">
+    <div
+      className={`fixed bottom-4 left-4 right-4 z-50 md:left-auto md:right-4 md:w-96 ${className}`}
+    >
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Download className="w-5 h-5 text-blue-600" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+              <Download className="h-5 w-5 text-blue-600" />
             </div>
           </div>
-          
+
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">
+            <h3 className="mb-1 text-sm font-semibold text-gray-900">
               Cài đặt FitLife App
             </h3>
-            <p className="text-xs text-gray-600 mb-3">
-              Cài đặt ứng dụng để trải nghiệm tốt hơn với chế độ offline và thông báo push.
+            <p className="mb-3 text-xs text-gray-600">
+              Cài đặt ứng dụng để trải nghiệm tốt hơn với chế độ offline và
+              thông báo push.
             </p>
-            
-            <div className="flex items-center gap-4 mb-3">
+
+            <div className="mb-3 flex items-center gap-4">
               <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Smartphone className="w-3 h-3" />
+                <Smartphone className="h-3 w-3" />
                 Mobile
               </div>
               <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Monitor className="w-3 h-3" />
+                <Monitor className="h-3 w-3" />
                 Desktop
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <button
                 onClick={handleInstall}
                 disabled={isLoading}
-                className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-1 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isLoading ? (
-                  <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />
                 ) : (
-                  <Download className="w-3 h-3" />
+                  <Download className="h-3 w-3" />
                 )}
                 Cài đặt
               </button>
-              
+
               <button
                 onClick={dismissInstallPrompt}
                 className="px-3 py-1.5 text-xs text-gray-600 hover:text-gray-800"
@@ -77,16 +78,15 @@ export const PWAInstallPrompt: React.FC<PWAInstallPromptProps> = ({ className = 
               </button>
             </div>
           </div>
-          
+
           <button
             onClick={dismissInstallPrompt}
-            className="flex-shrink-0 p-1 hover:bg-gray-100 rounded-md"
+            className="flex-shrink-0 rounded-md p-1 hover:bg-gray-100"
           >
-            <X className="w-4 h-4 text-gray-400" />
+            <X className="h-4 w-4 text-gray-400" />
           </button>
         </div>
       </div>
     </div>
   );
 };
-

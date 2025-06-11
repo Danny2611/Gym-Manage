@@ -85,13 +85,13 @@ const DashboardHeader: React.FC = () => {
 
           <Link to="/" className="lg:hidden">
             <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
+              className="h-12 w-12 dark:hidden"
+              src="/logo-main-2.png"
               alt="Logo"
             />
             <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
+              className="hidden h-12 w-12 dark:block"
+              src="/logo-main-2.png"
               alt="Logo"
             />
           </Link>

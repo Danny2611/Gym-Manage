@@ -8,12 +8,6 @@ import {
   FiUser,
   FiCalendar,
   FiChevronDown,
-  FiGrid,
-  FiList,
-  FiFile,
-  FiPieChart,
-  FiBox,
-  FiLogIn,
   FiCreditCard,
   FiClock,
   FiBell,
@@ -92,6 +86,11 @@ const othersItems: NavItem[] = [
     icon: <FiInfo className="h-5 w-5" />,
     name: "Thông tin gym",
     path: "/gym-info",
+  },
+  {
+    icon: <FiInfo className="h-5 w-5" />,
+    name: "Cài đặt pwa",
+    path: "/user/install-pwa",
   },
 ];
 
@@ -307,30 +306,32 @@ const Sidebar: React.FC = () => {
         <Link to="/" className="flex items-center">
           {isExpanded || isHovered || isMobileOpen ? (
             <div className="flex items-center">
-              <img
-                className="h-8 w-8 dark:hidden"
-                src="/images/logo/logo-icon.svg"
-                alt="Logo"
-              />
-              <img
-                className="hidden h-8 w-8 dark:block"
-                src="/images/logo/logo-icon-dark.svg"
-                alt="Logo"
-              />
-              <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
-                GymFlex
+              <div className="flex-shrink-0">
+                <img
+                  className="h-12 w-12 dark:hidden"
+                  src="/logo-main-2.png"
+                  alt="Logo"
+                />
+                <img
+                  className="hidden h-12 w-12 dark:block"
+                  src="/logo-main-2.png"
+                  alt="Logo"
+                />
+              </div>
+              <span className="ml-3 text-lg font-bold leading-tight text-blue-600 dark:text-blue-400">
+                Quản lí thông tin
               </span>
             </div>
           ) : (
-            <div>
+            <div className="flex-shrink-0">
               <img
-                className="h-8 w-8 dark:hidden"
-                src="/images/logo/logo-icon.svg"
+                className="h-10 w-10 dark:hidden"
+                src="/logo-main-2.png"
                 alt="Logo"
               />
               <img
-                className="hidden h-8 w-8 dark:block"
-                src="/images/logo/logo-icon-dark.svg"
+                className="hidden h-10 w-10 dark:block"
+                src="/logo-main-2.png"
                 alt="Logo"
               />
             </div>

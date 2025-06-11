@@ -7,7 +7,7 @@ import { Notification } from "~/services/pwa/pushNotificationService";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const {
     isSupported,
     isSubscribed,
@@ -16,6 +16,7 @@ export default function NotificationDropdown() {
     error,
     notifications,
     unreadCount,
+    isServiceWorkerReady,
     requestPermission,
     subscribeToNotifications,
     unsubscribeFromNotifications,
@@ -23,23 +24,30 @@ export default function NotificationDropdown() {
     loadNotifications,
     markAsRead,
     markAllAsRead,
-    refreshUnreadCount
+    refreshUnreadCount,
   } = usePushNotifications();
 
   // Load notifications khi component mount và khi dropdown mở
   useEffect(() => {
-    if (isSubscribed) {
+    if (isSubscribed && isServiceWorkerReady) {
+      // ✅ Kiểm tra SW ready
       loadNotifications();
       refreshUnreadCount();
     }
-  }, [isSubscribed, loadNotifications, refreshUnreadCount]);
+  }, [
+    isSubscribed,
+    isServiceWorkerReady,
+    loadNotifications,
+    refreshUnreadCount,
+  ]);
 
   // Load notifications khi dropdown mở
   useEffect(() => {
-    if (isOpen && isSubscribed) {
+    if (isOpen && isSubscribed && isServiceWorkerReady) {
+      // ✅ Kiểm tra SW ready
       loadNotifications();
     }
-  }, [isOpen, isSubscribed, loadNotifications]);
+  }, [isOpen, isSubscribed, isServiceWorkerReady, loadNotifications]);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -51,13 +59,13 @@ export default function NotificationDropdown() {
 
   const handleNotificationClick = async () => {
     toggleDropdown();
-    
+
     // Mark notifications as read when opening
     if (unreadCount > 0 && isSubscribed) {
       const unreadNotifications = notifications
-        .filter(n => n.status === 'sent')
-        .map(n => n._id);
-      
+        .filter((n) => n.status === "sent")
+        .map((n) => n._id);
+
       if (unreadNotifications.length > 0) {
         await markAsRead(unreadNotifications);
       }
@@ -66,41 +74,48 @@ export default function NotificationDropdown() {
 
   const handleEnableNotifications = async () => {
     if (!isSupported) {
-      alert('Push notifications are not supported in this browser');
+      alert("Push notifications are not supported in this browser");
       return;
     }
-
+    if (!isServiceWorkerReady) {
+      alert(
+        "Service Worker is not ready yet. Please wait a moment and try again.",
+      );
+      return;
+    }
     if (!isPermissionGranted) {
       const granted = await requestPermission();
       if (!granted) {
-        alert('Permission denied. Please enable notifications in your browser settings.');
+        alert(
+          "Permission denied. Please enable notifications in your browser settings.",
+        );
         return;
       }
     }
 
     const success = await subscribeToNotifications();
     if (success) {
-      alert('Notifications enabled successfully!');
+      alert("Notifications enabled successfully!");
     } else {
-      alert('Failed to enable notifications. Please try again.');
+      alert("Failed to enable notifications. Please try again.");
     }
   };
 
   const handleDisableNotifications = async () => {
     const success = await unsubscribeFromNotifications();
     if (success) {
-      alert('Notifications disabled successfully!');
+      alert("Notifications disabled successfully!");
     } else {
-      alert('Failed to disable notifications. Please try again.');
+      alert("Failed to disable notifications. Please try again.");
     }
   };
 
   const handleTestNotification = async () => {
     const success = await sendTestNotification();
     if (success) {
-      alert('Test notification sent!');
+      alert("Test notification sent!");
     } else {
-      alert('Failed to send test notification.');
+      alert("Failed to send test notification.");
     }
   };
 
@@ -110,26 +125,37 @@ export default function NotificationDropdown() {
 
   const formatTimeAgo = (date: Date) => {
     const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - new Date(date).getTime()) / 1000);
-    
+    const diffInSeconds = Math.floor(
+      (now.getTime() - new Date(date).getTime()) / 1000,
+    );
+
     if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;
     return `${Math.floor(diffInSeconds / 86400)}d ago`;
   };
 
   const getNotificationIcon = (type?: string) => {
     switch (type) {
-      case 'workout':
-        return '🏋️‍♂️';
-      case 'nutrition':
-        return '🥗';
-      case 'achievement':
-        return '🏆';
-      case 'reminder':
-        return '⏰';
+      case "workout":
+        return "🏋️‍♂️"; // Lịch tập
+      case "achievement":
+        return "🏆"; // Thành tích
+      case "reminder":
+        return "⏰"; // Nhắc nhở chung
+      case "promotion":
+        return "🎁"; // Khuyến mãi
+      case "appointment":
+        return "📅"; // Cuộc hẹn với HLV
+      case "membership":
+        return "🎫"; // Gói hội viên
+      case "payment":
+        return "💳"; // Thanh toán
+      case "system":
+        return "⚙️"; // Thông báo hệ thống
       default:
-        return '📢';
+        return "📢"; // Chung
     }
   };
 
@@ -143,12 +169,12 @@ export default function NotificationDropdown() {
         {unreadCount > 0 && (
           <>
             <span className="absolute -right-1 -top-1 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-              {unreadCount > 99 ? '99+' : unreadCount}
+              {unreadCount > 99 ? "99+" : unreadCount}
             </span>
             <span className="absolute -right-1 -top-1 h-5 w-5 animate-ping rounded-full bg-red-400 opacity-75"></span>
           </>
         )}
-        
+
         <svg
           className="fill-current"
           width="20"
@@ -292,32 +318,34 @@ export default function NotificationDropdown() {
                 <DropdownItem
                   onItemClick={closeDropdown}
                   className={`px-4.5 flex gap-3 rounded-lg border-b border-gray-100 p-3 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 ${
-                    notification.status === 'sent' ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                    notification.status === "sent"
+                      ? "bg-blue-50 dark:bg-blue-900/20"
+                      : ""
                   }`}
                 >
-                  <span className="z-1 max-w-10 relative flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 text-lg dark:bg-gray-700">
-                    {getNotificationIcon(notification.data?.type)}
+                  <span className="z-1 relative flex h-10 w-10 max-w-10 items-center justify-center rounded-full bg-gray-200 text-lg dark:bg-gray-700">
+                    {getNotificationIcon(notification.type)}
                   </span>
 
                   <span className="block flex-1">
                     <span className="text-theme-sm mb-1.5 block text-gray-800 dark:text-white/90">
-                      <span className="font-medium">
-                        {notification.title}
-                      </span>
+                      <span className="font-medium">{notification.title}</span>
                     </span>
 
                     <span className="text-theme-sm mb-2 block text-gray-600 dark:text-gray-300">
-                      { notification.message}
+                      {notification.message}
                     </span>
 
                     <span className="text-theme-xs flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                      <span>{notification.data?.type || 'General'}</span>
+                      <span>{notification.type || "General"}</span>
                       <span className="h-1 w-1 rounded-full bg-gray-400"></span>
                       <span>{formatTimeAgo(notification.created_at)}</span>
-                      {notification.status === 'sent' && (
+                      {notification.status === "sent" && (
                         <>
                           <span className="h-1 w-1 rounded-full bg-gray-400"></span>
-                          <span className="text-blue-600 dark:text-blue-400">New</span>
+                          <span className="text-blue-600 dark:text-blue-400">
+                            New
+                          </span>
                         </>
                       )}
                     </span>

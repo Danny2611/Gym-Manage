@@ -58,7 +58,7 @@ export const pushConfig: PushNotificationConfig = {
 
   templates: {
     membership_expiry: {
-      title: '🏋️ Gói tập sắp hết hạn',
+      title: '🎫 Gói tập sắp hết hạn',
       body: 'Gói {{packageName}} sẽ hết hạn vào {{expiryDate}}. Gia hạn ngay!',
       icon: '/icons/membership-icon.png',
       badge: '/icons/badge-icon.png',
@@ -70,7 +70,7 @@ export const pushConfig: PushNotificationConfig = {
     },
     appointment_reminder: {
       title: '📅 Nhắc nhở lịch hẹn',
-      body: 'Lịch hẹn với PT {{trainerName}} lúc {{time}} ngày {{date}}',
+      body: 'Lịch hẹn với PT {{trainerName}} lúc {{time}} ngày {{date}} tại {{location}}',
       icon: '/icons/appointment-icon.png',
       badge: '/icons/badge-icon.png',
       requireInteraction: true,
@@ -91,19 +91,14 @@ export const pushConfig: PushNotificationConfig = {
     },
     workout_reminder: {
       title: '💪 Đến giờ tập rồi!',
-      body: 'Lịch tập {{workoutType}} sắp bắt đầu. Sẵn sàng chưa?',
+      body: 'Lịch tập {{workoutType}} sắp bắt đầu vào lúc {{time}}. Tại {{location}}. Sẵn sàng chưa?',
       icon: '/icons/workout-icon.png',
       badge: '/icons/badge-icon.png',
       actions: [
         { action: 'check_in', title: 'Check-in', icon: '/icons/checkin.png' },
       ],
     },
-    payment_success: {
-      title: '✅ Thanh toán thành công',
-      body: 'Bạn đã thanh toán thành công {{amount}}đ cho {{packageName}}',
-      icon: '/icons/payment-icon.png',
-      badge: '/icons/badge-icon.png',
-    },
+    
     system: {
       title: '🔔 Thông báo hệ thống',
       body: '{{message}}',

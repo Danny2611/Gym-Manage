@@ -13,10 +13,8 @@ export const paymentService = {
    * Lấy danh sách tất cả thanh toán (có phân trang, lọc, sắp xếp)
    */
   getAllPayments: async (
-    params: PaymentQueryParams = {}
-  ): Promise<
-    ApiResponse<PaginatedPaymentData>
-  > => {
+    params: PaymentQueryParams = {},
+  ): Promise<ApiResponse<PaginatedPaymentData>> => {
     try {
       const response = await apiClient.get("/api/admin/payments", { params });
       return response.data;
@@ -32,7 +30,9 @@ export const paymentService = {
   /**
    * Lấy chi tiết một thanh toán theo ID
    */
-  getPaymentById: async (paymentId: string): Promise<ApiResponse<PaymentResponse>> => {
+  getPaymentById: async (
+    paymentId: string,
+  ): Promise<ApiResponse<PaymentResponse>> => {
     try {
       const response = await apiClient.get(`/api/admin/payments/${paymentId}`);
       return response.data;
@@ -50,12 +50,12 @@ export const paymentService = {
    */
   updatePaymentStatus: async (
     paymentId: string,
-    updateData: PaymentUpdateStatusData
+    updateData: PaymentUpdateStatusData,
   ): Promise<ApiResponse<PaymentResponse>> => {
     try {
       const response = await apiClient.patch(
         `/api/admin/payments/${paymentId}/status`,
-        updateData
+        updateData,
       );
       return response.data;
     } catch (error) {
@@ -72,12 +72,12 @@ export const paymentService = {
    */
   getPaymentsByMemberId: async (
     memberId: string,
-    params: PaymentQueryParams = {}
+    params: PaymentQueryParams = {},
   ): Promise<ApiResponse<PaginatedPaymentData>> => {
     try {
       const response = await apiClient.get(
         `/api/admin/members/${memberId}/payments`,
-        { params }
+        { params },
       );
       return response.data;
     } catch (error) {

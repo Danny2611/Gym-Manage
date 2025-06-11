@@ -9,14 +9,14 @@ export interface ReportDateRange {
 }
 
 export interface RevenueReportOptions extends ReportDateRange {
-  groupBy?: 'day' | 'week' | 'month' | 'year';
+  groupBy?: "day" | "week" | "month" | "year";
   packageId?: string;
-  category?: 'basic' | 'fitness' | 'premium' | 'platinum' | 'vip';
+  category?: "basic" | "fitness" | "premium" | "platinum" | "vip";
 }
 
 export interface MemberStatsOptions extends ReportDateRange {
-  groupBy?: 'day' | 'week' | 'month' | 'year';
-  status?: 'active' | 'inactive' | 'pending' | 'banned';
+  groupBy?: "day" | "week" | "month" | "year";
+  status?: "active" | "inactive" | "pending" | "banned";
 }
 
 export interface RevenueByPackageResponse {
@@ -93,12 +93,15 @@ export const reportService = {
    * Lấy báo cáo doanh thu theo gói dịch vụ
    */
   getRevenueByPackages: async (
-    options: RevenueReportOptions = {}
+    options: RevenueReportOptions = {},
   ): Promise<ApiResponse<RevenueByPackageResponse[]>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/by-packages', {
-        params: options
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/by-packages",
+        {
+          params: options,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -113,12 +116,15 @@ export const reportService = {
    * Lấy báo cáo doanh thu theo thời gian
    */
   getRevenueTimeSeries: async (
-    options: RevenueReportOptions = {}
+    options: RevenueReportOptions = {},
   ): Promise<ApiResponse<RevenueTimeSeriesResponse[]>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/time-series', {
-        params: options
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/time-series",
+        {
+          params: options,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -133,11 +139,11 @@ export const reportService = {
    * Lấy thống kê thành viên
    */
   getMemberStats: async (
-    options: MemberStatsOptions = {}
+    options: MemberStatsOptions = {},
   ): Promise<ApiResponse<MemberStatsResponse[]>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/members/stats', {
-        params: options
+      const response = await apiClient.get("/api/admin/reports/members/stats", {
+        params: options,
       });
       return response.data;
     } catch (error) {
@@ -153,12 +159,15 @@ export const reportService = {
    * Lấy thống kê tổng hợp cho dashboard
    */
   getDashboardStats: async (
-    dateRange?: ReportDateRange
+    dateRange?: ReportDateRange,
   ): Promise<ApiResponse<DashboardStatsResponse>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/dashboard/stats', {
-        params: dateRange
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/dashboard/stats",
+        {
+          params: dateRange,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -173,12 +182,15 @@ export const reportService = {
    * Lấy phân tích nâng cao
    */
   getAdvancedAnalytics: async (
-    dateRange?: ReportDateRange
+    dateRange?: ReportDateRange,
   ): Promise<ApiResponse<AdvancedAnalyticsResponse>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/advanced-analytics', {
-        params: dateRange
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/advanced-analytics",
+        {
+          params: dateRange,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -193,26 +205,29 @@ export const reportService = {
    * Xuất báo cáo doanh thu ra Excel
    */
   exportRevenueToExcel: async (
-    options: RevenueReportOptions = {}
+    options: RevenueReportOptions = {},
   ): Promise<{ success: boolean; blob?: Blob; message?: string }> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/export/excel', {
-        params: options,
-        responseType: 'blob'
-      });
-      
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/export/excel",
+        {
+          params: options,
+          responseType: "blob",
+        },
+      );
+
       const blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      
+
       return {
         success: true,
-        blob
+        blob,
       };
     } catch (error) {
       return {
         success: false,
-        message: "Không thể xuất báo cáo doanh thu ra Excel"
+        message: "Không thể xuất báo cáo doanh thu ra Excel",
       };
     }
   },
@@ -221,26 +236,29 @@ export const reportService = {
    * Xuất thống kê thành viên ra Excel
    */
   exportMemberStatsToExcel: async (
-    options: MemberStatsOptions = {}
+    options: MemberStatsOptions = {},
   ): Promise<{ success: boolean; blob?: Blob; message?: string }> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/members/export/excel', {
-        params: options,
-        responseType: 'blob'
-      });
-      
+      const response = await apiClient.get(
+        "/api/admin/reports/members/export/excel",
+        {
+          params: options,
+          responseType: "blob",
+        },
+      );
+
       const blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      
+
       return {
         success: true,
-        blob
+        blob,
       };
     } catch (error) {
       return {
         success: false,
-        message: "Không thể xuất thống kê thành viên ra Excel"
+        message: "Không thể xuất thống kê thành viên ra Excel",
       };
     }
   },
@@ -249,26 +267,29 @@ export const reportService = {
    * Xuất báo cáo doanh thu ra PDF
    */
   exportRevenueToPDF: async (
-    options: RevenueReportOptions = {}
+    options: RevenueReportOptions = {},
   ): Promise<{ success: boolean; blob?: Blob; message?: string }> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/export/pdf', {
-        params: options,
-        responseType: 'blob'
-      });
-      
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/export/pdf",
+        {
+          params: options,
+          responseType: "blob",
+        },
+      );
+
       const blob = new Blob([response.data], {
-        type: 'application/pdf'
+        type: "application/pdf",
       });
-      
+
       return {
         success: true,
-        blob
+        blob,
       };
     } catch (error) {
       return {
         success: false,
-        message: "Không thể xuất báo cáo doanh thu ra PDF"
+        message: "Không thể xuất báo cáo doanh thu ra PDF",
       };
     }
   },
@@ -277,26 +298,29 @@ export const reportService = {
    * Xuất thống kê thành viên ra PDF
    */
   exportMemberStatsToPDF: async (
-    options: MemberStatsOptions = {}
+    options: MemberStatsOptions = {},
   ): Promise<{ success: boolean; blob?: Blob; message?: string }> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/members/export/pdf', {
-        params: options,
-        responseType: 'blob'
-      });
-      
+      const response = await apiClient.get(
+        "/api/admin/reports/members/export/pdf",
+        {
+          params: options,
+          responseType: "blob",
+        },
+      );
+
       const blob = new Blob([response.data], {
-        type: 'application/pdf'
+        type: "application/pdf",
       });
-      
+
       return {
         success: true,
-        blob
+        blob,
       };
     } catch (error) {
       return {
         success: false,
-        message: "Không thể xuất thống kê thành viên ra PDF"
+        message: "Không thể xuất thống kê thành viên ra PDF",
       };
     }
   },
@@ -304,15 +328,15 @@ export const reportService = {
   /**
    * Tải file xuất về
    */
-  downloadFile: (blob: Blob, filename: string, fileType: 'excel' | 'pdf') => {
+  downloadFile: (blob: Blob, filename: string, fileType: "excel" | "pdf") => {
     const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    
-    const extension = fileType === 'excel' ? '.xlsx' : '.pdf';
+
+    const extension = fileType === "excel" ? ".xlsx" : ".pdf";
     const timestamp = new Date().toISOString().slice(0, 10);
     link.download = `${filename}_${timestamp}${extension}`;
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -325,8 +349,8 @@ export const reportService = {
   downloadRevenueExcel: async (options: RevenueReportOptions = {}) => {
     const result = await reportService.exportRevenueToExcel(options);
     if (result.success && result.blob) {
-      reportService.downloadFile(result.blob, 'bao_cao_doanh_thu', 'excel');
-      return { success: true, message: 'Đã tải xuống báo cáo doanh thu Excel' };
+      reportService.downloadFile(result.blob, "bao_cao_doanh_thu", "excel");
+      return { success: true, message: "Đã tải xuống báo cáo doanh thu Excel" };
     }
     return { success: false, message: result.message };
   },
@@ -337,8 +361,11 @@ export const reportService = {
   downloadMemberStatsExcel: async (options: MemberStatsOptions = {}) => {
     const result = await reportService.exportMemberStatsToExcel(options);
     if (result.success && result.blob) {
-      reportService.downloadFile(result.blob, 'thong_ke_thanh_vien', 'excel');
-      return { success: true, message: 'Đã tải xuống thống kê thành viên Excel' };
+      reportService.downloadFile(result.blob, "thong_ke_thanh_vien", "excel");
+      return {
+        success: true,
+        message: "Đã tải xuống thống kê thành viên Excel",
+      };
     }
     return { success: false, message: result.message };
   },
@@ -349,8 +376,8 @@ export const reportService = {
   downloadRevenuePDF: async (options: RevenueReportOptions = {}) => {
     const result = await reportService.exportRevenueToPDF(options);
     if (result.success && result.blob) {
-      reportService.downloadFile(result.blob, 'bao_cao_doanh_thu', 'pdf');
-      return { success: true, message: 'Đã tải xuống báo cáo doanh thu PDF' };
+      reportService.downloadFile(result.blob, "bao_cao_doanh_thu", "pdf");
+      return { success: true, message: "Đã tải xuống báo cáo doanh thu PDF" };
     }
     return { success: false, message: result.message };
   },
@@ -361,11 +388,11 @@ export const reportService = {
   downloadMemberStatsPDF: async (options: MemberStatsOptions = {}) => {
     const result = await reportService.exportMemberStatsToPDF(options);
     if (result.success && result.blob) {
-      reportService.downloadFile(result.blob, 'thong_ke_thanh_vien', 'pdf');
-      return { success: true, message: 'Đã tải xuống thống kê thành viên PDF' };
+      reportService.downloadFile(result.blob, "thong_ke_thanh_vien", "pdf");
+      return { success: true, message: "Đã tải xuống thống kê thành viên PDF" };
     }
     return { success: false, message: result.message };
-  }
+  },
 };
 
 export default reportService;

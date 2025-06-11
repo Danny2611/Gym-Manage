@@ -30,8 +30,8 @@ export interface PaymentResponse {
     training_sessions: number;
   };
   amount: number;
-  status: 'pending' | 'completed' | 'failed' | 'cancelled';
-  paymentMethod: 'qr' | 'credit' | 'napas' | 'undefined';
+  status: "pending" | "completed" | "failed" | "cancelled";
+  paymentMethod: "qr" | "credit" | "napas" | "undefined";
   transactionId?: string;
   created_at: string;
   updated_at: string;
@@ -41,22 +41,22 @@ export interface PaymentQueryParams {
   page?: number;
   limit?: number;
   search?: string;
-  status?: 'pending' | 'completed' | 'failed' | 'cancelled';
-  paymentMethod?: 'qr' | 'credit' | 'napas' | 'undefined';
+  status?: "pending" | "completed" | "failed" | "cancelled";
+  paymentMethod?: "qr" | "credit" | "napas" | "undefined";
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   dateFrom?: string;
   dateTo?: string;
 }
 
 export interface PaymentUpdateStatusData {
-  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  status: "pending" | "completed" | "failed" | "cancelled";
   transactionId?: string;
 }
-export interface MonthlyRevenueData{
-  count: number,
-  month:Date,
-  revenue: number
+export interface MonthlyRevenueData {
+  count: number;
+  month: Date;
+  revenue: number;
 }
 export interface PaginatedPaymentData {
   payments: Payment[];
@@ -65,17 +65,14 @@ export interface PaginatedPaymentData {
   currentPage: number;
 }
 
-
-
 export interface PaymentStats {
-  completedRevenue:number;
+  completedRevenue: number;
   totalRevenue: number;
   total: number;
-  cancelled:number;
+  cancelled: number;
   completed: number;
-  failed:number;
-  pending:number;
-  paymentMethods:['credit', 'napas', 'qr', 'undefined'],
-  monthlyRevenue: MonthlyRevenueData[]
-
+  failed: number;
+  pending: number;
+  paymentMethods: ["credit", "napas", "qr", "undefined"];
+  monthlyRevenue: MonthlyRevenueData[];
 }

@@ -23,7 +23,7 @@ const VerifyOTP: React.FC = () => {
             Không tìm thấy thông tin email. Vui lòng đăng ký lại.
           </p>
           <Link
-            to="/user/register"
+            to="/register"
             className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
           >
             Quay lại trang đăng ký

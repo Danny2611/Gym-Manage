@@ -39,7 +39,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
       // If trainer has schedule, use it; otherwise create default
       if (trainer.schedule && trainer.schedule.length > 0) {
         setSchedule(
-          [...trainer.schedule].sort((a, b) => a.dayOfWeek - b.dayOfWeek)
+          [...trainer.schedule].sort((a, b) => a.dayOfWeek - b.dayOfWeek),
         );
       } else {
         // Create default schedule for all days
@@ -59,11 +59,12 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
       prevSchedule.map((day) => {
         if (day.dayOfWeek === dayOfWeek) {
           // If making day available and no working hours exist, add default
-          const newWorkingHours = 
-            !day.available && (!day.workingHours || day.workingHours.length === 0)
+          const newWorkingHours =
+            !day.available &&
+            (!day.workingHours || day.workingHours.length === 0)
               ? [{ ...DEFAULT_WORKING_HOURS }]
               : day.workingHours;
-          
+
           return {
             ...day,
             available: !day.available,
@@ -71,7 +72,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
           };
         }
         return day;
-      })
+      }),
     );
   };
 
@@ -80,7 +81,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
     dayOfWeek: number,
     index: number,
     field: keyof IWorkingHours,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     setSchedule((prevSchedule) =>
       prevSchedule.map((day) => {
@@ -93,7 +94,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
           return { ...day, workingHours: updatedHours };
         }
         return day;
-      })
+      }),
     );
   };
 
@@ -109,7 +110,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
           };
         }
         return day;
-      })
+      }),
     );
   };
 
@@ -123,7 +124,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
           return { ...day, workingHours };
         }
         return day;
-      })
+      }),
     );
   };
 
@@ -135,15 +136,15 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
       }
 
       // Sort hours by start time for validation
-      const sortedHours = [...day.workingHours].sort((a, b) => 
-        a.start.localeCompare(b.start)
+      const sortedHours = [...day.workingHours].sort((a, b) =>
+        a.start.localeCompare(b.start),
       );
 
       for (let i = 0; i < sortedHours.length - 1; i++) {
         if (sortedHours[i].end > sortedHours[i + 1].start) {
           return {
             valid: false,
-            message: `Khung giờ làm việc bị chồng chéo vào ${DAYS_OF_WEEK.find(d => d.id === day.dayOfWeek)?.name}`,
+            message: `Khung giờ làm việc bị chồng chéo vào ${DAYS_OF_WEEK.find((d) => d.id === day.dayOfWeek)?.name}`,
           };
         }
       }
@@ -154,7 +155,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const validation = validateSchedule();
     if (!validation.valid) {
       alert(validation.message);
@@ -162,12 +163,12 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
     }
 
     // Process schedule before saving
-    const processedSchedule = schedule.map(day => ({
+    const processedSchedule = schedule.map((day) => ({
       ...day,
       // If day is not available, ensure workingHours is empty
-      workingHours: day.available ? day.workingHours : []
+      workingHours: day.available ? day.workingHours : [],
     }));
-    
+
     onSave(processedSchedule);
   };
 
@@ -175,7 +176,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-50">
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
+      <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -191,9 +192,10 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
         </div>
 
         <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-          Thiết lập lịch làm việc cho huấn luyện viên. Bạn có thể thêm nhiều khung giờ làm việc trong một ngày.
+          Thiết lập lịch làm việc cho huấn luyện viên. Bạn có thể thêm nhiều
+          khung giờ làm việc trong một ngày.
         </p>
-        
+
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
@@ -208,7 +210,9 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                       type="checkbox"
                       id={`available-${day.dayOfWeek}`}
                       checked={day.available}
-                      onChange={() => handleDayAvailabilityChange(day.dayOfWeek)}
+                      onChange={() =>
+                        handleDayAvailabilityChange(day.dayOfWeek)
+                      }
                       className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800"
                     />
                     <label
@@ -218,7 +222,7 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                       {DAYS_OF_WEEK.find((d) => d.id === day.dayOfWeek)?.name}
                     </label>
                   </div>
-                  
+
                   {day.available && (
                     <button
                       type="button"
@@ -231,10 +235,15 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                   )}
                 </div>
 
-                {day.available && day.workingHours && day.workingHours.length > 0 ? (
+                {day.available &&
+                day.workingHours &&
+                day.workingHours.length > 0 ? (
                   <div className="space-y-3">
                     {day.workingHours.map((hours, index) => (
-                      <div key={index} className="flex flex-wrap items-center gap-3">
+                      <div
+                        key={index}
+                        className="flex flex-wrap items-center gap-3"
+                      >
                         <div className="flex items-center">
                           <label className="mr-2 text-sm text-gray-700 dark:text-gray-300">
                             Từ:
@@ -247,13 +256,13 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                                 day.dayOfWeek,
                                 index,
                                 "start",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             className="rounded-md border border-gray-300 bg-gray-50 p-1.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                           />
                         </div>
-                        
+
                         <div className="flex items-center">
                           <label className="mr-2 text-sm text-gray-700 dark:text-gray-300">
                             Đến:
@@ -266,20 +275,21 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                                 day.dayOfWeek,
                                 index,
                                 "end",
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             className="rounded-md border border-gray-300 bg-gray-50 p-1.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                           />
                         </div>
-                        
-                        <button
-                            type="button"
-                            onClick={() => removeWorkingHours(day.dayOfWeek, index)}
-                            className="ml-auto flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/40"
-                            disabled={day.workingHours?.length === 1}
-                            >
 
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeWorkingHours(day.dayOfWeek, index)
+                          }
+                          className="ml-auto flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/40"
+                          disabled={day.workingHours?.length === 1}
+                        >
                           <Trash2 className="mr-1 h-3.5 w-3.5" />
                           Xóa
                         </button>
@@ -288,13 +298,14 @@ const TrainerScheduleModal: React.FC<TrainerScheduleModalProps> = ({
                   </div>
                 ) : day.available ? (
                   <p className="text-sm italic text-gray-500 dark:text-gray-400">
-                    Chưa có khung giờ làm việc. Nhấn "Thêm khung giờ" để thêm mới.
+                    Chưa có khung giờ làm việc. Nhấn "Thêm khung giờ" để thêm
+                    mới.
                   </p>
                 ) : null}
               </div>
             ))}
           </div>
-          
+
           {/* Footer với các nút */}
           <div className="mt-6 flex items-center space-x-2">
             <button

@@ -288,9 +288,9 @@ const CreateWorkoutPage: React.FC = () => {
         Tạo lịch tập cá nhân
       </h1>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Phần 1: Form lấy gợi ý */}
-        <div className="lg:col-span-1">
+        {/* <div className="lg:col-span-1">
           <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
               Lấy gợi ý bài tập
@@ -389,7 +389,7 @@ const CreateWorkoutPage: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Phần 2: Form tạo lịch tập */}
         <div className="lg:col-span-2">

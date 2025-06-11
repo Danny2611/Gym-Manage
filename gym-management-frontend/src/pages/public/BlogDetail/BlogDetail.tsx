@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import Layout from "~/components/layout/Layout";
 import BlogDetailSection from "~/components/sections/blog/BlogDetail";
@@ -111,7 +111,7 @@ const BlogDetail: React.FC = () => {
 
   return (
     <Layout>
-       <Helmet>
+      <Helmet>
         <title>Tin Tức Chi Tiết</title>
       </Helmet>
       <div className="container mx-auto mt-36 px-4 py-12">

@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Trainer } from "~/types/trainer";
@@ -42,7 +39,9 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
         email: initialData.email || "",
         phone: initialData.phone || "",
         specialization: initialData.specialization || "",
-        experience: initialData.experience ? String(initialData.experience) : "",
+        experience: initialData.experience
+          ? String(initialData.experience)
+          : "",
         bio: initialData.bio || "",
         image: initialData.image || "",
       });
@@ -61,13 +60,17 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
     setErrors({});
   }, [mode, initialData, isOpen]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error for this field when user types
     if (errors[name]) {
       setErrors((prev) => ({
@@ -79,42 +82,47 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = "Tên huấn luyện viên là bắt buộc";
     }
-    
+
     if (!formData.email.trim()) {
       newErrors.email = "Email là bắt buộc";
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = "Email không hợp lệ";
     }
-    
-    if (formData.phone && !/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ""))) {
+
+    if (
+      formData.phone &&
+      !/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ""))
+    ) {
       newErrors.phone = "Số điện thoại không hợp lệ";
     }
-    
+
     if (formData.experience && isNaN(Number(formData.experience))) {
       newErrors.experience = "Kinh nghiệm phải là số";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     // Transform form data to match API requirements
     const transformedData = {
       ...formData,
-      experience: formData.experience ? parseInt(formData.experience) : undefined,
+      experience: formData.experience
+        ? parseInt(formData.experience)
+        : undefined,
     };
-    
+
     onSave(transformedData);
   };
 
@@ -126,7 +134,9 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {mode === "create" ? "Thêm huấn luyện viên mới" : "Chỉnh sửa huấn luyện viên"}
+            {mode === "create"
+              ? "Thêm huấn luyện viên mới"
+              : "Chỉnh sửa huấn luyện viên"}
           </h3>
           <button
             type="button"
@@ -136,7 +146,7 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
             <X className="h-5 w-5" />
           </button>
         </div>
-        
+
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -155,9 +165,11 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 }`}
                 placeholder="Nhập tên huấn luyện viên"
               />
-              {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
-            
+
             {/* Email */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -173,9 +185,11 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 }`}
                 placeholder="email@example.com"
               />
-              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
-            
+
             {/* Điện thoại */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -191,9 +205,11 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 }`}
                 placeholder="0123456789"
               />
-              {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+              )}
             </div>
-            
+
             {/* Chuyên môn */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -213,7 +229,7 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 ))}
               </select>
             </div>
-            
+
             {/* Kinh nghiệm */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -230,9 +246,11 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 }`}
                 placeholder="Số năm kinh nghiệm"
               />
-              {errors.experience && <p className="mt-1 text-sm text-red-500">{errors.experience}</p>}
+              {errors.experience && (
+                <p className="mt-1 text-sm text-red-500">{errors.experience}</p>
+              )}
             </div>
-            
+
             {/* URL hình ảnh */}
             <div className="col-span-2">
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -247,7 +265,7 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
                 placeholder="https://example.com/image.jpg"
               />
             </div>
-            
+
             {/* Tiểu sử */}
             <div className="col-span-2">
               <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
@@ -263,7 +281,7 @@ const TrainerModal: React.FC<TrainerModalProps> = ({
               ></textarea>
             </div>
           </div>
-          
+
           {/* Footer với các nút */}
           <div className="mt-6 flex items-center space-x-2">
             <button

@@ -8,7 +8,7 @@ import BlogPreviewSection from "~/components/sections/home/BlogPreviewSection";
 import CallToActionSection from "~/components/sections/home/CallToActionSection";
 
 import HomeSlider from "~/components/sections/home/HomeSlider";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 const Home: React.FC = () => {
   return (
     <div>

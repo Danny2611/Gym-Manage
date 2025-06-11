@@ -3,7 +3,7 @@ import mongoose, { Document, Schema, Types } from 'mongoose';
 export interface IAppointment extends Document {
   member_id: Types.ObjectId;
   membership_id: Types.ObjectId;
-  trainer_id: Types.ObjectId;
+  trainer_id: Types.ObjectId;          
   notes?: string;
   date: Date;
   time: {
@@ -32,4 +32,4 @@ const appointmentSchema: Schema = new Schema({
   updated_at: { type: Date, default: Date.now },
 }); 
 
-export default mongoose.model<IAppointment>('Appointment', appointmentSchema);
+export default mongoose.model<IAppointment>('Appointment', appointmentSchema);                

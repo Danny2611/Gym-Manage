@@ -9,20 +9,22 @@
 /**
  * Đăng ký Service Worker
  */
-export const registerServiceWorker = async (swPath: string = '/sw.js'): Promise<ServiceWorkerRegistration | null> => {
-  if ('serviceWorker' in navigator) {
+export const registerServiceWorker = async (
+  swPath: string = "/sw.js",
+): Promise<ServiceWorkerRegistration | null> => {
+  if ("serviceWorker" in navigator) {
     try {
       const registration = await navigator.serviceWorker.register(swPath);
-      console.log('Service Worker registered successfully:', registration);
-      
+      console.log("Service Worker registered successfully:", registration);
+
       // Lắng nghe các sự kiện
-      registration.addEventListener('updatefound', () => {
-        console.log('New Service Worker version found');
+      registration.addEventListener("updatefound", () => {
+        console.log("New Service Worker version found");
       });
 
       return registration;
     } catch (error) {
-      console.error('Service Worker registration failed:', error);
+      console.error("Service Worker registration failed:", error);
       return null;
     }
   }
@@ -33,14 +35,14 @@ export const registerServiceWorker = async (swPath: string = '/sw.js'): Promise<
  * Hủy đăng ký Service Worker
  */
 export const unregisterServiceWorker = async (): Promise<boolean> => {
-  if ('serviceWorker' in navigator) {
+  if ("serviceWorker" in navigator) {
     try {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         return await registration.unregister();
       }
     } catch (error) {
-      console.error('Service Worker unregistration failed:', error);
+      console.error("Service Worker unregistration failed:", error);
     }
   }
   return false;
@@ -48,9 +50,9 @@ export const unregisterServiceWorker = async (): Promise<boolean> => {
 
 export const isPWAMode = (): boolean => {
   return (
-    window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia("(display-mode: standalone)").matches ||
     (window.navigator as any).standalone ||
-    document.referrer.includes('android-app://')
+    document.referrer.includes("android-app://")
   );
 };
 
@@ -59,10 +61,10 @@ export const isPWAMode = (): boolean => {
  */
 export const isPWASupported = (): boolean => {
   return (
-    'serviceWorker' in navigator &&
-    'PushManager' in window &&
-    'Notification' in window &&
-    'caches' in window
+    "serviceWorker" in navigator &&
+    "PushManager" in window &&
+    "Notification" in window &&
+    "caches" in window
   );
 };
 
@@ -77,24 +79,25 @@ export const isOnline = (): boolean => {
  * Lấy thông tin về kết nối mạng
  */
 export const getNetworkInfo = () => {
-  const connection = (navigator as any).connection || 
-                    (navigator as any).mozConnection || 
-                    (navigator as any).webkitConnection;
-  
+  const connection =
+    (navigator as any).connection ||
+    (navigator as any).mozConnection ||
+    (navigator as any).webkitConnection;
+
   if (!connection) {
     return {
-      effectiveType: 'unknown',
+      effectiveType: "unknown",
       downlink: 0,
       rtt: 0,
-      saveData: false
+      saveData: false,
     };
   }
 
   return {
-    effectiveType: connection.effectiveType || 'unknown',
+    effectiveType: connection.effectiveType || "unknown",
     downlink: connection.downlink || 0,
     rtt: connection.rtt || 0,
-    saveData: connection.saveData || false
+    saveData: connection.saveData || false,
   };
 };
 
@@ -111,7 +114,7 @@ export const isDataSaverMode = (): boolean => {
  */
 export const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
   const bytes = new Uint8Array(buffer);
-  let binary = '';
+  let binary = "";
   for (let i = 0; i < bytes.byteLength; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
@@ -122,10 +125,8 @@ export const arrayBufferToBase64 = (buffer: ArrayBuffer): string => {
  * Convert URL-safe Base64 to Uint8Array
  */
 export const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
 
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
@@ -141,28 +142,28 @@ export const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
  */
 export const showBrowserNotification = async (
   title: string,
-  options: NotificationOptions = {}
+  options: NotificationOptions = {},
 ): Promise<Notification | null> => {
-  if (!('Notification' in window)) {
-    console.warn('This browser does not support desktop notification');
+  if (!("Notification" in window)) {
+    console.warn("This browser does not support desktop notification");
     return null;
   }
 
-  if (Notification.permission === 'granted') {
+  if (Notification.permission === "granted") {
     return new Notification(title, {
-      icon: '/icons/app-icon-192.png',
-      badge: '/icons/badge-icon.png',
+      icon: "/icons/app-icon-192.png",
+      badge: "/icons/badge-icon.png",
       requireInteraction: true,
-      ...options
+      ...options,
     });
-  } else if (Notification.permission !== 'denied') {
+  } else if (Notification.permission !== "denied") {
     const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
+    if (permission === "granted") {
       return new Notification(title, {
-        icon: '/icons/app-icon-192.png',
-        badge: '/icons/badge-icon.png',
+        icon: "/icons/app-icon-192.png",
+        badge: "/icons/badge-icon.png",
         requireInteraction: true,
-        ...options
+        ...options,
       });
     }
   }
@@ -178,7 +179,7 @@ export const getStorageUsage = async (): Promise<{
   usage: number;
   percentage: number;
 }> => {
-  if ('storage' in navigator && 'estimate' in navigator.storage) {
+  if ("storage" in navigator && "estimate" in navigator.storage) {
     const estimate = await navigator.storage.estimate();
     const quota = estimate.quota || 0;
     const usage = estimate.usage || 0;
@@ -193,15 +194,15 @@ export const getStorageUsage = async (): Promise<{
 /**
  * Xóa cache cũ
  */
-export const clearOldCaches = async (currentCacheName: string): Promise<void> => {
-  if ('caches' in window) {
+export const clearOldCaches = async (
+  currentCacheName: string,
+): Promise<void> => {
+  if ("caches" in window) {
     const cacheNames = await caches.keys();
-    const oldCaches = cacheNames.filter(name => name !== currentCacheName);
-    
-    await Promise.all(
-      oldCaches.map(cacheName => caches.delete(cacheName))
-    );
-    
+    const oldCaches = cacheNames.filter((name) => name !== currentCacheName);
+
+    await Promise.all(oldCaches.map((cacheName) => caches.delete(cacheName)));
+
     console.log(`Cleared ${oldCaches.length} old caches`);
   }
 };
@@ -210,7 +211,7 @@ export const clearOldCaches = async (currentCacheName: string): Promise<void> =>
  * Kiểm tra xem có cần update app không
  */
 export const checkForAppUpdate = async (): Promise<boolean> => {
-  if ('serviceWorker' in navigator) {
+  if ("serviceWorker" in navigator) {
     const registration = await navigator.serviceWorker.getRegistration();
     if (registration) {
       await registration.update();
@@ -224,10 +225,10 @@ export const checkForAppUpdate = async (): Promise<boolean> => {
  * Skip waiting và reload app
  */
 export const updateApp = async (): Promise<void> => {
-  if ('serviceWorker' in navigator) {
+  if ("serviceWorker" in navigator) {
     const registration = await navigator.serviceWorker.getRegistration();
     if (registration?.waiting) {
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      registration.waiting.postMessage({ type: "SKIP_WAITING" });
       window.location.reload();
     }
   }
@@ -239,14 +240,20 @@ export const updateApp = async (): Promise<void> => {
 export const getDeviceInfo = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
-  
+
   return {
     userAgent,
     platform,
-    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent),
+    isMobile:
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        userAgent,
+      ),
     isIOS: /iPad|iPhone|iPod/.test(userAgent),
     isAndroid: /Android/.test(userAgent),
-    isDesktop: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
+    isDesktop:
+      !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        userAgent,
+      ),
   };
 };
 
@@ -262,7 +269,7 @@ export const formatRelativeTime = (date: string | Date): string => {
   const diffInDays = Math.floor(diffInHours / 24);
 
   if (diffInMinutes < 1) {
-    return 'Vừa xong';
+    return "Vừa xong";
   } else if (diffInMinutes < 60) {
     return `${diffInMinutes} phút trước`;
   } else if (diffInHours < 24) {
@@ -270,16 +277,15 @@ export const formatRelativeTime = (date: string | Date): string => {
   } else if (diffInDays < 7) {
     return `${diffInDays} ngày trước`;
   } else {
-    return targetDate.toLocaleDateString('vi-VN');
+    return targetDate.toLocaleDateString("vi-VN");
   }
 };
-
 
 /**
  * Lấy thông tin về Service Worker
  */
 export const getServiceWorkerInfo = async () => {
-  if ('serviceWorker' in navigator) {
+  if ("serviceWorker" in navigator) {
     try {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
@@ -288,11 +294,11 @@ export const getServiceWorkerInfo = async () => {
           installing: !!registration.installing,
           waiting: !!registration.waiting,
           scope: registration.scope,
-          updateViaCache: registration.updateViaCache
+          updateViaCache: registration.updateViaCache,
         };
       }
     } catch (error) {
-      console.error('Failed to get Service Worker info:', error);
+      console.error("Failed to get Service Worker info:", error);
     }
   }
   return null;
@@ -301,38 +307,39 @@ export const getServiceWorkerInfo = async () => {
 /**
  * Kiểm tra và yêu cầu quyền Push notification
  */
-export const requestPushPermission = async (): Promise<NotificationPermission> => {
-  if (!('Notification' in window)) {
-    throw new Error('This browser does not support notifications');
-  }
+export const requestPushPermission =
+  async (): Promise<NotificationPermission> => {
+    if (!("Notification" in window)) {
+      throw new Error("This browser does not support notifications");
+    }
 
-  if (!('PushManager' in window)) {
-    throw new Error('This browser does not support push messaging');
-  }
+    if (!("PushManager" in window)) {
+      throw new Error("This browser does not support push messaging");
+    }
 
-  return await Notification.requestPermission();
-};
+    return await Notification.requestPermission();
+  };
 
 /**
  * Subscribe để nhận push notifications
  */
 export const subscribeToPush = async (
-  vapidPublicKey: string
+  vapidPublicKey: string,
 ): Promise<PushSubscription | null> => {
   try {
     const registration = await navigator.serviceWorker.getRegistration();
     if (!registration) {
-      throw new Error('Service Worker not registered');
+      throw new Error("Service Worker not registered");
     }
 
     const subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
     });
 
     return subscription;
   } catch (error) {
-    console.error('Failed to subscribe to push notifications:', error);
+    console.error("Failed to subscribe to push notifications:", error);
     return null;
   }
 };
@@ -351,7 +358,7 @@ export const unsubscribeFromPush = async (): Promise<boolean> => {
     }
     return true;
   } catch (error) {
-    console.error('Failed to unsubscribe from push notifications:', error);
+    console.error("Failed to unsubscribe from push notifications:", error);
     return false;
   }
 };
@@ -359,32 +366,33 @@ export const unsubscribeFromPush = async (): Promise<boolean> => {
 /**
  * Lấy thông tin push subscription hiện tại
  */
-export const getPushSubscription = async (): Promise<PushSubscription | null> => {
-  try {
-    const registration = await navigator.serviceWorker.getRegistration();
-    if (!registration) return null;
+export const getPushSubscription =
+  async (): Promise<PushSubscription | null> => {
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (!registration) return null;
 
-    return await registration.pushManager.getSubscription();
-  } catch (error) {
-    console.error('Failed to get push subscription:', error);
-    return null;
-  }
-};
+      return await registration.pushManager.getSubscription();
+    } catch (error) {
+      console.error("Failed to get push subscription:", error);
+      return null;
+    }
+  };
 
 /**
  * Cache tài nguyên cho offline mode
  */
 export const cacheResources = async (
   cacheName: string,
-  resources: string[]
+  resources: string[],
 ): Promise<void> => {
-  if ('caches' in window) {
+  if ("caches" in window) {
     try {
       const cache = await caches.open(cacheName);
       await cache.addAll(resources);
       console.log(`Cached ${resources.length} resources`);
     } catch (error) {
-      console.error('Failed to cache resources:', error);
+      console.error("Failed to cache resources:", error);
     }
   }
 };
@@ -394,12 +402,12 @@ export const cacheResources = async (
  */
 export const getCachedResource = async (
   url: string,
-  cacheName?: string
+  cacheName?: string,
 ): Promise<Response | null> => {
-  if ('caches' in window) {
+  if ("caches" in window) {
     try {
       let response: Response | undefined;
-      
+
       if (cacheName) {
         const cache = await caches.open(cacheName);
         response = await cache.match(url);
@@ -409,7 +417,7 @@ export const getCachedResource = async (
 
       return response || null;
     } catch (error) {
-      console.error('Failed to get cached resource:', error);
+      console.error("Failed to get cached resource:", error);
     }
   }
   return null;
@@ -420,9 +428,9 @@ export const getCachedResource = async (
  */
 export const deleteCachedResource = async (
   url: string,
-  cacheName?: string
+  cacheName?: string,
 ): Promise<boolean> => {
-  if ('caches' in window) {
+  if ("caches" in window) {
     try {
       if (cacheName) {
         const cache = await caches.open(cacheName);
@@ -433,12 +441,12 @@ export const deleteCachedResource = async (
           const cache = await caches.open(name);
           return await cache.delete(url);
         });
-        
+
         const results = await Promise.all(deletePromises);
-        return results.some(result => result);
+        return results.some((result) => result);
       }
     } catch (error) {
-      console.error('Failed to delete cached resource:', error);
+      console.error("Failed to delete cached resource:", error);
     }
   }
   return false;
@@ -448,11 +456,11 @@ export const deleteCachedResource = async (
  * Lấy danh sách tất cả cache names
  */
 export const getCacheNames = async (): Promise<string[]> => {
-  if ('caches' in window) {
+  if ("caches" in window) {
     try {
       return await caches.keys();
     } catch (error) {
-      console.error('Failed to get cache names:', error);
+      console.error("Failed to get cache names:", error);
     }
   }
   return [];
@@ -462,18 +470,18 @@ export const getCacheNames = async (): Promise<string[]> => {
  * Lấy thông tin chi tiết về cache
  */
 export const getCacheInfo = async (cacheName: string) => {
-  if ('caches' in window) {
+  if ("caches" in window) {
     try {
       const cache = await caches.open(cacheName);
       const keys = await cache.keys();
-      
+
       return {
         name: cacheName,
         size: keys.length,
-        urls: keys.map(request => request.url)
+        urls: keys.map((request) => request.url),
       };
     } catch (error) {
-      console.error('Failed to get cache info:', error);
+      console.error("Failed to get cache info:", error);
     }
   }
   return null;
@@ -484,7 +492,7 @@ export const getCacheInfo = async (cacheName: string) => {
  */
 export const isResourceCached = async (
   url: string,
-  cacheName?: string
+  cacheName?: string,
 ): Promise<boolean> => {
   const cachedResource = await getCachedResource(url, cacheName);
   return !!cachedResource;
@@ -494,13 +502,13 @@ export const isResourceCached = async (
  * Format file size
  */
 export const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) return "0 Bytes";
 
   const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
 /**
@@ -515,10 +523,10 @@ export const generateUniqueId = (): string => {
  */
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
-  wait: number
+  wait: number,
 ): ((...args: Parameters<T>) => void) => {
   let timeout: NodeJS.Timeout;
-  
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);
@@ -530,15 +538,15 @@ export const debounce = <T extends (...args: any[]) => any>(
  */
 export const throttle = <T extends (...args: any[]) => any>(
   func: T,
-  limit: number
+  limit: number,
 ): ((...args: Parameters<T>) => void) => {
   let inThrottle: boolean;
-  
+
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+      setTimeout(() => (inThrottle = false), limit);
     }
   };
 };
@@ -549,7 +557,7 @@ export const throttle = <T extends (...args: any[]) => any>(
 export const retryWithBackoff = async <T>(
   fn: () => Promise<T>,
   maxRetries: number = 3,
-  baseDelay: number = 1000
+  baseDelay: number = 1000,
 ): Promise<T> => {
   let lastError: Error;
 
@@ -558,13 +566,13 @@ export const retryWithBackoff = async <T>(
       return await fn();
     } catch (error) {
       lastError = error as Error;
-      
+
       if (i === maxRetries) {
         throw lastError;
       }
 
       const delay = baseDelay * Math.pow(2, i);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
@@ -574,29 +582,31 @@ export const retryWithBackoff = async <T>(
 /**
  * Kiểm tra connection speed
  */
-export const getConnectionSpeed = (): 'slow' | 'fast' | 'unknown' => {
+export const getConnectionSpeed = (): "slow" | "fast" | "unknown" => {
   const connection = (navigator as any).connection;
-  
-  if (!connection) return 'unknown';
+
+  if (!connection) return "unknown";
 
   const effectiveType = connection.effectiveType;
-  
-  if (effectiveType === 'slow-2g' || effectiveType === '2g') {
-    return 'slow';
-  } else if (effectiveType === '3g' || effectiveType === '4g') {
-    return 'fast';
+
+  if (effectiveType === "slow-2g" || effectiveType === "2g") {
+    return "slow";
+  } else if (effectiveType === "3g" || effectiveType === "4g") {
+    return "fast";
   }
-  
-  return 'unknown';
+
+  return "unknown";
 };
 
 /**
  * Preload important resources
  */
-export const preloadResources = (resources: Array<{url: string, as: string}>) => {
+export const preloadResources = (
+  resources: Array<{ url: string; as: string }>,
+) => {
   resources.forEach(({ url, as }) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
+    const link = document.createElement("link");
+    link.rel = "preload";
     link.href = url;
     link.as = as;
     document.head.appendChild(link);
@@ -608,21 +618,21 @@ export const preloadResources = (resources: Array<{url: string, as: string}>) =>
  */
 export const handleInstallPrompt = (
   onPrompt?: (event: any) => void,
-  onInstalled?: () => void
+  onInstalled?: () => void,
 ) => {
   let deferredPrompt: any;
 
-  window.addEventListener('beforeinstallprompt', (e) => {
+  window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    
+
     if (onPrompt) {
       onPrompt(e);
     }
   });
 
-  window.addEventListener('appinstalled', () => {
-    console.log('PWA was installed');
+  window.addEventListener("appinstalled", () => {
+    console.log("PWA was installed");
     if (onInstalled) {
       onInstalled();
     }
@@ -635,10 +645,10 @@ export const handleInstallPrompt = (
         const { outcome } = await deferredPrompt.userChoice;
         console.log(`User response to the install prompt: ${outcome}`);
         deferredPrompt = null;
-        return outcome === 'accepted';
+        return outcome === "accepted";
       }
       return false;
-    }
+    },
   };
 };
 
@@ -646,7 +656,10 @@ export const handleInstallPrompt = (
  * Background sync utility
  */
 export const requestBackgroundSync = async (tag: string): Promise<void> => {
-  if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+  if (
+    "serviceWorker" in navigator &&
+    "sync" in window.ServiceWorkerRegistration.prototype
+  ) {
     try {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
@@ -654,10 +667,10 @@ export const requestBackgroundSync = async (tag: string): Promise<void> => {
         console.log(`Background sync registered for tag: ${tag}`);
       }
     } catch (error) {
-      console.error('Background sync registration failed:', error);
+      console.error("Background sync registration failed:", error);
     }
   } else {
-    console.warn('Background sync is not supported');
+    console.warn("Background sync is not supported");
   }
 };
 
@@ -665,16 +678,16 @@ export const requestBackgroundSync = async (tag: string): Promise<void> => {
  * Wake lock để giữ màn hình sáng
  */
 export const requestWakeLock = async (): Promise<any> => {
-  if ('wakeLock' in navigator) {
+  if ("wakeLock" in navigator) {
     try {
-      const wakeLock = await (navigator as any).wakeLock.request('screen');
-      console.log('Wake lock is active');
+      const wakeLock = await (navigator as any).wakeLock.request("screen");
+      console.log("Wake lock is active");
       return wakeLock;
     } catch (error) {
-      console.error('Wake lock request failed:', error);
+      console.error("Wake lock request failed:", error);
     }
   } else {
-    console.warn('Wake Lock API is not supported');
+    console.warn("Wake Lock API is not supported");
   }
   return null;
 };
@@ -692,19 +705,19 @@ export const shareContent = async (data: {
       await navigator.share(data);
       return true;
     } catch (error) {
-      console.error('Sharing failed:', error);
+      console.error("Sharing failed:", error);
       return false;
     }
   } else {
-    console.warn('Web Share API is not supported');
+    console.warn("Web Share API is not supported");
     // Fallback: copy to clipboard hoặc show share dialog
     if (data.url && navigator.clipboard) {
       try {
         await navigator.clipboard.writeText(data.url);
-        console.log('URL copied to clipboard');
+        console.log("URL copied to clipboard");
         return true;
       } catch (error) {
-        console.error('Failed to copy to clipboard:', error);
+        console.error("Failed to copy to clipboard:", error);
       }
     }
     return false;

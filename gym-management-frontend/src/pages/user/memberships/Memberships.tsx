@@ -9,12 +9,13 @@ import {
 } from "react-icons/fi";
 import {
   membershipService,
-  MembershipWithRemainingData,
+  
 } from "~/services/membershipService";
 import { memberService } from "~/services/memberService";
 import { paymentService } from "~/services/paymentService";
 import { formatDate } from "~/utils/formatters";
 import MembershipDetailsModal from "~/components/user/memberships/MembershipDetailsModal";
+import { MembershipWithRemainingData } from "~/types/membership";
 
 // Component hiển thị thanh tiến trình
 interface ProgressBarProps {

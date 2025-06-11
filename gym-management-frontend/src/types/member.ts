@@ -65,3 +65,27 @@ export interface MemberStats {
     count: number;
   }[];
 }
+export interface MemberProfile {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  gender?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  address?: string;
+  avatar?: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  memberships?: any[];
+}
+
+export interface ProfileUpdateData {
+  name?: string;
+  gender?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  address?: string;
+  password?: string;
+}

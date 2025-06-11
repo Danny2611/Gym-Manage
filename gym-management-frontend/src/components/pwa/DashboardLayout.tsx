@@ -18,7 +18,7 @@
 //   return (
 //     <div className="min-h-screen bg-gray-50">
 //       {/* Header with bottom navigation */}
-//       <HeaderPWA 
+//       <HeaderPWA
 //         onNotificationClick={() => setIsNotificationListOpen(true)}
 //         showBottomNav={true}
 //         navItems={userNavItems}

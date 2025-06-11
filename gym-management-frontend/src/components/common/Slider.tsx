@@ -68,7 +68,7 @@ const Slider: React.FC<ReusableSliderProps> = ({ slides }) => {
         }}
         pagination={{
           clickable: true,
-          renderBullet: (index, className) =>
+          renderBullet: (className) =>
             `<span class="${className} w-3 h-3"></span>`,
         }}
         navigation

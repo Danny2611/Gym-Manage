@@ -68,25 +68,29 @@ const PackageModal: React.FC<PackageModalProps> = ({
     setErrors({});
   }, [mode, initialData, isOpen]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value, type } = e.target;
-    
+
     // Special handling for checkboxes
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({ ...prev, [name]: checked }));
       return;
     }
-    
+
     // Handle number inputs
     if (type === "number") {
       setFormData((prev) => ({ ...prev, [name]: Number(value) }));
       return;
     }
-    
+
     // Handle regular inputs
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear error when field is changed
     if (errors[name]) {
       setErrors((prev) => {
@@ -99,7 +103,7 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
   const handleAddFeature = () => {
     if (!newFeature.trim()) return;
-    
+
     setFormData((prev) => ({
       ...prev,
       benefits: [...(prev.benefits || []), newFeature.trim()],
@@ -116,38 +120,45 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name?.trim()) {
       newErrors.name = "Tên gói không được để trống";
     }
-    
+
     if (formData.price === undefined || formData.price < 0) {
       newErrors.price = "Giá không hợp lệ";
     }
-    
+
     if (formData.duration === undefined || formData.duration <= 0) {
       newErrors.duration = "Thời hạn phải lớn hơn 0";
     }
-    
-    if (formData.training_sessions !== undefined && formData.training_sessions < 0) {
+
+    if (
+      formData.training_sessions !== undefined &&
+      formData.training_sessions < 0
+    ) {
       newErrors.training_sessions = "Số buổi PT không hợp lệ";
     }
-    
-    if (formData.session_duration !== undefined && formData.session_duration <= 0 && formData.training_sessions! > 0) {
+
+    if (
+      formData.session_duration !== undefined &&
+      formData.session_duration <= 0 &&
+      formData.training_sessions! > 0
+    ) {
       newErrors.session_duration = "Thời lượng buổi tập phải lớn hơn 0";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     onSave(formData);
   };
 
@@ -155,24 +166,29 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70">
-      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg bg-white dark:bg-gray-800 shadow-xl">
-        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white shadow-xl dark:bg-gray-800">
+        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {mode === "create" ? "Thêm gói dịch vụ mới" : "Chỉnh sửa gói dịch vụ"}
+            {mode === "create"
+              ? "Thêm gói dịch vụ mới"
+              : "Chỉnh sửa gói dịch vụ"}
           </h2>
-          <button 
+          <button
             onClick={onClose}
             className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
           >
             <X className="h-6 w-6" />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Tên gói */}
             <div className="col-span-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Tên gói <span className="text-red-500">*</span>
               </label>
               <input
@@ -185,12 +201,17 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   errors.name ? "border-red-500" : ""
                 }`}
               />
-              {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+              )}
             </div>
 
             {/* Mô tả */}
             <div className="col-span-2">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Mô tả
               </label>
               <textarea
@@ -205,7 +226,10 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
             {/* Giá */}
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Giá (VNĐ) <span className="text-red-500">*</span>
               </label>
               <input
@@ -219,12 +243,17 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   errors.price ? "border-red-500" : ""
                 }`}
               />
-              {errors.price && <p className="mt-1 text-sm text-red-500">{errors.price}</p>}
+              {errors.price && (
+                <p className="mt-1 text-sm text-red-500">{errors.price}</p>
+              )}
             </div>
 
             {/* Thời hạn */}
             <div>
-              <label htmlFor="duration" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="duration"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Thời hạn (ngày) <span className="text-red-500">*</span>
               </label>
               <input
@@ -238,12 +267,17 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   errors.duration ? "border-red-500" : ""
                 }`}
               />
-              {errors.duration && <p className="mt-1 text-sm text-red-500">{errors.duration}</p>}
+              {errors.duration && (
+                <p className="mt-1 text-sm text-red-500">{errors.duration}</p>
+              )}
             </div>
 
             {/* Danh mục */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Danh mục
               </label>
               <select
@@ -263,7 +297,10 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
             {/* Trạng thái */}
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Trạng thái
               </label>
               <select
@@ -280,7 +317,10 @@ const PackageModal: React.FC<PackageModalProps> = ({
 
             {/* Số buổi PT */}
             <div>
-              <label htmlFor="training_sessions" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="training_sessions"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Số buổi PT
               </label>
               <input
@@ -294,12 +334,19 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   errors.training_sessions ? "border-red-500" : ""
                 }`}
               />
-              {errors.training_sessions && <p className="mt-1 text-sm text-red-500">{errors.training_sessions}</p>}
+              {errors.training_sessions && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.training_sessions}
+                </p>
+              )}
             </div>
 
             {/* Thời lượng buổi tập */}
             <div>
-              <label htmlFor="session_duration" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="session_duration"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Thời lượng mỗi buổi (phút)
               </label>
               <input
@@ -313,7 +360,11 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   errors.session_duration ? "border-red-500" : ""
                 }`}
               />
-              {errors.session_duration && <p className="mt-1 text-sm text-red-500">{errors.session_duration}</p>}
+              {errors.session_duration && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.session_duration}
+                </p>
+              )}
             </div>
 
             {/* Gói phổ biến */}
@@ -324,10 +375,18 @@ const PackageModal: React.FC<PackageModalProps> = ({
                   id="popular"
                   name="popular"
                   checked={formData.popular}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, popular: e.target.checked }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      popular: e.target.checked,
+                    }))
+                  }
                   className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600"
                 />
-                <label htmlFor="popular" className="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="popular"
+                  className="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
                   Đánh dấu là gói phổ biến
                 </label>
               </div>
@@ -338,7 +397,7 @@ const PackageModal: React.FC<PackageModalProps> = ({
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Tính năng của gói
               </label>
-              
+
               <div className="mt-2 flex">
                 <input
                   type="text"
@@ -359,8 +418,13 @@ const PackageModal: React.FC<PackageModalProps> = ({
               {formData.benefits && formData.benefits.length > 0 ? (
                 <ul className="mt-4 space-y-2">
                   {formData.benefits.map((feature, index) => (
-                    <li key={index} className="flex items-center justify-between rounded-md bg-gray-50 px-3 py-2 dark:bg-gray-700">
-                      <span className="text-gray-700 dark:text-gray-200">{feature}</span>
+                    <li
+                      key={index}
+                      className="flex items-center justify-between rounded-md bg-gray-50 px-3 py-2 dark:bg-gray-700"
+                    >
+                      <span className="text-gray-700 dark:text-gray-200">
+                        {feature}
+                      </span>
                       <button
                         type="button"
                         onClick={() => handleRemoveFeature(index)}

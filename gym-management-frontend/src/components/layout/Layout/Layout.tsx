@@ -4,7 +4,6 @@ import Header from "../Header";
 import Footer from "../Footer";
 import { ScrollToTop } from "../../common/ScrollToTop";
 
-import { HeaderPWA } from "~/components/pwa/layout/HeaderPWA";
 interface LayoutProps {
   children?: React.ReactNode; // Cho phép children không bắt buộc
   transparentHeader?: boolean;

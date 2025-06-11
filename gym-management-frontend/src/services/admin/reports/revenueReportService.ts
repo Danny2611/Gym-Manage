@@ -1,22 +1,29 @@
 // src/services/admin/reports/reportService.ts
 import { ApiResponse } from "~/types/ApiResponse";
 import { apiClient } from "~/services/api";
-import { AdvancedAnalyticsResponse, ComprehensiveRevenueReport, ReportDateRange, RevenueByPackageResponse, RevenueReportOptions, RevenueTimeSeriesResponse } from "~/types/revenueReport";
-
-
-
+import {
+  AdvancedAnalyticsResponse,
+  ComprehensiveRevenueReport,
+  ReportDateRange,
+  RevenueByPackageResponse,
+  RevenueReportOptions,
+  RevenueTimeSeriesResponse,
+} from "~/types/revenueReport";
 
 export const revenueReportService = {
   /**
    * Lấy báo cáo doanh thu theo gói dịch vụ
    */
   getRevenueByPackages: async (
-    options: RevenueReportOptions = {}
+    options: RevenueReportOptions = {},
   ): Promise<ApiResponse<RevenueByPackageResponse[]>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/packages', {
-        params: options
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/packages",
+        {
+          params: options,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -27,13 +34,16 @@ export const revenueReportService = {
     }
   },
 
-   getRevenueTimeSeries: async (
-    options: RevenueReportOptions = {}
+  getRevenueTimeSeries: async (
+    options: RevenueReportOptions = {},
   ): Promise<ApiResponse<RevenueTimeSeriesResponse[]>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/time-series', {
-        params: options
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/time-series",
+        {
+          params: options,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -44,13 +54,16 @@ export const revenueReportService = {
     }
   },
 
-   getAdvancedAnalytics: async (
-     dateRange: ReportDateRange = {}
+  getAdvancedAnalytics: async (
+    dateRange: ReportDateRange = {},
   ): Promise<ApiResponse<AdvancedAnalyticsResponse>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/analytics', {
-        params: dateRange
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/analytics",
+        {
+          params: dateRange,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -61,13 +74,16 @@ export const revenueReportService = {
     }
   },
 
-   getComprehensiveRevenueReport: async (
-    options: RevenueReportOptions = {}
+  getComprehensiveRevenueReport: async (
+    options: RevenueReportOptions = {},
   ): Promise<ApiResponse<ComprehensiveRevenueReport>> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/comprehensive', {
-        params: options
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/comprehensive",
+        {
+          params: options,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -78,11 +94,14 @@ export const revenueReportService = {
     }
   },
 
-    exportRevenueReportToExcel: async (): Promise<Blob | null> => {
+  exportRevenueReportToExcel: async (): Promise<Blob | null> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/export/excel', {
-        responseType: 'blob'
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/export/excel",
+        {
+          responseType: "blob",
+        },
+      );
       return response.data;
     } catch (error) {
       console.error("Lỗi khi tải Excel:", error);
@@ -90,19 +109,18 @@ export const revenueReportService = {
     }
   },
 
-   exportRevenueReportToPDF: async (): Promise<Blob | null> => {
+  exportRevenueReportToPDF: async (): Promise<Blob | null> => {
     try {
-      const response = await apiClient.get('/api/admin/reports/revenue/export/pdf', {
-        responseType: 'blob'
-      });
+      const response = await apiClient.get(
+        "/api/admin/reports/revenue/export/pdf",
+        {
+          responseType: "blob",
+        },
+      );
       return response.data;
     } catch (error) {
       console.error("Lỗi khi tải PDF:", error);
       return null;
     }
   },
-
-
-
-
-}
+};

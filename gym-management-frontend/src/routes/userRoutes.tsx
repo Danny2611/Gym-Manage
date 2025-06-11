@@ -17,9 +17,7 @@ import RescheduleAppointmentPage from "~/pages/user/appointments/RescheduleAppoi
 import TransactionHistory from "~/pages/user/transactions/TransactionHistory";
 import CreateWorkoutPage from "~/pages/user/workoutSchedule/CreateWorkoutPage";
 import ProgressPage from "~/pages/user/progress/ProgressPage";
-
-
-
+import { PWAInstallPrompt } from "~/components/pwa/PWAInstallPrompt";
 
 const userRoutes = {
   path: "user",
@@ -29,11 +27,13 @@ const userRoutes = {
       element: <DashboardLayout />,
       children: [
         { path: "dashboard", element: <Dashboard /> },
-         // Settings routes
-        { path: "settings", children: [
-          // { path: "notifications", element:  },
-          
-        ]},
+        // Settings routes
+        {
+          path: "settings",
+          children: [
+            // { path: "notifications", element:  },
+          ],
+        },
 
         { path: "profile", element: <Profile /> },
         { path: "change-password", element: <ChangePassword /> },
@@ -65,9 +65,7 @@ const userRoutes = {
         //transactions
         { path: "transactions", element: <TransactionHistory /> },
         { path: "progress", element: <ProgressPage /> },
-       
-
-
+        { path: "install-pwa", element: <PWAInstallPrompt /> },
       ],
     },
   ],

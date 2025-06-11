@@ -4,7 +4,6 @@ import { useSidebar } from "../../contexts/SidebarContext";
 
 // Import các icon từ react-icons
 import {
-  FiHome,
   FiUsers,
   FiPackage,
   FiChevronDown,
@@ -13,16 +12,10 @@ import {
   FiPercent,
   FiBarChart2,
   FiSettings,
-  FiLogOut,
   FiMoreHorizontal,
-  FiInfo,
   FiBell,
-  FiActivity,
   FiFileText,
   FiUserCheck,
-  FiGrid,
-  FiPieChart,
-  FiUserPlus,
 } from "react-icons/fi";
 
 type NavItem = {
@@ -34,11 +27,11 @@ type NavItem = {
 
 // Các mục chính dành cho admin phòng gym theo đề cương
 const navItems: NavItem[] = [
-  {
-    icon: <FiHome className="h-5 w-5" />,
-    name: "Dashboard",
-    path: "/admin/dashboard",
-  },
+  // {
+  //   icon: <FiHome className="h-5 w-5" />,
+  //   name: "Dashboard",
+  //   path: "/admin/dashboard",
+  // },
   {
     icon: <FiUsers className="h-5 w-5" />,
     name: "Quản lý hội viên",
@@ -55,8 +48,8 @@ const navItems: NavItem[] = [
     name: "Quản lý gói tập",
     subItems: [
       { name: "Danh sách gói tập", path: "/admin/packages" },
-      { name: "Thêm gói tập mới", path: "/admin/packages/add" },
-      { name: "Gói đang khuyến mãi", path: "/admin/packages/promotion" },
+      // { name: "Thêm gói tập mới", path: "/admin/packages/add" },
+      // { name: "Gói đang khuyến mãi", path: "/admin/packages/promotion" },
     ],
   },
   {
@@ -64,8 +57,8 @@ const navItems: NavItem[] = [
     name: "Quản lý PT",
     subItems: [
       { name: "Danh sách PT", path: "/admin/trainers" },
-      { name: "Lịch trình PT", path: "/admin/trainers/schedules" },
-      { name: "Thêm PT mới", path: "/admin/trainers/add" },
+      // { name: "Lịch trình PT", path: "/admin/trainers/schedules" },
+      // { name: "Thêm PT mới", path: "/admin/trainers/add" },
     ],
   },
   {
@@ -73,8 +66,8 @@ const navItems: NavItem[] = [
     name: "Lịch hẹn",
     subItems: [
       { name: "Tất cả lịch hẹn", path: "/admin/appointments" },
-      { name: "Lịch hẹn chờ duyệt", path: "/admin/appointments/pending" },
-      { name: "Lịch hẹn đã xác nhận", path: "/admin/appointments/confirmed" },
+      // { name: "Lịch hẹn chờ duyệt", path: "/admin/appointments/pending" },
+      // { name: "Lịch hẹn đã xác nhận", path: "/admin/appointments/confirmed" },
     ],
   },
   {
@@ -82,8 +75,8 @@ const navItems: NavItem[] = [
     name: "Giao dịch",
     subItems: [
       { name: "Lịch sử giao dịch", path: "/admin/transactions" },
-      { name: "Giao dịch mới", path: "/admin/transactions/add" },
-      { name: "Giao dịch gần đây", path: "/admin/transactions/recent" },
+      // { name: "Giao dịch mới", path: "/admin/transactions/add" },
+      // { name: "Giao dịch gần đây", path: "/admin/transactions/recent" },
     ],
   },
   {
@@ -91,20 +84,20 @@ const navItems: NavItem[] = [
     name: "Khuyến mãi",
     subItems: [
       { name: "Danh sách khuyến mãi", path: "/admin/promotions" },
-      { name: "Thêm khuyến mãi", path: "/admin/promotions/add" },
-      { name: "Khuyến mãi đang chạy", path: "/admin/promotions/active" },
+      // { name: "Thêm khuyến mãi", path: "/admin/promotions/add" },
+      // { name: "Khuyến mãi đang chạy", path: "/admin/promotions/active" },
     ],
   },
   {
     icon: <FiBarChart2 className="h-5 w-5" />,
     name: "Báo cáo & Thống kê",
-   
+
     subItems: [
-       { name: "Tổng quan", path: "/admin/reports/dashboard" },
+      { name: "Tổng quan", path: "/admin/reports/dashboard" },
       { name: "Doanh thu", path: "/admin/reports/revenues" },
       { name: "Hội viên", path: "/admin/reports/members" },
-      { name: "Gói tập", path: "/admin/reports/packages" },
-      { name: "Xuất báo cáo", path: "/admin/reports/export", pro: true },
+      // { name: "Gói tập", path: "/admin/reports/packages" },
+      // { name: "Xuất báo cáo", path: "/admin/reports/export", pro: true },
     ],
   },
 ];
@@ -205,7 +198,7 @@ const AdminSidebar: React.FC = () => {
                 onClick={() => handleSubmenuToggle(index, menuType)}
                 className={`flex w-full items-center rounded-xl px-4 py-3 transition-all duration-200 ${
                   openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+                    ? "bg-purple-50 text-blue-600 dark:bg-blue-900/20 dark:text-purple-400"
                     : "text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
                 } ${
                   !isExpanded && !isHovered
@@ -218,7 +211,7 @@ const AdminSidebar: React.FC = () => {
                     className={`flex-shrink-0 ${
                       openSubmenu?.type === menuType &&
                       openSubmenu?.index === index
-                        ? "text-purple-600 dark:text-purple-400"
+                        ? "text-blue-600 dark:text-purple-400"
                         : "text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200"
                     }`}
                   >
@@ -233,7 +226,7 @@ const AdminSidebar: React.FC = () => {
                     className={`h-5 w-5 transition-transform duration-200 ${
                       openSubmenu?.type === menuType &&
                       openSubmenu?.index === index
-                        ? "rotate-180 text-purple-600 dark:text-purple-400"
+                        ? "rotate-180 text-blue-600 dark:text-purple-400"
                         : "text-gray-400 dark:text-gray-500"
                     }`}
                   />
@@ -265,7 +258,7 @@ const AdminSidebar: React.FC = () => {
                           to={subItem.path}
                           className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
                             isActive(subItem.path)
-                              ? "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+                              ? "bg-purple-50 text-blue-600 dark:bg-blue-900/20 dark:text-purple-400"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800/40 dark:hover:text-gray-100"
                           }`}
                         >
@@ -277,7 +270,7 @@ const AdminSidebar: React.FC = () => {
                               </span>
                             )}
                             {subItem.pro && (
-                              <span className="rounded bg-purple-100 px-1.5 py-0.5 text-xs font-medium text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+                              <span className="rounded bg-purple-100 px-1.5 py-0.5 text-xs font-medium text-blue-600 dark:bg-purple-900/30 dark:text-purple-400">
                                 pro
                               </span>
                             )}
@@ -295,14 +288,14 @@ const AdminSidebar: React.FC = () => {
                 to={nav.path}
                 className={`flex items-center rounded-xl px-4 py-3 transition-all duration-200 ${
                   isActive(nav.path)
-                    ? "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400"
+                    ? "bg-purple-50 text-blue-600 dark:bg-blue-900/20 dark:text-purple-400"
                     : "text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800/50"
                 } ${!isExpanded && !isHovered ? "lg:justify-center" : ""}`}
               >
                 <span
                   className={`flex-shrink-0 ${
                     isActive(nav.path)
-                      ? "text-purple-600 dark:text-purple-400"
+                      ? "text-blue-600 dark:text-purple-400"
                       : "text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200"
                   }`}
                 >
@@ -337,33 +330,35 @@ const AdminSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link to="/admin/dashboard" className="flex items-center">
+        <Link to="/" className="flex items-center">
           {isExpanded || isHovered || isMobileOpen ? (
             <div className="flex items-center">
-              <img
-                className="h-8 w-8 dark:hidden"
-                src="/images/logo/logo-icon.svg"
-                alt="Logo"
-              />
-              <img
-                className="hidden h-8 w-8 dark:block"
-                src="/images/logo/logo-icon-dark.svg"
-                alt="Logo"
-              />
-              <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">
-                GymFlex<span className="text-purple-600">Admin</span>
+              <div className="flex-shrink-0">
+                <img
+                  className="h-12 w-12 dark:hidden"
+                  src="/logo-main-2.png"
+                  alt="Logo"
+                />
+                <img
+                  className="hidden h-12 w-12 dark:block"
+                  src="/logo-main-2.png"
+                  alt="Logo"
+                />
+              </div>
+              <span className="ml-3 text-lg font-bold leading-tight text-blue-600 dark:text-blue-400">
+                Quản lí hệ thống
               </span>
             </div>
           ) : (
-            <div>
+            <div className="flex-shrink-0">
               <img
-                className="h-8 w-8 dark:hidden"
-                src="/images/logo/logo-icon.svg"
+                className="h-10 w-10 dark:hidden"
+                src="/logo-main-2.png"
                 alt="Logo"
               />
               <img
-                className="hidden h-8 w-8 dark:block"
-                src="/images/logo/logo-icon-dark.svg"
+                className="hidden h-10 w-10 dark:block"
+                src="/logo-main-2.png"
                 alt="Logo"
               />
             </div>
@@ -414,7 +409,7 @@ const AdminSidebar: React.FC = () => {
         <>
           <div className="mx-5 h-px bg-gray-200 dark:bg-gray-800"></div>
           <div className="p-4">
-            <div className="rounded-xl bg-purple-50 p-4 dark:bg-purple-900/20">
+            <div className="rounded-xl bg-purple-50 p-4 dark:bg-blue-900/20">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="mb-1 font-medium text-purple-700 dark:text-purple-400">

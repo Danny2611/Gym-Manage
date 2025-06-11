@@ -31,53 +31,53 @@ const slides: SlideProps[] = [
   {
     id: 1,
     image: "/images/hero/slide-1.jpg",
-    title: "Transform Your Body",
-    subtitle: "START YOUR FITNESS JOURNEY TODAY",
+    title: "Thay Đổi Hình Thể Của Bạn",
+    subtitle: "BẮT ĐẦU HÀNH TRÌNH TẬP LUYỆN NGAY HÔM NAY",
     description:
-      "Join our fitness community and achieve your health goals with personalized training programs.",
+      "Tham gia cộng đồng gym của chúng tôi và chinh phục mục tiêu sức khỏe với các chương trình tập luyện được thiết kế riêng cho bạn.",
     cta: {
       primary: {
-        text: "Join Now",
-        link: "/contact",
+        text: "Đăng Ký Ngay",
+        link: "/user/packages-register/:id",
       },
       secondary: {
-        text: "Learn More",
-        link: "/about",
+        text: "Tìm Hiểu Thêm",
+        link: "/about-us",
       },
     },
   },
   {
     id: 2,
     image: "/images/hero/slide-2.jpg",
-    title: "Expert Trainers",
-    subtitle: "PROFESSIONAL GUIDANCE",
+    title: "Huấn Luyện Viên Chuyên Nghiệp",
+    subtitle: "HƯỚNG DẪN BÀI BẢN – HIỆU QUẢ",
     description:
-      "Our certified trainers will help you reach your fitness goals safely and effectively.",
+      "Đội ngũ huấn luyện viên được chứng nhận sẽ giúp bạn đạt được mục tiêu tập luyện một cách an toàn và hiệu quả.",
     cta: {
       primary: {
-        text: "Meet Our Team",
-        link: "/about/team",
+        text: "Gặp Gỡ Đội Ngũ",
+        link: "/services/personal-training",
       },
       secondary: {
-        text: "Book a Session",
-        link: "/schedule",
+        text: "Đặt Lịch Tập",
+        link: "/user/list-trainer",
       },
     },
   },
   {
     id: 3,
     image: "/images/hero/slide-3.jpg",
-    title: "Modern Facilities",
-    subtitle: "STATE-OF-THE-ART EQUIPMENT",
+    title: "Cơ Sở Vật Chất Hiện Đại",
+    subtitle: "TRANG THIẾT BỊ TẬP LUYỆN TỐI TÂN",
     description:
-      "Train with the latest fitness equipment in our spacious and modern gym facilities.",
+      "Tập luyện hiệu quả với các thiết bị hiện đại trong không gian rộng rãi, thoáng mát và chuyên nghiệp.",
     cta: {
       primary: {
-        text: "View Facilities",
-        link: "/about/facilities",
+        text: "Xem Cơ Sở Vật Chất",
+        link: "/services",
       },
       secondary: {
-        text: "Free Trial",
+        text: "Dùng Thử Miễn Phí",
         link: "/contact",
       },
     },

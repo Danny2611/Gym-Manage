@@ -45,7 +45,7 @@ export interface Notification {
   message: string;
   type: string;
   data?: Record<string, any>;
-  status: 'pending' | 'sent' | 'failed' | 'read';
+  status: "pending" | "sent" | "failed" | "read";
   scheduled_at?: Date;
   sent_at?: Date;
   read_at?: Date;
@@ -87,60 +87,70 @@ export interface BulkNotificationResult {
   failed: number;
   total: number;
 }
-type VapidPublicKeyResponse = 
+type VapidPublicKeyResponse =
   | { success: true; publicKey: string }
   | { success: false; message: string; error?: any };
 export const pushNotificationService = {
- 
-   
   /**
    * Đăng ký push notification subscription
    */
- subscribe: async (
-  subscription: PushSubscriptionData,
-  deviceInfo?: DeviceInfo
-): Promise<ApiResponse<{ message: string; data: any }>> => {
-  try {
-    const response = await apiClient.post('/api/pwa/push-notifications/subscribe', {
-      subscription,
-      platform: deviceInfo?.platform || 'web',
-      ...deviceInfo
-    });
-    return response.data;
-  } catch (error: any) {
-    console.error('Push notification subscription error:', error);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Không thể đăng ký push notification",
-      errors: [error.response?.data || error.message || error],
-    };
-  }
-},
+  subscribe: async (
+    subscription: PushSubscriptionData,
+    deviceInfo?: DeviceInfo,
+  ): Promise<ApiResponse<{ message: string; data: any }>> => {
+    try {
+      const response = await apiClient.post(
+        "/api/pwa/push-notifications/subscribe",
+        {
+          subscription,
+          platform: deviceInfo?.platform || "web",
+          ...deviceInfo,
+        },
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error("Push notification subscription error:", error);
+      return {
+        success: false,
+        message:
+          error.response?.data?.message ||
+          "Không thể đăng ký push notification",
+        errors: [error.response?.data || error.message || error],
+      };
+    }
+  },
 
   /**
    * Lấy VAPID public key để đăng ký push notification
    */
- getVapidPublicKey: async (): Promise<VapidPublicKeyResponse> => {
-  try {
-    const response = await apiClient.get('/api/pwa/push-notifications/vapid-public-key');
-    return response.data;
-  } catch (error) {
-    return {
-      success: false,
-      message: "Không thể lấy VAPID public key",
-      error: error,
-    };
-  }
-},
+  getVapidPublicKey: async (): Promise<VapidPublicKeyResponse> => {
+    try {
+      const response = await apiClient.get(
+        "/api/pwa/push-notifications/vapid-public-key",
+      );
+      return response.data;
+    } catch (error) {
+      return {
+        success: false,
+        message: "Không thể lấy VAPID public key",
+        error: error,
+      };
+    }
+  },
 
   /**
    * Hủy đăng ký push notification
    */
-  unsubscribe: async (endpoint: string): Promise<ApiResponse<{ message: string }>> => {
+  unsubscribe: async (
+    endpoint: string,
+  ): Promise<ApiResponse<{ message: string }>> => {
     try {
-      const response = await apiClient.post('/api/pwa/push-notifications/unsubscribe', {
-        endpoint
-      });
+      const response = await apiClient.post(
+        "/api/pwa/push-notifications/unsubscribe",
+        {
+          endpoint,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -157,14 +167,17 @@ export const pushNotificationService = {
   sendTestNotification: async (
     title?: string,
     message?: string,
-    type?: string
+    type?: string,
   ): Promise<ApiResponse<{ message: string; data: Notification }>> => {
     try {
-      const response = await apiClient.post('/api/pwa/push-notifications/test', {
-        title: title || 'Test Notification',
-        message: message || 'This is a test notification',
-        type: type || 'system'
-      });
+      const response = await apiClient.post(
+        "/api/pwa/push-notifications/test",
+        {
+          title: title || "Test Notification",
+          message: message || "This is a test notification",
+          type: type || "system",
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -179,7 +192,7 @@ export const pushNotificationService = {
    * Lấy danh sách notifications của user
    */
   getUserNotifications: async (
-    params: NotificationQueryParams = {}
+    params: NotificationQueryParams = {},
   ): Promise<
     ApiResponse<{
       notifications: Notification[];
@@ -192,7 +205,10 @@ export const pushNotificationService = {
     }>
   > => {
     try {
-      const response = await apiClient.get('/api/pwa/push-notifications/notifications', { params });
+      const response = await apiClient.get(
+        "/api/pwa/push-notifications/notifications",
+        { params },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -207,12 +223,15 @@ export const pushNotificationService = {
    * Đánh dấu notifications đã đọc
    */
   markAsRead: async (
-    notificationIds: string[]
+    notificationIds: string[],
   ): Promise<ApiResponse<{ message: string }>> => {
     try {
-      const response = await apiClient.put('/api/pwa/push-notifications/notifications/read', {
-        notificationIds
-      });
+      const response = await apiClient.put(
+        "/api/pwa/push-notifications/notifications/read",
+        {
+          notificationIds,
+        },
+      );
       return response.data;
     } catch (error) {
       return {
@@ -227,7 +246,7 @@ export const pushNotificationService = {
    * Đánh dấu một notification đã đọc
    */
   markSingleAsRead: async (
-    notificationId: string
+    notificationId: string,
   ): Promise<ApiResponse<{ message: string }>> => {
     return pushNotificationService.markAsRead([notificationId]);
   },
@@ -238,13 +257,15 @@ export const pushNotificationService = {
   markAllAsRead: async (): Promise<ApiResponse<{ message: string }>> => {
     try {
       // First get all unread notifications
-      const unreadResponse = await pushNotificationService.getUserNotifications({
-        status: 'sent', // Assuming 'sent' means unread
-        limit: 1000 // Get a large number to mark all
-      });
+      const unreadResponse = await pushNotificationService.getUserNotifications(
+        {
+          status: "sent", // Assuming 'sent' means unread
+          limit: 1000, // Get a large number to mark all
+        },
+      );
 
       if (unreadResponse.success && unreadResponse.data) {
-        const unreadIds = unreadResponse.data.notifications.map(n => n._id);
+        const unreadIds = unreadResponse.data.notifications.map((n) => n._id);
         if (unreadIds.length > 0) {
           return await pushNotificationService.markAsRead(unreadIds);
         }
@@ -252,7 +273,7 @@ export const pushNotificationService = {
 
       return {
         success: true,
-        message: "Không có thông báo nào để đánh dấu"
+        message: "Không có thông báo nào để đánh dấu",
       };
     } catch (error) {
       return {
@@ -269,20 +290,20 @@ export const pushNotificationService = {
   getUnreadCount: async (): Promise<ApiResponse<{ count: number }>> => {
     try {
       const response = await pushNotificationService.getUserNotifications({
-        status: 'sent',
-        limit: 1
+        status: "sent",
+        limit: 1,
       });
 
       if (response.success && response.data) {
         return {
           success: true,
-          data: { count: response.data.pagination.total }
+          data: { count: response.data.pagination.total },
         };
       }
 
       return {
         success: false,
-        message: "Không thể lấy số lượng thông báo chưa đọc"
+        message: "Không thể lấy số lượng thông báo chưa đọc",
       };
     } catch (error) {
       return {
@@ -309,7 +330,7 @@ export const pushNotificationService = {
   //       errors: [error],
   //     };
   //   }
-  // },  
+  // },
 
   // /**
   //  * Lấy thống kê notifications

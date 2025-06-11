@@ -32,7 +32,18 @@ const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
     resolver: zodResolver(newsletterSchema),
   });
 
-  const onSubmit = async (data: NewsletterFormData) => {
+  // const onSubmit = async (data: NewsletterFormData) => {
+  //   setLoading(true);
+  //   setMessage(null);
+
+  //   // Giả lập API call
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //     setMessage("Thank you for subscribing!");
+  //     reset();
+  //   }, 1500);
+  // };
+  const onSubmit = async () => {
     setLoading(true);
     setMessage(null);
 

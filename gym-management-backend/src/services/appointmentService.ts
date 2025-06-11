@@ -43,6 +43,9 @@ const createAppointment = async (appointmentData: CreateAppointmentData): Promis
   const { member_id, trainer_id, membership_id, date, startTime, endTime, location, notes } = appointmentData;
   
   const membership = await checkAndUpdateAvailableSessions(membership_id);
+  if (!membership) {
+    throw new Error('Gói tập đã hết số lượt đăng ký với PT');
+  }
   const isAvailable = await isTrainerAvailable(trainer_id, date, startTime, endTime);
   if (!isAvailable) {
     throw new Error('Trainer is not available at the selected time');

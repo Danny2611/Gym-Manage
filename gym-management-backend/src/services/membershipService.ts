@@ -173,14 +173,33 @@ export async function resetExpiredMemberships(): Promise<void> {
 
 
 //Khởi tạo các công việc được lập lịch cho membership
-export function initScheduledMembershipJobs(): void {
-  // Chạy hàng ngày lúc 00:10
-  cron.schedule('10 0 * * *', async () => {
-    console.log('Running scheduled job: Update expired memberships');
+// export function initScheduledMembershipJobs(): void {
+//   // Chạy hàng ngày lúc 00:10
+//   cron.schedule('10 0 * * *', async () => {
+//     console.log('Running scheduled job: Update expired memberships');
+//     await updateExpiredMemberships();
+//     // Bỏ comment dòng dưới nếu muốn reset các giá trị của membership hết hạn
+//     // await resetExpiredMemberships();
+//   });
+// }
+
+export async function initScheduledMembershipJobs(): Promise<void> {
+  try {
+    // Chạy ngay khi app khởi động
+    console.log('🔁 Kiểm tra và cập nhật membership hết hạn khi khởi động app...');
     await updateExpiredMemberships();
-    // Bỏ comment dòng dưới nếu muốn reset các giá trị của membership hết hạn
-    // await resetExpiredMemberships();
-  });
+
+    // Lên lịch chạy hàng ngày lúc 00:10
+    cron.schedule('10 0 * * *', async () => {
+      console.log('⏰ Running scheduled job: Update expired memberships');
+      await updateExpiredMemberships();
+      // await resetExpiredMemberships(); // Nếu cần reset thêm
+    });
+
+    console.log('✅ Lên lịch thành công cho job cập nhật membership.');
+  } catch (error) {
+    console.error('❌ Lỗi khi khởi tạo job cập nhật membership:', error);
+  }
 }
 //=========================================================
 //admin

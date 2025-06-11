@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 import Layout from "~/components/layout/Layout";
 // import ContactHeader from "/components/sections/contact/ContactHeader";
 import ContactInfo from "~/components/sections/contact/ContactInfo";
@@ -46,7 +46,7 @@ const MOCK_FAQS: FAQ[] = [
 const Contact: React.FC = () => {
   return (
     <Layout>
-       <Helmet>
+      <Helmet>
         <title>Liên Hệ</title>
       </Helmet>
       <HomeSlider />

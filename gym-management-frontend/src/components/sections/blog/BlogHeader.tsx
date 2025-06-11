@@ -7,11 +7,7 @@ interface BlogHeaderProps {
   alignment?: string;
 }
 
-const BlogHeader: React.FC<BlogHeaderProps> = ({
-  title,
-  subtitle,
-  alignment,
-}) => {
+const BlogHeader: React.FC<BlogHeaderProps> = ({ title, subtitle }) => {
   return (
     <div className="mt-36 bg-gray-100 py-16">
       <div className="container mx-auto px-4">

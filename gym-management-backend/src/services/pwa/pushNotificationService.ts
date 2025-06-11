@@ -95,16 +95,35 @@ const sendPushNotification = async (notificationId: string) => {
     };
 
     const results = await Promise.allSettled(
-      subscriptions.map(sub =>
-        webpush.sendNotification(
-          {
-            endpoint: sub.endpoint,
-            keys: sub.keys
-          },
-          JSON.stringify(payload)
-        )
-      )
-    );
+  subscriptions.map(async (sub, index) => {
+    try {
+      await webpush.sendNotification(
+        {
+          endpoint: sub.endpoint,
+          keys: sub.keys
+        },
+        JSON.stringify(payload)
+      );
+      return { status: 'fulfilled' };
+    } catch (error: any) {
+      console.error(`❌ Failed to send to subscription ${index}:`, error);
+
+      // Nếu bị thu hồi (410) hoặc không tồn tại (404), thì xóa subscription
+      if (error.statusCode === 410 || error.statusCode === 404) {
+        console.warn(`🗑️ Subscription revoked or not found. Removing: ${sub.endpoint}`);
+        await PushSubscription.deleteOne({ endpoint: sub.endpoint });
+      } else {
+        // Các lỗi khác thì đánh dấu là inactive (hoặc xử lý tùy ý)
+        sub.is_active = false;
+        await sub.save();
+      }
+
+      // Dùng throw để kết quả allSettled nhận biết là thất bại
+      throw error;
+    }
+  })
+);
+
 
     let successCount = 0;
     let failedCount = 0;
@@ -202,6 +221,27 @@ const removeSubscription = async (memberId: string, endpoint: string) => {
   }
 };
 
+// Kiểm tra xem notification đã tồn tại chưa
+const checkNotificationExists = async (memberId: string, type: string, uniqueId: string) => {
+  try {
+    const query: any = {
+      member_id: memberId,
+      type: type
+    };
+
+    // Nếu uniqueId được cung cấp, tìm trong data.uniqueId
+    if (uniqueId) {
+      query['data.uniqueId'] = uniqueId;
+    }
+
+    const existingNotification = await Notification.findOne(query);
+    return existingNotification;
+  } catch (error) {
+    console.error('Error checking notification existence:', error);
+    return null;
+  }
+};
+
 // Export tất cả function
 export default {
   saveSubscription,
@@ -209,5 +249,6 @@ export default {
   sendPushNotification,
   sendBulkNotifications,
   scheduleNotification,
-  removeSubscription
+  removeSubscription,
+  checkNotificationExists 
 };

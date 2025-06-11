@@ -54,8 +54,8 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
+    <div className="mt-32 flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="mb-20 mt-20 w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
         <div className="text-center">
           <h1 className="text-3xl font-extrabold text-gray-900">Đăng Ký</h1>
           <p className="mt-2 text-gray-600">Tạo tài khoản FittLife của bạn</p>
@@ -179,7 +179,7 @@ const Register: React.FC = () => {
           <p className="text-sm text-gray-600">
             Đã có tài khoản?{" "}
             <Link
-              to="/user/login"
+              to="/login"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
               Đăng nhập

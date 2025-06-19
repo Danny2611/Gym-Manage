@@ -37,20 +37,25 @@ const ContactFormSection: React.FC<ContactFormSectionProps> = ({
   };
 
   return (
-    <div className="bg-gray-50 py-16">
+    <div className="bg-gray-50 py-16 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div>
             {title && (
               <div className="mb-8">
-                <h2 className="mb-3 text-3xl font-bold">{title}</h2>
-                {subtitle && <p className="text-gray-600">{subtitle}</p>}
+                <h2 className="mb-3 text-3xl font-bold text-[#0D2E4B] dark:text-white">
+                  {title}
+                </h2>
+                {subtitle && (
+                  <p className="text-gray-600 dark:text-gray-300">{subtitle}</p>
+                )}
               </div>
             )}
             <ContactForm
               onSubmit={handleSubmit}
               loading={loading}
               success={success}
+            
             />
           </div>
           <div className="h-full min-h-[400px]">

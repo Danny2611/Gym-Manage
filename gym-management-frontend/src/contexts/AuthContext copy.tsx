@@ -1,3 +1,4 @@
+//contexts/AuthContext
 import { apiClient } from "../services/api";
 import { useNavigate, NavigateFunction } from "react-router-dom";
 import { authService } from "../services/authService";
@@ -6,7 +7,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface User {
   id: string;
   name: string;
-  email: string;
+  email: string;  
   role: string;
   roleName: string;
   avatar?: string;

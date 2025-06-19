@@ -47,3 +47,23 @@ export const formatCurrency = (amount: number): string => {
     minimumFractionDigits: 0,
   }).format(amount);
 };
+
+
+export 
+  const formatDateToday = (date: Date): string => {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return "Hôm nay";
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+      return "Ngày mai";
+    } else {
+      return date.toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    }
+  };

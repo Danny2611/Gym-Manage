@@ -21,3 +21,14 @@ export interface Schedule {
   trainer_name?: string | null;
   trainer_image?: string | null;
 }
+
+// Interface for combined upcoming schedule items for dashboard
+export interface ScheduleItem {
+  date: Date;
+  timeStart: Date;
+  timeEnd?: Date;
+  location?: string;
+  status: string;
+  type: "workout" | "appointment";
+  name?: string;
+}

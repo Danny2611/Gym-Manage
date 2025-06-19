@@ -30,8 +30,7 @@ const Footer: React.FC = () => {
               />
             </Link>
             <p className="mb-6 text-gray-300">
-              FittLife is dedicated to helping you achieve your fitness goals
-              with expert training and nutrition guidance.
+             FittLife cam kết đồng hành cùng bạn trên hành trình chinh phục mục tiêu thể hình, với đội ngũ huấn luyện viên chuyên nghiệp và tư vấn dinh dưỡng tận tâm.
             </p>
             <div className="flex space-x-4">
               <a
@@ -69,7 +68,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="/about"
+                  to="/about-us"
                   className="inline-block text-gray-300 transition-colors hover:text-[#0CC6F0]"
                 >
                   About Us
@@ -83,14 +82,7 @@ const Footer: React.FC = () => {
                   Our Services
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/schedule"
-                  className="inline-block text-gray-300 transition-colors hover:text-[#0CC6F0]"
-                >
-                  Class Schedule
-                </Link>
-              </li>
+            
               <li>
                 <Link
                   to="/blog"
@@ -107,14 +99,7 @@ const Footer: React.FC = () => {
                   Contact Us
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/privacy-policy"
-                  className="inline-block text-gray-300 transition-colors hover:text-[#0CC6F0]"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
+             
             </ul>
           </div>
 
@@ -127,12 +112,12 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mr-3 mt-1 flex-shrink-0 text-[#0CC6F0]" />
                 <span className="text-gray-300">
-                  123 Fitness Street, Exercise City, FL 12345, USA
+                  123 Linh Xuân, thành phố Thủ Đức, Hồ Chí Minh.
                 </span>
               </li>
               <li className="flex items-center">
                 <FaPhoneAlt className="mr-3 flex-shrink-0 text-[#0CC6F0]" />
-                <span className="text-gray-300">+1 800 123 4567</span>
+                <span className="text-gray-300">+ (123) 456-7890 </span>
               </li>
               <li className="flex items-center">
                 <IoMdMail className="mr-3 flex-shrink-0 text-[#0CC6F0]" />
@@ -141,8 +126,8 @@ const Footer: React.FC = () => {
               <li className="flex items-start">
                 <FaClock className="mr-3 mt-1 flex-shrink-0 text-[#0CC6F0]" />
                 <div className="text-gray-300">
-                  <p>Monday - Friday: 6:00 AM - 9:00 PM</p>
-                  <p>Saturday - Sunday: 8:00 AM - 6:00 PM</p>
+                  <p>Thứ 2 - Thứ 6: 6:00 AM - 9:00 PM</p>
+                  <p>Thứ 7 - Chủ nhật: 8:00 AM - 6:00 PM</p>
                 </div>
               </li>
             </ul>
@@ -154,8 +139,7 @@ const Footer: React.FC = () => {
               Newsletter
             </h3>
             <p className="mb-6 text-gray-300">
-              Subscribe to our newsletter to receive the latest news and
-              exclusive offers.
+             Theo dõi bản tin để không bỏ lỡ các tin tức và khuyến mãi hấp dẫn!
             </p>
             <NewsletterSignup />
           </div>

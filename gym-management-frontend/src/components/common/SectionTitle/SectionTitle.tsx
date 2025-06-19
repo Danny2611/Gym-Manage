@@ -32,31 +32,36 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
     className,
   );
 
-  const titleClasses = classNames("font-bold text-gray-900 mb-2 font-heading", {
-    "text-2xl": titleSize === "small",
-    "text-3xl md:text-4xl": titleSize === "medium",
-    "text-4xl md:text-5xl": titleSize === "large",
-  });
+  const titleClasses = classNames(
+    "font-bold text-gray-900 dark:text-white mb-2 font-heading",
+    {
+      "text-2xl": titleSize === "small",
+      "text-3xl md:text-4xl": titleSize === "medium",
+      "text-4xl md:text-5xl": titleSize === "large",
+    }
+  );
+
+  const subtitleClasses = classNames(
+    "text-lg text-gray-600 dark:text-gray-300 mb-4"
+  );
+
+  const descriptionClasses = classNames(
+    "text-base text-gray-500 dark:text-gray-400"
+  );
 
   return (
     <div className={containerClasses}>
       <h2 className={titleClasses}>{title}</h2>
-
       {decorative && (
-        <div
-          className={`flex ${alignment === "center" || centered ? "justify-center" : alignment === "right" ? "justify-end" : "justify-start"} mb-4`}
-        >
-          <div className="bg-primary-500 h-1 w-20 rounded-full"></div>
-          <div className="bg-primary-300 ml-1 h-1 w-4 rounded-full"></div>
+        <div className="mb-6 flex justify-center">
+          <div className="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
         </div>
       )}
-
       {subtitle && (
-        <p className="mx-auto max-w-2xl text-lg text-gray-600">{subtitle}</p>
+        <p className={subtitleClasses}>{subtitle}</p>
       )}
-
       {description && ( // Thêm mô tả nếu có
-        <p className="mx-auto max-w-3xl text-gray-500">{description}</p>
+        <p className={descriptionClasses}>{description}</p>
       )}
     </div>
   );

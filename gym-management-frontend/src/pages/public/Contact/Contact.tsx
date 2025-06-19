@@ -9,37 +9,37 @@ import CTABanner from "~/components/sections/contact/CTABanner";
 import { FAQ } from "~/types/contact";
 import HomeSlider from "~/components/sections/home/HomeSlider";
 
-// Mock data for FAQs
+// Dữ liệu giả lập cho phần câu hỏi thường gặp
 const MOCK_FAQS: FAQ[] = [
   {
-    question: "What are your gym's operating hours?",
+    question: "Phòng gym mở cửa vào thời gian nào?",
     answer:
-      "Our gym is open Monday through Friday from 6:00 AM to 10:00 PM, and on weekends from 8:00 AM to 8:00 PM.",
+      "Chúng tôi mở cửa từ 6:00 sáng đến 10:00 tối từ thứ Hai đến thứ Sáu, và từ 8:00 sáng đến 8:00 tối vào cuối tuần.",
   },
   {
-    question: "Do you offer personal training sessions?",
+    question: "Tôi có thể tập với huấn luyện viên cá nhân không?",
     answer:
-      "Yes, we offer personal training sessions with our certified trainers. You can book a session at the front desk or through our mobile app.",
+      "Có, chúng tôi có các buổi tập cùng HLV cá nhân được chứng nhận. Bạn có thể đăng ký trực tiếp tại quầy lễ tân hoặc qua ứng dụng di động.",
   },
   {
-    question: "Is there a free trial available for new members?",
+    question: "Tôi có được dùng thử miễn phí không?",
     answer:
-      "Yes, we offer a 7-day free trial for new members. You can sign up for the trial on our website or by visiting our gym.",
+      "Chúng tôi cung cấp 7 ngày tập thử miễn phí dành cho hội viên mới. Bạn có thể đăng ký trên website hoặc đến trực tiếp phòng tập.",
   },
   {
-    question: "How do I cancel my membership?",
+    question: "Làm sao để hủy hội viên?",
     answer:
-      "You can cancel your membership by filling out a cancellation form at the front desk or by logging into your account on our website and following the cancellation instructions.",
+      "Bạn có thể đến quầy lễ tân để điền form hủy, hoặc đăng nhập vào tài khoản trên website và làm theo hướng dẫn hủy.",
   },
   {
-    question: "Are there group fitness classes available?",
+    question: "Có các lớp học nhóm không?",
     answer:
-      "Yes, we offer a variety of group fitness classes including yoga, cycling, HIIT, and more. Check our class schedule on our website or mobile app.",
+      "Có, chúng tôi có nhiều lớp học nhóm như yoga, đạp xe, HIIT, v.v. Bạn có thể xem lịch học trên website hoặc ứng dụng.",
   },
   {
-    question: "Do you have shower facilities?",
+    question: "Phòng tập có phòng tắm không?",
     answer:
-      "Yes, we have shower facilities with complimentary towels, shampoo, and body wash.",
+      "Có, chúng tôi có phòng tắm đầy đủ với khăn tắm, dầu gội và sữa tắm miễn phí.",
   },
 ];
 
@@ -52,13 +52,13 @@ const Contact: React.FC = () => {
       <HomeSlider />
       <ContactInfo />
       <ContactFormSection
-        title="Send Us a Message"
-        subtitle="We'll get back to you as soon as possible"
+        title="Gửi tin nhắn cho chúng tôi"
+        subtitle="Chúng tôi sẽ phản hồi sớm nhất có thể"
         location="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2798897555!2d-74.25987155604412!3d40.69767006316378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQxJzUyLjAiTiA3NMKwMTUnMjguNyJX!5e0!3m2!1sen!2sus!4v1614588395925!5m2!1sen!2sus"
       />
       <ContactFAQs
-        title="Frequently Asked Questions"
-        subtitle="Find answers to common questions about our gym and services"
+        title="Câu hỏi thường gặp"
+        subtitle="Giải đáp thắc mắc về dịch vụ và phòng tập của chúng tôi"
         faqs={MOCK_FAQS}
       />
       <CTABanner />

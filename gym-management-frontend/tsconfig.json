@@ -8,7 +8,10 @@
     "paths": {
       "~/*": ["./src/*"]
     },
+    "lib": ["webworker", "es2020"],
+    "types": ["serviceworker"],
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+     "resolveJsonModule": true
   }
 }

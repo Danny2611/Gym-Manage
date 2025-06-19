@@ -7,7 +7,7 @@ const RoleBasedDropdown: React.FC = () => {
   const { user } = useAuth();
   // console.log("user", user);
   // Determine which dropdown to display based on user role
-  if (user && user.role.toLowerCase() === "67c024616b4448e1eab6a861") {
+  if (user && user.roleName.toLowerCase() === "admin") {
     return <AdminDropdown />;
   }
 

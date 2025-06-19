@@ -26,7 +26,9 @@ export const getCurrentProfile = async (req: AuthRequest, res: Response): Promis
       return;
     }
 
-    const member = await Member.findById(userId).select('-password');
+    const member = await Member.findById(userId)
+      .select('-password')
+      .populate('role', 'name');
 
     if (!member) {
       res.status(404).json({
@@ -38,7 +40,10 @@ export const getCurrentProfile = async (req: AuthRequest, res: Response): Promis
 
     res.status(200).json({
       success: true,
-      data: member
+       data: {
+        ...member.toObject(),
+       roleName: ((member.role as any)?.name || "").toLowerCase(), // Lấy tên role
+      },
     });
   } catch (error) {
     console.error('Lỗi khi lấy thông tin hội viên:', error);

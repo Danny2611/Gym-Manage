@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import "./index.css";
+import './i18n'; 
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AppWrapper } from "./components/dashboard/common/PageMeta";
 import { Toaster } from "sonner";

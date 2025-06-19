@@ -14,18 +14,22 @@ interface ContactFAQsProps {
 }
 
 const ContactFAQs: React.FC<ContactFAQsProps> = ({
-  title = "Frequently Asked Questions",
-  subtitle = "Find answers to common questions about our gym and services",
+  title = "Câu Hỏi Thường Gặp",
+  subtitle = "Tìm câu trả lời cho những thắc mắc thường gặp về phòng gym và dịch vụ của chúng tôi",
   faqs,
 }) => {
   return (
-    <div className="bg-white py-16">
+    <div className="bg-white py-16 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl">
           {title && (
             <div className="mb-12 text-center">
-              <h2 className="mb-3 text-3xl font-bold">{title}</h2>
-              {subtitle && <p className="text-gray-600">{subtitle}</p>}
+              <h2 className="mb-3 text-3xl font-bold text-[#0D2E4B] dark:text-white">
+                {title}
+              </h2>
+              {subtitle && (
+                <p className="text-gray-600 dark:text-gray-300">{subtitle}</p>
+              )}
             </div>
           )}
 
@@ -34,18 +38,20 @@ const ContactFAQs: React.FC<ContactFAQsProps> = ({
               <Disclosure
                 key={index}
                 as="div"
-                className="rounded-lg border border-gray-200"
+                className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800"
               >
                 {({ open }) => (
                   <>
-                    <Disclosure.Button className="flex w-full justify-between px-6 py-4 text-left focus:outline-none">
-                      <span className="text-lg font-medium">
+                    <Disclosure.Button className="flex w-full justify-between px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-[#0D2E4B] focus:ring-opacity-50 dark:focus:ring-blue-400 dark:focus:ring-opacity-50">
+                      <span className="text-lg font-medium text-[#0D2E4B] dark:text-white">
                         {faq.question}
                       </span>
                       <FaChevronDown
                         className={`${
-                          open ? "text-primary-500 rotate-180 transform" : ""
-                        } h-5 w-5 text-gray-500 transition-transform duration-200`}
+                          open 
+                            ? "rotate-180 transform text-[#0D2E4B] dark:text-blue-400" 
+                            : "text-gray-500 dark:text-gray-400"
+                        } h-5 w-5 transition-transform duration-200`}
                       />
                     </Disclosure.Button>
                     <Transition
@@ -56,7 +62,7 @@ const ContactFAQs: React.FC<ContactFAQsProps> = ({
                       leaveFrom="transform scale-100 opacity-100"
                       leaveTo="transform scale-95 opacity-0"
                     >
-                      <Disclosure.Panel className="px-6 py-4 pt-0 text-gray-600">
+                      <Disclosure.Panel className="px-6 py-4 pt-0 text-gray-600 dark:text-gray-300">
                         {faq.answer}
                       </Disclosure.Panel>
                     </Transition>

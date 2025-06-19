@@ -11,10 +11,10 @@ interface CTABannerProps {
 }
 
 const CTABanner: React.FC<CTABannerProps> = ({
-  title = "Ready to Start Your Fitness Journey?",
-  subtitle = "Join Fittlife today and transform your life with our expert trainers and state-of-the-art facilities.",
-  buttonText = "Join Now",
-  buttonLink = "/membership",
+  title = "Bạn đã sẵn sàng thay đổi bản thân?",
+  subtitle = "Gia nhập Fittlife ngay hôm nay để rèn luyện sức khỏe cùng đội ngũ huấn luyện viên chuyên nghiệp và trang thiết bị hiện đại.",
+  buttonText = "Đăng ký ngay",
+  buttonLink = "/user/packages",
   backgroundImage,
 }) => {
   return (

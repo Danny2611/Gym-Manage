@@ -4,6 +4,8 @@ import MissionValuesSection from "~/components/sections/about/MissionValuesSecti
 import TeamSection from "~/components/sections/about/TeamSection";
 import { Helmet } from "react-helmet-async";
 import Slider, { SlideProps } from "~/components/common/Slider";
+import ContactFAQs from "~/components/sections/contact/ContactFAQs";
+
 const homeSlides: SlideProps[] = [
   {
     id: 1,
@@ -79,55 +81,34 @@ const AboutPage: React.FC = () => {
         {/* Team Section - Zigzag Item 3 */}
         <TeamSection />
 
-        {/* CTA Section */}
-        <section className="bg-primary-600 py-16 text-white">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              Sẵn sàng bắt đầu hành trình của bạn?
-            </h2>
-            <p className="text-primary-100 mx-auto mb-8 max-w-2xl text-lg">
-              Tham gia cùng FittLife ngay hôm nay và khám phá sức mạnh thực sự
-              của bạn với sự hỗ trợ từ đội ngũ chuyên gia hàng đầu của chúng
-              tôi.
-            </p>
-            <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <button className="text-primary-600 rounded-lg bg-white px-8 py-3 font-semibold transition-all hover:bg-gray-100">
-                Tham quan phòng gym
-              </button>
-              <button className="hover:text-primary-600 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-all hover:bg-white">
-                Đăng ký tư vấn miễn phí
-              </button>
-            </div>
-          </div>
-        </section>
-
+      {/* CTA Section */}
+    <section className="bg-[#0D2E4B] py-16 dark:bg-gray-800">
+  <div className="container mx-auto px-4 text-center">
+    <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+      Sẵn sàng bắt đầu hành trình của bạn?
+    </h2>
+    <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-200 dark:text-gray-300">
+      Tham gia cùng FittLife ngay hôm nay và khám phá sức mạnh thực sự
+      của bạn với sự hỗ trợ từ đội ngũ chuyên gia hàng đầu của chúng
+      tôi.
+    </p>
+    <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <button className="rounded-lg bg-white px-8 py-3 font-semibold text-[#0D2E4B] transition-all hover:bg-gray-100 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white">
+        Tham quan phòng gym
+      </button>
+      <button className="rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-all hover:bg-white hover:text-[#0D2E4B] dark:border-gray-300 dark:text-gray-300 dark:hover:bg-gray-300 dark:hover:text-gray-800">
+        Đăng ký tư vấn miễn phí
+      </button>
+    </div>
+  </div>
+</section>
         {/* FAQ Section */}
-
-        <section className="bg-gray-50 py-16 dark:bg-gray-800">
-          <div className="container mx-auto px-4">
-            <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-primary-600 mb-2 text-sm font-bold uppercase tracking-wider">
-                CÂU HỎI THƯỜNG GẶP
-              </h2>
-              <h3 className="mb-12 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
-                Mọi điều bạn cần biết về FittLife
-              </h3>
-            </div>
-
-            <div className="mx-auto max-w-3xl divide-y divide-gray-200 dark:divide-gray-700">
-              {faqItems.map((item, index) => (
-                <div key={index} className="py-5">
-                  <h4 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-                    {item.question}
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {item.answer}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+     
+         <ContactFAQs
+        title="Câu hỏi thường gặp"
+        subtitle="Giải đáp thắc mắc về dịch vụ và phòng tập của chúng tôi"
+        faqs={faqItems}
+      />
       </div>
     </>
   );

@@ -71,8 +71,9 @@ export const loginUser = async (email: string, password: string) => {
   
   // Lấy thông tin vai trò
   const role = await Role.findById(user.role);
-  const roleName = role ? role.name : 'Member';
   
+  const roleName = role ? role.name : 'Member';
+  console.log("loginName", roleName)
   // Tạo token với thông tin vai trò
   const accessToken = generateAccessToken(String(user._id), roleName);
   const refreshToken = generateRefreshToken(String(user._id), roleName);

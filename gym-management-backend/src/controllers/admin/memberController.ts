@@ -12,6 +12,9 @@ interface AuthRequest extends Request {
 // Get all members with pagination and filters
 
 export const getAllMembers = async (req: AuthRequest, res: Response): Promise<void> => {
+  
+ const userName = req.userRole;
+ console.log("userName", userName)
   try {
     const {
       page = '1',

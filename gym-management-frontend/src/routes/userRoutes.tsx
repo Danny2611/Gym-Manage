@@ -21,7 +21,7 @@ import { PWAInstallPrompt } from "~/components/pwa/PWAInstallPrompt";
 
 const userRoutes = {
   path: "user",
-  element: <RoleBasedRoute allowedRoles={["67c024616b4448e1eab6a85f"]} />,
+  element: <RoleBasedRoute allowedRoles={["member"]} />,
   children: [
     {
       element: <DashboardLayout />,

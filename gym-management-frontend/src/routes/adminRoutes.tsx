@@ -16,7 +16,7 @@ import RevenueReport from "~/pages/admin/Reports/RevenueReport";
 
 const adminRoutes = {
   path: "admin",
-  element: <RoleBasedRoute allowedRoles={["67c024616b4448e1eab6a861"]} />,
+  element: <RoleBasedRoute allowedRoles={["admin"]} />,
   children: [
     {
       element: <DashboardLayoutAdmin />,

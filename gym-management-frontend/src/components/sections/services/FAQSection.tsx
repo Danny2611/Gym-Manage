@@ -2,6 +2,7 @@ import React from "react";
 import SectionTitle from "../../common/SectionTitle";
 import { Disclosure, Transition } from "@headlessui/react";
 import Button from "../../common/Button";
+import ContactFAQs from "../contact/ContactFAQs";
 
 interface FAQ {
   question: string;
@@ -46,45 +47,17 @@ const FAQSection: React.FC = () => {
     <section className="bg-gray-50 py-16 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
-          subtitle="CÂU HỎI THƯỜNG GẶP"
+          // subtitle="CÂU HỎI THƯỜNG GẶP"
           title="Giải đáp thắc mắc của bạn"
-          description="Những câu hỏi phổ biến liên quan đến dịch vụ, gói tập và chính sách của chúng tôi."
+          // description="Những câu hỏi phổ biến liên quan đến dịch vụ, gói tập và chính sách của chúng tôi."
         />
 
-        <div className="mx-auto mt-12 max-w-3xl">
-          {faqs.map((faq, index) => (
-            <Disclosure key={index} as="div" className="mt-4">
-              {({ open }) => (
-                <>
-                  <Disclosure.Button className="focus-visible:ring-primary-500 flex w-full justify-between rounded-lg bg-white px-6 py-4 text-left text-lg font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
-                    <span>{faq.question}</span>
-                    <span
-                      className={`${
-                        open ? "rotate-180 transform" : ""
-                      } transition-transform duration-200`}
-                    >
-                      <i className="fas fa-chevron-down"></i>
-                    </span>
-                  </Disclosure.Button>
-                  <Transition
-                    show={open}
-                    enter="transition duration-100 ease-out"
-                    enterFrom="transform scale-95 opacity-0"
-                    enterTo="transform scale-100 opacity-100"
-                    leave="transition duration-75 ease-out"
-                    leaveFrom="transform scale-100 opacity-100"
-                    leaveTo="transform scale-95 opacity-0"
-                  >
-                    <Disclosure.Panel className="rounded-b-lg border border-gray-100 bg-white px-6 py-4 text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                      {faq.answer}
-                    </Disclosure.Panel>
-                  </Transition>
-                </>
-              )}
-            </Disclosure>
-          ))}
-        </div>
-
+        
+         <ContactFAQs
+        title="Câu hỏi thường gặp"
+        subtitle="Những câu hỏi phổ biến liên quan đến dịch vụ, gói tập và chính sách của chúng tôi."
+        faqs={faqs}
+      />
         <div className="mt-12 text-center">
           <p className="mb-4 text-gray-600 dark:text-gray-300">
             Không tìm thấy câu trả lời bạn cần?

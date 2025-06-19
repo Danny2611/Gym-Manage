@@ -4,7 +4,7 @@ import { Bell, Wifi, WifiOff } from "lucide-react";
 import { usePWA } from "~/hooks/usePWA";
 import { usePushNotifications } from "~/hooks/usePushNotifications";
 
-import { NotificationList } from "./test/NotificationList";
+// import { NotificationList } from "./test/NotificationList";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { PWAUpdatePrompt } from "./PWAUpdatePrompt";
 
@@ -89,10 +89,10 @@ export const PWAPushNotification: React.FC<PWAPushNotificationProps> = ({
       <PWAUpdatePrompt />
 
       {/* Notification List */}
-      <NotificationList
+      {/* <NotificationList
         isOpen={isNotificationListOpen}
         onClose={() => setIsNotificationListOpen(false)}
-      />
+      /> */}
 
       {/* Floating Notification Button - ✅ Kiểm tra Service Worker ready */}
       {isNotificationSupported &&

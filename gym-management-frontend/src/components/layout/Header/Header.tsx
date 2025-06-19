@@ -14,6 +14,9 @@ import { useScrollPosition } from "~/hooks/useScrollPosition";
 import Button from "../../common/Button";
 import RoleBasedDropdown from "~/components/dashboard/header/RoleBasedDropdown";
 import { useAuth } from "~/contexts/AuthContext";
+import { ThemeToggleButton } from "~/components/dashboard/common/ThemeToggleButton";
+import LanguageSelector from "~/components/LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 interface NavItem {
   name: string;
@@ -26,11 +29,7 @@ const navItems: NavItem[] = [
   {
     name: "About",
     path: "/about-us",
-    // children: [
-    //   { name: "About Us", path: "/about-us" },
-    //   { name: "Our Story", path: "/about/story" },
-    //   { name: "Testimonials", path: "/about/testimonials" },
-    // ],
+  
   },
   {
     name: "Services",
@@ -61,6 +60,7 @@ const Header: React.FC = () => {
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
+   const { t } = useTranslation();
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -110,18 +110,21 @@ const Header: React.FC = () => {
 
             {/* Right Navigation */}
             <div className="hidden items-center space-x-6 md:flex">
-              <Link
+               <Link
                 to="/user/packages"
                 className="text-sm transition-colors hover:text-blue-600"
               >
-                Join Membership
+                {t('navigation.joinMembership')}
               </Link>
-              <Link
-                to="/#"
-                className="text-sm transition-colors hover:text-blue-600"
-              >
-                Get Theme →
-              </Link>
+                <LanguageSelector />
+             
+        <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
+             <ThemeToggleButton />
+</div>
+
+
+
+
             </div>
           </div>
         </div>
@@ -403,13 +406,13 @@ const Header: React.FC = () => {
                 <div className="mb-2 flex items-center justify-center text-sm">
                   <BsFillTelephoneFill className="mr-2 text-blue-600 dark:text-blue-400" />
                   <span className="text-[#0D2E4B] dark:text-white">
-                    + (02) 125 789 020
+                    + (123) 456-7890
                   </span>
                 </div>
                 <div className="flex items-center justify-center text-sm">
                   <FaMapMarkerAlt className="mr-2 text-blue-600 dark:text-blue-400" />
                   <span className="text-[#0D2E4B] dark:text-white">
-                    3592 Oakwood Avenue, New York
+                   123 Linh Xuân, thành phố Thủ Đức, Hồ Chí Minh.
                   </span>
                 </div>
               </li>

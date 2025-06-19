@@ -17,7 +17,7 @@ const CallToActionSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Ready to Transform Your Life?
+          Sẵn sàng thay đổi bản thân?
         </motion.h2>
 
         <motion.p
@@ -26,8 +26,8 @@ const CallToActionSection: React.FC = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          Join our fitness community and take the first step towards a healthier
-          and stronger you.
+          Tham gia cộng đồng tập luyện của chúng tôi để bắt đầu hành trình
+          sống khỏe mạnh và mạnh mẽ hơn mỗi ngày.
         </motion.p>
 
         <motion.div
@@ -36,10 +36,10 @@ const CallToActionSection: React.FC = () => {
           transition={{ delay: 0.4, duration: 0.5 }}
         >
           <Link
-            to="/membership"
+            to="/services"
             className="bg-primary-500 hover:bg-primary-600 transform rounded-full px-8 py-3 text-lg font-bold text-white transition-transform hover:scale-105"
           >
-            Get Started Now
+            Bắt đầu ngay
           </Link>
         </motion.div>
       </div>

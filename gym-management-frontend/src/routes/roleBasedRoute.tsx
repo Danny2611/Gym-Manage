@@ -8,6 +8,7 @@ interface RoleBasedRouteProps {
 
 const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ allowedRoles }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
+
   const location = useLocation();
 
   if (isLoading) {
@@ -24,11 +25,10 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ allowedRoles }) => {
   }
 
   // Use roleName for role checking instead of role ID
-  const userRole = user?.role?.toLowerCase();
-
+  const userRoleName = user?.roleName.toLowerCase();
   const allowed = allowedRoles
     .map((r) => r.toLowerCase())
-    .includes(userRole as string);
+    .includes(userRoleName as string);
   // Check if userRole is defined before using includes
   if (!allowed) {
     // ❌ Block access completely
@@ -42,11 +42,12 @@ const RoleBasedRoute: React.FC<RoleBasedRouteProps> = ({ allowedRoles }) => {
             Bạn không có quyền truy cập trang này.
           </p>
           <a
-            href={
-              userRole === "67c024616b4448e1eab6a861"
+           href={
+              userRoleName === "admin"
                 ? "/admin/members"
                 : "/user/dashboard"
             }
+
             className="mt-4 inline-block text-blue-600 underline"
           >
             Quay về trang chính

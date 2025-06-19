@@ -86,6 +86,7 @@ export const getMemberTrainingLocations = asyncHandler(async (req: AuthRequest, 
 export const getMemberships = asyncHandler(async (req: AuthRequest, res: Response) => {
   try {
     const memberId = req.userId;
+    const userName = req.userRole;
 
     if (!memberId) {
       res.status(401).json({

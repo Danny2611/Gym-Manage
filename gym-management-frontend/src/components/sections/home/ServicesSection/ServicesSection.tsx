@@ -70,7 +70,7 @@ const ServicesSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-gray-50 py-20 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
           title="Dịch Vụ Nổi Bật"
@@ -90,7 +90,7 @@ const ServicesSection: React.FC = () => {
             <motion.div
               key={service.id}
               variants={itemVariants}
-              className="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+              className="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800 dark:shadow-gray-900/20 dark:hover:shadow-gray-900/40"
             >
               <div className="relative h-56 overflow-hidden">
                 <img
@@ -100,10 +100,10 @@ const ServicesSection: React.FC = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 className="mb-3 text-xl font-bold text-[#0D2E4B]">
+                <h3 className="mb-3 text-xl font-bold text-[#0D2E4B] dark:text-white">
                   {service.title}
                 </h3>
-                <p className="mb-4 text-gray-600">{service.description}</p>
+                <p className="mb-4 text-gray-600 dark:text-gray-300">{service.description}</p>
               </div>
             </motion.div>
           ))}
@@ -111,7 +111,7 @@ const ServicesSection: React.FC = () => {
 
         <div className="mt-12 text-center">
           <Link to="/services">
-            <button className="rounded-md bg-[#0D2E4B] px-8 py-3 font-medium text-white transition-colors hover:bg-[#0CC6F0]">
+            <button className="rounded-md bg-[#0D2E4B] px-8 py-3 font-medium text-white transition-colors hover:bg-[#0CC6F0] dark:bg-[#0CC6F0] dark:hover:bg-[#0D2E4B]">
               Xem tất cả dịch vụ
             </button>
           </Link>

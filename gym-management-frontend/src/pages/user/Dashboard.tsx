@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useOffline } from '~/hooks/useOffline';
-import { OfflineManager } from '~/utils/offlineUtils';
-import OfflineIndicator from '~/components/OfflineIndicator';
-
 import ComponentCard from "~/components/dashboard/common/ComponentCard";
 import Avatar from "~/components/dashboard/ui/avatar/Avatar";
 import MembershipDetailsModal from "~/components/user/memberships/MembershipDetailsModal";
@@ -18,23 +14,18 @@ import { promotionService } from "~/services/promotionService";
 import { workoutService } from "~/services/workoutService";
 import { paymentService } from "~/services/paymentService";
 
+// Import offline utilities
+import { useOffline } from "~/hooks/useOffline";
+
+
 import { toast } from "sonner";
-import { formatTime } from "~/utils/formatters";
+import { formatDateToday, formatTime } from "~/utils/formatters";
 
 import { MembershipDetailsResponse, MembershipWithRemainingData } from "~/types/membership";
 import { RecentTransactionDTO } from "~/types/transaction";
 import { PromotionResponse } from "~/types/promotion";
-
-// Interface for combined upcoming schedule items
-interface ScheduleItem {
-  date: Date;
-  timeStart: Date;
-  timeEnd?: Date;
-  location?: string;
-  status: string;
-  type: "workout" | "appointment";
-  name?: string;
-}
+import { ScheduleItem } from "~/types/schedule";
+import { CacheManager } from "~/utils/cache";
 
 // Interface for Weekly Workout data
 interface WeeklyWorkout {
@@ -43,6 +34,69 @@ interface WeeklyWorkout {
   duration: number;
   target?: number;
 }
+
+// Offline Status Banner Component
+const OfflineStatusBanner = ({ 
+  isOnline, 
+  pendingRequests, 
+  lastSync 
+}: { 
+  isOnline: boolean; 
+  pendingRequests: number; 
+  lastSync: Date | null; 
+}) => {
+  if (isOnline && pendingRequests === 0) return null;
+
+  return (
+    <div className={`fixed top-0 left-0 right-0 z-50 p-3 text-sm text-center ${
+      isOnline 
+        ? 'bg-yellow-500 text-white' 
+        : 'bg-red-500 text-white'
+    }`}>
+      {!isOnline ? (
+        <>
+          <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+          Chế độ offline - Một số tính năng có thể bị hạn chế
+        </>
+      ) : pendingRequests > 0 ? (
+        <>
+          <span className="inline-block w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+          Đang đồng bộ {pendingRequests} yêu cầu...
+          {lastSync && (
+            <span className="ml-2 text-xs opacity-75">
+              (Lần cuối: {lastSync.toLocaleTimeString()})
+            </span>
+          )}
+        </>
+      ) : null}
+    </div>
+  );
+};
+
+// Cache Status Indicator Component
+const CacheStatusIndicator = ({ 
+  isUsingCache, 
+  cacheAge 
+}: { 
+  isUsingCache: boolean; 
+  cacheAge?: number; 
+}) => {
+  if (!isUsingCache) return null;
+
+  const getAgeText = (age: number) => {
+    const minutes = Math.floor(age / (1000 * 60));
+    if (minutes < 1) return 'vừa cập nhật';
+    if (minutes === 1) return '1 phút trước';
+    return `${minutes} phút trước`;
+  };
+
+  return (
+    <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-2">
+      <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+      Dữ liệu từ bộ nhớ đệm {cacheAge ? `(${getAgeText(cacheAge)})` : ''}
+    </div>
+  );
+};
 
 // Badge component for statuses
 const Badge = ({
@@ -53,27 +107,21 @@ const Badge = ({
   text: string;
 }) => {
   const colorClasses = {
-    success:
-      "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-    warning:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+    success: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+    warning: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
     error: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
     info: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
   };
 
   return (
-    <span
-      className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${colorClasses[type]}`}
-    >
+    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${colorClasses[type]}`}>
       {text}
     </span>
   );
 };
 
 // Helper functions
-const getPackageBadgeType = (
-  category: string,
-): "success" | "warning" | "error" | "info" => {
+const getPackageBadgeType = (category: string): "success" | "warning" | "error" | "info" => {
   switch (category.toLowerCase()) {
     case "premium":
     case "platinum":
@@ -93,28 +141,39 @@ const capitalizeFirstLetter = (string: string): string => {
 };
 
 const Dashboard: React.FC = () => {
-   const { isOnline, isOffline } = useOffline();
-  const offlineManager = OfflineManager.getInstance();
-  
-  const [membershipDetails, setMembershipDetails] =
-    useState<MembershipDetailsResponse | null>(null);
+  // Offline hook
+  const {
+    isOnline,
+    isOfflineMode,
+    pendingRequests,
+    lastSync,
+    fetchWithCache,
+    offlineAwareFetch,
+    queueOfflineRequest,
+    syncOfflineData,
+    clearOfflineData,
+    getCacheStats
+  } = useOffline();
+
+  const [membershipDetails, setMembershipDetails] = useState<MembershipDetailsResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isUsingCache, setIsUsingCache] = useState<boolean>(false);
+  const [cacheAge, setCacheAge] = useState<number | undefined>(undefined);
 
   const [promotions, setPromotions] = useState<PromotionResponse[]>([]);
   const navigate = useNavigate();
 
   // State for membership modal
-  const [selectedMembership, setSelectedMembership] =
-    useState<MembershipWithRemainingData | null>(null);
+  const [selectedMembership, setSelectedMembership] = useState<MembershipWithRemainingData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // State for combined upcoming schedule
   const [upcomingSchedule, setUpcomingSchedule] = useState<ScheduleItem[]>([]);
+  
   // State for recent transactions
-  const [recentTransactions, setRecentTransactions] = useState<
-    RecentTransactionDTO[]
-  >([]);
+  const [recentTransactions, setRecentTransactions] = useState<RecentTransactionDTO[]>([]);
+  
   // State for weekly workout data
   const [weeklyWorkoutData, setWeeklyWorkoutData] = useState<WeeklyWorkout[]>([
     { name: "T2", sessions: 0, duration: 0, target: 0 },
@@ -126,14 +185,19 @@ const Dashboard: React.FC = () => {
     { name: "CN", sessions: 0, duration: 0, target: 0 },
   ]);
 
-  // Handle payment
+  // Enhanced payment handler with offline support
   const handlePayment = async (packageId: string) => {
+    if (!isOnline) {
+      toast.error("Không thể thanh toán khi offline. Vui lòng kiểm tra kết nối mạng.");
+      return;
+    }
+
     try {
       // Step 1: Register for the package
       const registerResponse = await paymentService.registerPackage(packageId);
 
       if (!registerResponse.success) {
-        alert(registerResponse.message || "Lỗi khi đăng ký gói tập");
+        toast.error(registerResponse.message || "Lỗi khi đăng ký gói tập");
         return;
       }
 
@@ -141,69 +205,115 @@ const Dashboard: React.FC = () => {
       const paymentResponse = await paymentService.createMoMoPayment(packageId);
 
       if (!paymentResponse.success || !paymentResponse.data) {
-        alert(paymentResponse.message || "Lỗi khi tạo yêu cầu thanh toán");
+        toast.error(paymentResponse.message || "Lỗi khi tạo yêu cầu thanh toán");
         return;
       }
 
-      // Save payment info to localStorage for later use
-      localStorage.setItem(
-        "currentPayment",
-        JSON.stringify({
-          paymentId: paymentResponse.data.paymentId,
-          transactionId: paymentResponse.data.transactionId,
-          amount: paymentResponse.data.amount,
-          expireTime: paymentResponse.data.expireTime,
-          packageId: packageId,
-        }),
-      );
+      // Save payment info for later use (using in-memory storage for offline compatibility)
+      const paymentData = {
+        paymentId: paymentResponse.data.paymentId,
+        transactionId: paymentResponse.data.transactionId,
+        amount: paymentResponse.data.amount,
+        expireTime: paymentResponse.data.expireTime,
+        packageId: packageId,
+      };
+
+      // Store in cache instead of localStorage for offline compatibility
+      await CacheManager.setData('currentPayment', paymentData, 24 * 60 * 60 * 1000); // 24 hours
 
       // Redirect to MoMo payment page
       window.location.href = paymentResponse.data.payUrl;
     } catch (err) {
       console.error("Lỗi khi xử lý đăng ký:", err);
-      alert("Đã xảy ra lỗi không mong muốn");
+      toast.error("Đã xảy ra lỗi không mong muốn");
     }
   };
 
-  // Handle pause membership
+  // Enhanced pause membership with offline support
   const handlePauseMembership = async (id: string) => {
-    try {
-      const response = await membershipService.pauseMembership(id);
-      if (response.success) {
-        fetchData();
-        alert("Tạm dừng gói tập thành công");
-        setIsModalOpen(false);
-      } else {
-        alert(response.message || "Không thể tạm dừng gói tập");
-      }
-    } catch (error) {
-      console.error("Lỗi khi tạm dừng gói tập:", error);
-      alert("Đã xảy ra lỗi khi tạm dừng gói tập");
+  try {
+    if (!isOnline) {
+      // Queue request for offline
+      await queueOfflineRequest(
+        `/api/user/my-package/pause`,
+        'PATCH',
+        {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        { membershipId: id }
+      );
+      toast.success("Yêu cầu tạm dừng đã được lưu. Sẽ được xử lý khi có mạng.");
+      setIsModalOpen(false);
+      return;
     }
-  };
 
-  // Handle resume membership
-  const handleResumeMembership = async (id: string) => {
-    try {
-      const response = await membershipService.resumeMembership(id);
-      if (response.success) {
-        fetchData();
-        alert("Tiếp tục gói tập thành công");
-        setIsModalOpen(false);
-      } else {
-        alert(response.message || "Không thể tiếp tục gói tập");
-      }
-    } catch (error) {
-      console.error("Lỗi khi tiếp tục gói tập:", error);
-      alert("Đã xảy ra lỗi khi tiếp tục gói tập");
+    const response = await membershipService.pauseMembership(id);
+    if (response.success) {
+      fetchData();
+      toast.success("Tạm dừng gói tập thành công");
+      setIsModalOpen(false);
+    } else {
+      toast.error(response.message || "Không thể tạm dừng gói tập");
     }
-  };
+  } catch (error) {
+    console.error("Lỗi khi tạm dừng gói tập:", error);
+    toast.error("Đã xảy ra lỗi khi tạm dừng gói tập");
+  }
+};
 
-  // Handle view membership details
+
+  // Enhanced resume membership with offline support
+ const handleResumeMembership = async (id: string) => {
+  try {
+    if (!isOnline) {
+      // Queue request for offline
+      await queueOfflineRequest(
+        `/api/user/my-package/resume`,
+        'PATCH',
+        {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true'
+        },
+        { membershipId: id }
+      );
+      toast.success("Yêu cầu tiếp tục đã được lưu. Sẽ được xử lý khi có mạng.");
+      setIsModalOpen(false);
+      return;
+    }
+
+    const response = await membershipService.resumeMembership(id);
+    if (response.success) {
+      fetchData();
+      toast.success("Tiếp tục gói tập thành công");
+      setIsModalOpen(false);
+    } else {
+      toast.error(response.message || "Không thể tiếp tục gói tập");
+    }
+  } catch (error) {
+    console.error("Lỗi khi tiếp tục gói tập:", error);
+    toast.error("Đã xảy ra lỗi khi tiếp tục gói tập");
+  }
+};
+
+  // Enhanced view membership details with offline support
   const handleViewDetails = async (id: string) => {
     try {
-      const response = await membershipService.getMembershipById(id);
+      // Try to get from cache first if offline
+      let response;
+      if (isOfflineMode) {
+        const cachedData = await CacheManager.getData(`membership-${id}`);
+        if (cachedData) {
+          setSelectedMembership(cachedData);
+          setIsModalOpen(true);
+          return;
+        }
+      }
+
+      response = await membershipService.getMembershipById(id);
       if (response.success && response.data) {
+        // Cache the result
+        await CacheManager.setData(`membership-${id}`, response.data, 10 * 60 * 1000); // 10 minutes
         setSelectedMembership(response.data);
         setIsModalOpen(true);
       } else {
@@ -211,33 +321,16 @@ const Dashboard: React.FC = () => {
       }
     } catch (error) {
       console.error("Lỗi khi tải chi tiết gói tập:", error);
-      alert("Đã xảy ra lỗi khi tải chi tiết gói tập");
-    }
-  };
-
-  // Format date for display
-  const formatDate = (date: Date): string => {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-
-    if (date.toDateString() === today.toDateString()) {
-      return "Hôm nay";
-    } else if (date.toDateString() === tomorrow.toDateString()) {
-      return "Ngày mai";
-    } else {
-      return date.toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
+      if (isOfflineMode) {
+        toast.error("Không có dữ liệu offline cho gói tập này");
+      } else {
+        toast.error("Đã xảy ra lỗi khi tải chi tiết gói tập");
+      }
     }
   };
 
   // Get badge type based on status
-  const getStatusBadgeType = (
-    status: string,
-  ): "success" | "warning" | "error" | "info" => {
+  const getStatusBadgeType = (status: string): "success" | "warning" | "error" | "info" => {
     switch (status.toLowerCase()) {
       case "confirmed":
       case "đã xác nhận":
@@ -267,120 +360,234 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Load all necessary data
+  // Enhanced data fetching with offline support
   const fetchData = async () => {
     setIsLoading(true);
     setError(null);
+    setIsUsingCache(false);
+    setCacheAge(undefined);
 
     try {
-        // Nếu offline, load từ cache trước
-      if (isOffline) {
-        await loadOfflineData();
-        setIsLoading(false);
-        return;
-      }
-      // Fetch membership details
-      const membershipResponse =
-        await membershipService.getInforMembershipDetails();
+      let usedCache = false;
+      let oldestCacheTimestamp = Date.now();
 
-      if (membershipResponse.success && membershipResponse.data) {
-        setMembershipDetails(membershipResponse.data);
-          await offlineManager.cacheData('membership_details', membershipResponse.data);
-      } else {
-        setError(
-          membershipResponse.message || "Không thể tải thông tin hội viên",
+      // Fetch membership details with cache
+      try {
+        const membershipResponse = await fetchWithCache(
+          () => membershipService.getInforMembershipDetails(),
+          'membership-details',
+          CacheManager['CACHE_DURATION']?.MEMBERSHIP || 5 * 60 * 1000
         );
+
+        if (membershipResponse.success && membershipResponse.data) {
+          setMembershipDetails(membershipResponse.data);
+          
+          // Check if data came from cache
+          const cachedData = await CacheManager.getCachedMembershipDetails();
+          if (cachedData && !isOnline) {
+            usedCache = true;
+            // Calculate cache age (this is simplified, in real implementation you'd store timestamp)
+            oldestCacheTimestamp = Math.min(oldestCacheTimestamp, Date.now() - (5 * 60 * 1000));
+          }
+        } else {
+          setError(membershipResponse.message || "Không thể tải thông tin hội viên");
+        }
+      } catch (err) {
+        console.error("Error fetching membership details:", err);
+        // Try to get cached data as fallback
+        const cachedData = await CacheManager.getCachedMembershipDetails();
+        if (cachedData) {
+          setMembershipDetails(cachedData);
+          usedCache = true;
+        }
       }
 
-      // Fetch weekly workout data
-      const weeklyStatsResponse = await workoutService.getWeeklyWorkoutStats();
-      if (weeklyStatsResponse.success && weeklyStatsResponse.data) {
-        setWeeklyWorkoutData(weeklyStatsResponse.data);
-        await offlineManager.cacheData('weekly_workout', weeklyStatsResponse.data);
+      // Fetch weekly workout data with cache
+      try {
+        const weeklyStatsResponse = await fetchWithCache(
+          () => workoutService.getWeeklyWorkoutStats(),
+          'weekly-workout',
+          CacheManager['CACHE_DURATION']?.WORKOUT || 2 * 60 * 1000
+        );
+
+        if (weeklyStatsResponse.success && weeklyStatsResponse.data) {
+          setWeeklyWorkoutData(weeklyStatsResponse.data);
+          
+          // Check cache usage
+          const cachedData = await CacheManager.getCachedWeeklyWorkout();
+          if (cachedData && !isOnline) {
+            usedCache = true;
+            oldestCacheTimestamp = Math.min(oldestCacheTimestamp, Date.now() - (2 * 60 * 1000));
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching weekly workout:", err);
+        const cachedData = await CacheManager.getCachedWeeklyWorkout();
+        if (cachedData) {
+          setWeeklyWorkoutData(cachedData);
+          usedCache = true;
+        }
       }
 
-      // Fetch upcoming workouts and appointments
-      const upcomingWorkoutsData = await workoutService.getUpcomingWorkouts();
-      const upcomingAppointmentData =
-        await appointmentService.getUpcomingAppointment();
+      // Fetch upcoming schedule with cache
+      try {
+        let combinedSchedule: ScheduleItem[] = [];
 
-      // Process and combine workout and appointment data
-      let combinedSchedule: ScheduleItem[] = [];
+        // Fetch workouts
+        const upcomingWorkoutsData = await fetchWithCache(
+          () => workoutService.getUpcomingWorkouts(),
+          'upcoming-workouts',
+          CacheManager['CACHE_DURATION']?.WORKOUT || 2 * 60 * 1000
+        );
 
-      // Process workouts data
-      if (upcomingWorkoutsData.success && upcomingWorkoutsData.data) {
-        const workouts = upcomingWorkoutsData.data.map((workout) => ({
-          ...workout,
-          type: "workout" as const,
-          name: "Cá nhân",
-        }));
-        combinedSchedule = [...combinedSchedule, ...workouts];
-      }
+        if (upcomingWorkoutsData.success && upcomingWorkoutsData.data) {
+          const workouts = upcomingWorkoutsData.data.map((workout) => ({
+            ...workout,
+            type: "workout" as const,
+            name: "Cá nhân",
+          }));
+          combinedSchedule = [...combinedSchedule, ...workouts];
+        }
 
-      // Process appointments data
-      if (upcomingAppointmentData.success && upcomingAppointmentData.data) {
-        const appointments = upcomingAppointmentData.data.map(
-          (appointment) => ({
+        // Fetch appointments
+        const upcomingAppointmentData = await fetchWithCache(
+          () => appointmentService.getUpcomingAppointment(),
+          'upcoming-appointments',
+          CacheManager['CACHE_DURATION']?.WORKOUT || 2 * 60 * 1000
+        );
+
+        if (upcomingAppointmentData.success && upcomingAppointmentData.data) {
+          const appointments = upcomingAppointmentData.data.map((appointment) => ({
             ...appointment,
             type: "appointment" as const,
             name: "Tập với PT",
-          }),
+          }));
+          combinedSchedule = [...combinedSchedule, ...appointments];
+        }
+
+        // Sort by date and time
+        combinedSchedule.sort((a, b) => {
+          const dateCompare = new Date(a.date).getTime() - new Date(b.date).getTime();
+          if (dateCompare !== 0) return dateCompare;
+          return new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime();
+        });
+
+        setUpcomingSchedule(combinedSchedule);
+
+        // Check cache usage for schedule data
+        const cachedWorkouts = await CacheManager.getCachedUpcomingWorkouts();
+        const cachedAppointments = await CacheManager.getCachedUpcomingAppointments();
+        if ((cachedWorkouts || cachedAppointments) && !isOnline) {
+          usedCache = true;
+        }
+      } catch (err) {
+        console.error("Error fetching upcoming schedule:", err);
+      }
+
+      // Fetch recent transactions with cache
+      try {
+        const transactionResponse = await fetchWithCache(
+          () => transactionService.getRecentSuccessfulTransactions(),
+          'recent-transactions',
+          CacheManager['CACHE_DURATION']?.TRANSACTION || 10 * 60 * 1000
         );
-        combinedSchedule = [...combinedSchedule, ...appointments];
+
+        if (transactionResponse.success && transactionResponse.data) {
+          setRecentTransactions(transactionResponse.data);
+          
+          const cachedData = await CacheManager.getCachedTransactions();
+          if (cachedData && !isOnline) {
+            usedCache = true;
+            oldestCacheTimestamp = Math.min(oldestCacheTimestamp, Date.now() - (10 * 60 * 1000));
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching transactions:", err);
+        const cachedData = await CacheManager.getCachedTransactions();
+        if (cachedData) {
+          setRecentTransactions(cachedData);
+          usedCache = true;
+        }
       }
 
-      // Sort by date and time
-      combinedSchedule.sort((a, b) => {
-        const dateCompare =
-          new Date(a.date).getTime() - new Date(b.date).getTime();
-        if (dateCompare !== 0) return dateCompare;
-        return (
-          new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime()
+      // Fetch promotions with cache
+      try {
+        const responsePromotion = await fetchWithCache(
+          () => promotionService.getAllActivePromotions(),
+          'promotions',
+          CacheManager['CACHE_DURATION']?.PROMOTION || 30 * 60 * 1000
         );
-      });
 
-      // Set combined schedule data
-      setUpcomingSchedule(combinedSchedule);
-
-      // Fetch recent successful transactions
-      const transactionResponse =
-        await transactionService.getRecentSuccessfulTransactions();
-      if (transactionResponse.success && transactionResponse.data) {
-        setRecentTransactions(transactionResponse.data);
+        if (responsePromotion.success && responsePromotion.data) {
+          setPromotions(responsePromotion.data);
+          
+          const cachedData = await CacheManager.getCachedPromotions();
+          if (cachedData && !isOnline) {
+            usedCache = true;
+            oldestCacheTimestamp = Math.min(oldestCacheTimestamp, Date.now() - (30 * 60 * 1000));
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching promotions:", err);
+        const cachedData = await CacheManager.getCachedPromotions();
+        if (cachedData) {
+          setPromotions(cachedData);
+          usedCache = true;
+        }
       }
 
-      const responsePromotion = await promotionService.getAllActivePromotions();
-      if (responsePromotion.success && responsePromotion.data) {
-        setPromotions(responsePromotion.data);
+      // Set cache status
+      if (usedCache) {
+        setIsUsingCache(true);
+        setCacheAge(Date.now() - oldestCacheTimestamp);
       }
+
+      // Show appropriate messages
+      if (isOfflineMode && usedCache) {
+        toast.info("Đang hiển thị dữ liệu đã lưu (chế độ offline)");
+      } else if (!isOnline && !usedCache) {
+        toast.warning("Không có dữ liệu offline. Vui lòng kết nối mạng.");
+      }
+
     } catch (err) {
-      if (isOnline) {
-        console.error("Online fetch failed, trying offline data:", err);
-        await loadOfflineData();
-      }
       setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       console.error("Error fetching data:", err);
+      
+      if (isOfflineMode) {
+        toast.error("Lỗi tải dữ liệu offline. Một số thông tin có thể không khả dụng.");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-   const loadOfflineData = async () => {
+  // Manual sync function
+  const handleManualSync = async () => {
+    if (!isOnline) {
+      toast.error("Không thể đồng bộ khi offline");
+      return;
+    }
+
+    toast.info("Đang đồng bộ dữ liệu...");
     try {
-      const cachedMembership = offlineManager.getCachedData('membership_details');
-      if (cachedMembership) {
-        setMembershipDetails(cachedMembership);
-      }
-
-      const cachedWeeklyWorkout = offlineManager.getCachedData('weekly_workout');
-      if (cachedWeeklyWorkout) {
-        setWeeklyWorkoutData(cachedWeeklyWorkout);
-      }
-
-      // ... load other cached data ...
-
+      await syncOfflineData();
+      await fetchData();
+      toast.success("Đồng bộ dữ liệu thành công");
     } catch (error) {
-      console.error('Failed to load offline data:', error);
+      toast.error("Lỗi khi đồng bộ dữ liệu");
+    }
+  };
+
+  // Clear offline data function
+  const handleClearCache = async () => {
+    try {
+      await clearOfflineData();
+      toast.success("Đã xóa dữ liệu offline");
+      if (isOnline) {
+        fetchData();
+      }
+    } catch (error) {
+      toast.error("Lỗi khi xóa dữ liệu offline");
     }
   };
 
@@ -388,15 +595,112 @@ const Dashboard: React.FC = () => {
     fetchData();
   }, []);
 
+  // Auto-refresh when coming back online
+  useEffect(() => {
+    if (isOnline && !isLoading) {
+      // Small delay to ensure network is stable
+      const timer = setTimeout(() => {
+        fetchData();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOnline]);
+
   // Navigate to full schedule
   const goToFullSchedule = () => {
     navigate("/user/my-schedule");
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+        <span className="ml-2">
+          {isOfflineMode ? "Đang tải dữ liệu offline..." : "Đang tải..."}
+        </span>
+      </div>
+    );
+  }
+
+  if (error && !isUsingCache) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="text-red-500 text-center mb-4">
+          <p className="text-lg font-semibold">Có lỗi xảy ra</p>
+          <p>{error}</p>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={fetchData}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            disabled={!isOnline}
+          >
+            Thử lại
+          </button>
+          {!isOnline && (
+            <button
+              onClick={handleClearCache}
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            >
+              Xóa cache
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <>
-      <OfflineIndicator />
+       {/* Offline Status Banner */}
+      <OfflineStatusBanner 
+        isOnline={isOnline} 
+        pendingRequests={pendingRequests} 
+        lastSync={lastSync} 
+      />
+
       <div className="container mx-auto px-4 py-8">
+
+        {/* Cache Status and Controls */}
+        {(isUsingCache || !isOnline || pendingRequests > 0) && (
+          <div className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                {isUsingCache && (
+                  <CacheStatusIndicator isUsingCache={isUsingCache} cacheAge={cacheAge} />
+                )}
+                {!isOnline && (
+                  <p className="text-sm text-orange-600 dark:text-orange-400">
+                    🔄 Chế độ offline - Dữ liệu có thể không mới nhất
+                  </p>
+                )}
+                {pendingRequests > 0 && (
+                  <p className="text-sm text-blue-600 dark:text-blue-400">
+                    📤 Có {pendingRequests} yêu cầu chờ đồng bộ
+                  </p>
+                )}
+              </div>
+              <div className="flex gap-2">
+                {isOnline && (
+                  <button
+                    onClick={handleManualSync}
+                    className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                  >
+                    Đồng bộ
+                  </button>
+                )}
+                <button
+                  onClick={handleClearCache}
+                  className="px-3 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
+                >
+                  Xóa cache
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
       <h1 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
         Dashboard Hội Viên
       </h1>
@@ -536,7 +840,7 @@ const Dashboard: React.FC = () => {
                       <tr key={index}>
                         <td className="whitespace-nowrap px-4 py-3 text-sm">
                           <div className="font-medium">
-                            {formatDate(new Date(item.date))}
+                            {formatDateToday(new Date(item.date))}
                           </div>
                           <div className="text-gray-500 dark:text-gray-400">
                             {formatTime(new Date(item.timeStart))}

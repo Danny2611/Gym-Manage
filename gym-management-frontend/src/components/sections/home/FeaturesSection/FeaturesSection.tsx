@@ -76,7 +76,7 @@ const FeaturesSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-gray-50 py-20">
+    <section className="bg-gray-50 py-20 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
           title="Chúng Tôi Cung Cấp Gì"
@@ -96,13 +96,17 @@ const FeaturesSection: React.FC = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="rounded-lg bg-white p-8 shadow-lg transition-transform hover:scale-105 hover:shadow-xl"
+              className="rounded-lg bg-white p-8 shadow-lg transition-transform hover:scale-105 hover:shadow-xl dark:bg-gray-800 dark:shadow-gray-900/20 dark:hover:shadow-gray-900/40"
             >
-              <div className="mb-4 text-[#0CC6F0]">{feature.icon}</div>
-              <h3 className="mb-3 text-xl font-bold text-[#0D2E4B]">
+              <div className="mb-4 text-[#0CC6F0] dark:text-[#0CC6F0]">
+                {feature.icon}
+              </div>
+              <h3 className="mb-3 text-xl font-bold text-[#0D2E4B] dark:text-white">
                 {feature.title}
               </h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {feature.description}
+              </p>
             </motion.div>
           ))}
         </motion.div>

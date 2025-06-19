@@ -8,8 +8,9 @@ export const registerValidator = [
     .isEmail().withMessage('Email không hợp lệ')
     .normalizeEmail(),
   body('password')
-    .isLength({ min: 6 }).withMessage('Mật khẩu phải ít nhất 6 ký tự')
-    .matches(/\d/).withMessage('Mật khẩu phải chứa ít nhất 1 số'),
+    .isLength({ min: 8 }).withMessage('Mật khẩu phải ít nhất 8 ký tự bao gồm ít nhất 1 chữ số và 1 chữ in hoa')
+    .matches(/\d/).withMessage('Mật khẩu phải chứa ít nhất 1 số')
+    .matches(/[A-Z]/).withMessage('Mật khẩu phải chứa ít nhất 1 chữ hoa'),
   body('phone')
     .notEmpty().withMessage('Số điện thoại không được để trống')
     .matches(/^\d{10,11}$/).withMessage('Số điện thoại không hợp lệ'),

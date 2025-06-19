@@ -85,13 +85,9 @@ const othersItems: NavItem[] = [
   {
     icon: <FiInfo className="h-5 w-5" />,
     name: "Thông tin gym",
-    path: "/gym-info",
+    path: "/contact",
   },
-  {
-    icon: <FiInfo className="h-5 w-5" />,
-    name: "Cài đặt pwa",
-    path: "/user/install-pwa",
-  },
+ 
 ];
 
 const Sidebar: React.FC = () => {

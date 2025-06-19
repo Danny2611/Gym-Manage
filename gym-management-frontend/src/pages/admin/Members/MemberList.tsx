@@ -25,7 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { useToast } from "~/hooks/use-toast";
 import { format } from "date-fns";
 import Spinner from "~/pages/user/Spinner";
@@ -36,7 +36,7 @@ import {
   MemberCreateInput,
 } from "~/types/member";
 import { PaginationControls } from "~/components/common/PaginationControls";
-import { Search } from "lucide-react";
+
 
 // Component for Member Management
 const MemberManagement: React.FC = () => {
@@ -205,15 +205,6 @@ const MemberManagement: React.FC = () => {
     fetchMembers(1);
   };
 
-  // Handle tab change
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-    setPagination((prev) => ({ ...prev, currentPage: 1 })); // Reset về trang đầu tiên
-    // Gọi fetchMembers sau khi cập nhật state
-    setTimeout(() => {
-      fetchMembers(1);
-    }, 0);
-  };
 
   // Handle sort
   const handleSort = (key: string) => {

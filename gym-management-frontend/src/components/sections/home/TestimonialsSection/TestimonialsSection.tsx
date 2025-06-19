@@ -66,7 +66,7 @@ const TestimonialsSection: React.FC = () => {
       .map((_, i) => (
         <svg
           key={i}
-          className={`h-5 w-5 ${i < rating ? "text-yellow-400" : "text-gray-300"}`}
+          className={`h-5 w-5 ${i < rating ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ const TestimonialsSection: React.FC = () => {
   };
 
   return (
-    <section className="bg-[#0D2E4B] py-20 text-white">
+    <section className="bg-[#0D2E4B] py-20 text-white dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
           title="Khách Hàng Nói Gì Về Chúng Tôi"
@@ -117,10 +117,10 @@ const TestimonialsSection: React.FC = () => {
               <SwiperSlide key={testimonial.id}>
                 <motion.div
                   key={testimonial.id}
-                  className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105"
+                  className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105 dark:bg-gray-800 dark:shadow-gray-900/20"
                   whileHover={{ scale: 1.05 }}
                 >
-                  <div className="flex h-full flex-col rounded-lg bg-white p-8 text-gray-800 shadow-lg">
+                  <div className="flex h-full flex-col rounded-lg bg-white p-8 text-gray-800 shadow-lg dark:bg-gray-800 dark:text-gray-200 dark:shadow-gray-900/20">
                     <div className="mb-6 flex items-center">
                       <div className="mr-4 h-16 w-16 overflow-hidden rounded-full">
                         <img
@@ -130,18 +130,18 @@ const TestimonialsSection: React.FC = () => {
                         />
                       </div>
                       <div>
-                        <h4 className="text-lg font-bold text-[#0D2E4B]">
+                        <h4 className="text-lg font-bold text-[#0D2E4B] dark:text-white">
                           {testimonial.name}
                         </h4>
-                        <p className="text-gray-600">{testimonial.role}</p>
+                        <p className="text-gray-600 dark:text-gray-400">{testimonial.role}</p>
                         <div className="mt-1 flex">
                           {renderStars(testimonial.rating)}
                         </div>
                       </div>
                     </div>
                     <div className="relative flex-grow">
-                      <FaQuoteLeft className="absolute left-0 top-0 text-4xl text-[#0CC6F0] opacity-20" />
-                      <p className="relative z-10 pl-6 pt-4 text-gray-600">
+                      <FaQuoteLeft className="absolute left-0 top-0 text-4xl text-[#0CC6F0] opacity-20 dark:text-[#0CC6F0]" />
+                      <p className="relative z-10 pl-6 pt-4 text-gray-600 dark:text-gray-300">
                         {testimonial.quote}
                       </p>
                     </div>
@@ -153,7 +153,7 @@ const TestimonialsSection: React.FC = () => {
 
           <div
             ref={navigationPrevRef}
-            className="swiper-button-prev absolute -left-4 top-1/2 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-[#0CC6F0] shadow-lg"
+            className="swiper-button-prev absolute -left-4 top-1/2 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-[#0CC6F0] shadow-lg dark:bg-gray-800 dark:text-[#0CC6F0] dark:shadow-gray-900/20"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +172,7 @@ const TestimonialsSection: React.FC = () => {
           </div>
           <div
             ref={navigationNextRef}
-            className="swiper-button-next absolute -right-4 top-1/2 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-[#0CC6F0] shadow-lg"
+            className="swiper-button-next absolute -right-4 top-1/2 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white text-[#0CC6F0] shadow-lg dark:bg-gray-800 dark:text-[#0CC6F0] dark:shadow-gray-900/20"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

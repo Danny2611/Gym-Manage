@@ -29,7 +29,7 @@ const BlogPreviewSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="bg-gray-100 py-20">
+    <section className="bg-gray-100 py-20 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <SectionTitle
           title="Latest Articles"
@@ -39,7 +39,7 @@ const BlogPreviewSection: React.FC = () => {
         />
 
         {loading ? (
-          <p className="mt-10 text-center text-gray-500">
+          <p className="mt-10 text-center text-gray-500 dark:text-gray-400">
             Đang tải bài viết...
           </p>
         ) : (
@@ -47,7 +47,7 @@ const BlogPreviewSection: React.FC = () => {
             {posts.map((post) => (
               <motion.div
                 key={post._id}
-                className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105"
+                className="overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105 dark:bg-gray-800 dark:shadow-gray-900/20"
                 whileHover={{ scale: 1.05 }}
               >
                 <Link to={`/blog/${post.slug}`}>
@@ -62,7 +62,7 @@ const BlogPreviewSection: React.FC = () => {
                   />
                 </Link>
                 <div className="p-6">
-                  <div className="mb-3 flex items-center text-sm text-gray-500">
+                  <div className="mb-3 flex items-center text-sm text-gray-500 dark:text-gray-400">
                     <FiCalendar className="mr-2" />
                     {new Date(post.publishDate).toLocaleDateString("vi-VN")}
                     <span className="mx-2">|</span>
@@ -70,18 +70,18 @@ const BlogPreviewSection: React.FC = () => {
                     {post.author?.name || "Ẩn danh"}
                     <span className="mx-2">|</span>
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-[#0D2E4B]">
+                  <h3 className="mb-3 text-xl font-semibold text-[#0D2E4B] dark:text-white">
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="transition-colors hover:text-[#0CC6F0]"
+                      className="transition-colors hover:text-[#0CC6F0] dark:hover:text-[#0CC6F0]"
                     >
                       {post.title}
                     </Link>
                   </h3>
-                  <p className="mb-4 text-gray-600">{post.excerpt}</p>
+                  <p className="mb-4 text-gray-600 dark:text-gray-300">{post.excerpt}</p>
                   <Link
                     to={`/blog/${post.slug}`}
-                    className="inline-flex items-center font-medium text-[#0CC6F0] hover:underline"
+                    className="inline-flex items-center font-medium text-[#0CC6F0] hover:underline dark:text-[#0CC6F0] dark:hover:text-[#0CC6F0]"
                   >
                     Read More <FiArrowRight className="ml-2" />
                   </Link>

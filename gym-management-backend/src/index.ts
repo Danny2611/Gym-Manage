@@ -170,8 +170,8 @@ app.use(cookieParser());
 
  
 // // Rate limiting
-const limiter = rateLimit(appConfig.rateLimit);
-app.use(limiter);
+// const limiter = rateLimit(appConfig.rateLimit);
+// app.use(limiter);
 
 
 

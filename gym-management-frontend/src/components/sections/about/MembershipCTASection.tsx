@@ -9,24 +9,22 @@ const MembershipCTASection: React.FC = () => {
         <div className="flex flex-col items-center justify-between md:flex-row">
           <div className="mb-8 text-center md:mb-0 md:text-left">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              Ready to Start Your Fitness Journey?
+              Sẵn sàng bắt đầu hành trình luyện tập?
             </h2>
             <p className="max-w-2xl text-lg text-white/80">
-              Join our community today and transform your life with our expert
-              trainers and state-of-the-art facilities. We offer flexible
-              membership options to fit your lifestyle and goals.
+              Tham gia cộng đồng của chúng tôi ngay hôm nay và thay đổi bản thân cùng đội ngũ huấn luyện viên chuyên nghiệp và cơ sở vật chất hiện đại. Chúng tôi có nhiều gói hội viên linh hoạt phù hợp với nhu cầu và lịch trình của bạn.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button variant="secondary" size="large">
-              View Membership Plans
+              Xem các gói hội viên
             </Button>
             <Button
               variant="outline"
               size="large"
               className="hover:text-primary-600 border-white text-white hover:bg-white"
             >
-              Book a Free Tour
+              Đặt lịch tham quan miễn phí
             </Button>
           </div>
         </div>
